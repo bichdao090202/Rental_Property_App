@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/widgets/manager_rentals/manager_rentals_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,9 +14,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     Center(child: Text('Home Page')), //
-    Center(child: Text('Search Page')), //
-    Center(child: Text('Message')), //
-    Center(child: Text('Notifications Page')), //
+    Center(child: Text('Search')), //
+    Center(child: ManagerRentalsTab()), //
+    Center(child: Text('Notice Page')), //
     Center(child: Text('Profile Page')), //
   ];
 
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index; //
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,23 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Trang chủ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Tìm kiêm',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: 'Message',
+            icon: Icon(Icons.edit_note),
+            label: 'Quản lý',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.chat_bubble),
+          //   label: 'Message',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.notifications),
+          //   label: 'Notice',
+          //
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Tài khoản',
           ),
         ],
         currentIndex: _selectedIndex,

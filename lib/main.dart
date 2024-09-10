@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
           // hintColor: Colors.orange, // Màu phụ của ứng dụng
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF1C3988)),
-
           textTheme: const TextTheme(
             bodyLarge: TextStyle(color: Colors.black),
             bodyMedium: TextStyle(color: Colors.black),
