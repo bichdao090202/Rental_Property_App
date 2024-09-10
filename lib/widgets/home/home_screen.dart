@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/widgets/home/home_tab.dart';
 import 'package:rental_property_app/widgets/manager_rentals/manager_rentals_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,9 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0; //
 
   final List<Widget> _pages = [
-    Center(child: Text('Home Page')), //
-    Center(child: Text('Search')), //
+
     Center(child: ManagerRentalsTab()), //
+    Center(child: HomeTab()), //
+    Center(child: Text('Search')), //
     Center(child: Text('Notice Page')), //
     Center(child: Text('Profile Page')), //
   ];
