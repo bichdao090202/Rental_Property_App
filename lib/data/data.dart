@@ -1,5 +1,6 @@
 import 'package:rental_property_app/models/booking_request.dart';
 import 'package:rental_property_app/models/property.dart';
+import 'package:rental_property_app/models/property.dart';
 import 'package:rental_property_app/models/user.dart';
 import '../models/address.dart';
 import '../models/utility.dart';
@@ -19,17 +20,14 @@ final List<Utility> utilities = [
 ];
 
 final Address address = Address(
-  id: 1,
-  city: 'TP.HCM',
-  district: 'Gò Vấp',
+    id: 1,
+    city: 'TP.HCM',
+    district: 'Gò Vấp',
+    ward: "phường 4",
+    detail: "109"
 );
 
-final List<Property> properties = [
-  Property(id: 1, title: "Cozy Apartment", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s", ownerId: 1, address: address, utilities: [utilities[0], utilities[1]], price: 3000 ),
-  Property(id: 2, title: "Spacious House", image: "https://lh6.googleusercontent.com/proxy/rVhmNBxYcdrU7epkQMzZ5MGx2fb8JLNXOIRV0Z_vevpPbMzBaZjk5427DStnjO_Y-Gu32zQio_GDzk1KCf3nfgH4evogftgUuChB_SPoLkTxcU7y49jLmNhJljfrR13MwoIwDcu6", ownerId: 1, address: address, utilities: [utilities[0], utilities[1]], price: 3000 ),
-  Property(id: 3, title: "Modern Studio", image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/02/22/cho-thue-phong-tro_1613975723.jpg", ownerId: 2, address: address, utilities: [utilities[0], utilities[1]], price: 3000 ),
-  Property(id: 4, title: "Charming Cottage", image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/02/11/c11a6917-a0ac-4de4-9135-1b4c1e166892_1676120670.jpg", ownerId: 2, address: address, utilities: [utilities[0], utilities[1]], price: 3000 ),
-];
+
 
 final List<BookingRequest> bookingRequests = [
   BookingRequest(
@@ -128,63 +126,139 @@ final List<BookingRequest> bookingRequests = [
     rentalDuration: 6,
     priceOffered: 1400,
   ),
-  BookingRequest(
-    requestId: 8,
-    renterId: 1,
-    landlordId: 2,
-    property: properties[3],
-    requestDate: DateTime.parse('2024-08-22'),
-    status: "Success",
-    note: "Active",
-    messageFromRenter: "Looking forward to moving into the charming cottage.",
-    messageFromLandlord: "All set for the move-in date.",
-    startDate: DateTime.parse('2024-09-15'),
-    rentalDuration: 8,
-    priceOffered: 1300,
-    responseDate: DateTime.parse('2024-08-25'),
-    contractId: 103,
+];
+
+final List<String> services = ['Internet', 'Bảo vệ', 'Camera', 'Bãi đỗ xe', 'Thang máy'];
+
+// Mô phỏng loại phòng
+final List<String> roomTypes = ['Căn hộ', 'Nhà riêng', 'Phòng trọ', 'Studio', 'Biệt thự'];
+
+List<Property> properties = [
+  Property(
+    id: 1,
+    title: "Căn hộ cho thuê giá rẻ",
+    type: "apartment",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
+      address: Address(
+          id: 1,
+          city: 'TP.HCM',
+          district: 'Gò Vấp',
+          ward: "phường 4",
+          detail: "109"
+      ),
+    utilities: [
+      Utility(id: 1, name: "tủ lạnh"),
+      Utility(id: 2, name: "máy giặc"),
+    ],
+    price: 3000,
+    deposit: 3000,
+    gender: 0,
+    roomSize: 20,
+    ownerId: 1,
+    description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+    termOfService: termOfService1
   ),
-  BookingRequest(
-    requestId: 9,
-    renterId: 2,
-    landlordId: 1,
-    property: properties[0],
-    requestDate: DateTime.parse('2024-08-25'),
-    status: "Processing",
-    note: "Waiting for landlord approval",
-    messageFromRenter: "Interested in renting the cozy apartment.",
-    startDate: DateTime.parse('2024-10-01'),
-    rentalDuration: 6,
-    priceOffered: 1200,
+  Property(
+    id: 2,
+    title: "Căn hộ cho thuê giá rẻ",
+    type: "apartment",
+    image: "https://lh6.googleusercontent.com/proxy/rVhmNBxYcdrU7epkQMzZ5MGx2fb8JLNXOIRV0Z_vevpPbMzBaZjk5427DStnjO_Y-Gu32zQio_GDzk1KCf3nfgH4evogftgUuChB_SPoLkTxcU7y49jLmNhJljfrR13MwoIwDcu6",
+      address: Address(
+          id: 1,
+          city: 'TP.HCM',
+          district: 'Gò Vấp',
+          ward: "phường 4",
+          detail: "109"
+      ),
+
+    utilities: [
+      Utility(id: 1, name: "tủ lạnh"),
+      Utility(id: 2, name: "máy giặc"),
+    ],
+    price: 3000,
+    deposit: 3000,
+    gender: 0,
+    roomSize: 20,
+    ownerId: 1,
+    description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+    termOfService: termOfService1
   ),
-  BookingRequest(
-    requestId: 10,
-    renterId: 2,
-    landlordId: 1,
-    property: properties[0],
-    requestDate: DateTime.parse('2024-08-28'),
-    status: "Failure",
-    note: "Landlord rejected",
-    messageFromRenter: "Request rejected by the landlord.",
-    startDate: DateTime.parse('2024-10-15'),
-    rentalDuration: 12,
-    priceOffered: 1600,
+  Property(
+      id: 2,
+      title: "Căn hộ cho thuê giá rẻ",
+      type: "apartment",
+      image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/02/22/cho-thue-phong-tro_1613975723.jpg",
+      address: Address(
+          id: 1,
+          city: 'TP.HCM',
+          district: 'Gò Vấp',
+          ward: "phường 4",
+          detail: "109"
+      ),
+
+      utilities: [
+        Utility(id: 1, name: "tủ lạnh"),
+        Utility(id: 2, name: "máy giặc"),
+      ],
+      price: 3000,
+      deposit: 3000,
+      gender: 0,
+      roomSize: 20,
+      ownerId: 1,
+      description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+      termOfService: termOfService1
+  ),
+  Property(
+      id: 2,
+      title: "Căn hộ cho thuê giá rẻ",
+      type: "apartment",
+      image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/02/11/c11a6917-a0ac-4de4-9135-1b4c1e166892_1676120670.jpg",
+      address: Address(
+          id: 1,
+          city: 'TP.HCM',
+          district: 'Gò Vấp',
+          ward: "phường 4",
+          detail: "109"
+      ),
+
+      utilities: [
+        Utility(id: 1, name: "tủ lạnh"),
+        Utility(id: 2, name: "máy giặc"),
+      ],
+      price: 3000,
+      deposit: 3000,
+      gender: 0,
+      roomSize: 20,
+      ownerId: 1,
+      description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+      termOfService: termOfService1
   ),
 ];
 
-final List<Property> popularProperties = [
-  Property(
-    id: 1,
-    title: 'Căn hộ cho thuê giá rẻ',
-    image: 'http://jhsdf',
-    address: Address(
-      id: 1,
-      city: 'TP.HCM',
-      district: 'Gò Vấp',
-    ),
-    utilities: [utilities[0], utilities[1]],
-    price: 3000,
-    ownerId: 1,
-  ),
-  // Add more sample properties as needed
-];
+String termOfService1 = '''
+1. Các tài sản cho thuê kèm theo:
+
+- Tủ lạnh
+- Máy giặt
+
+2. Tiền thuê và thời hạn thuê
+
+- Thuê 3 tháng: 1 800 000 VND/tháng
+- Thuê 6 tháng: 1 700 000 VND/tháng
+
+Tiền thuê nhà không bao gồm chi phí khác như tiền điện, nước, vệ sinh... Khoản tiền này sẽ do người thuê trả theo khối lượng, công suất sử dụng thực tế hàng tháng, được tính theo đơn giá của nhà nước.
+
+3. Tiền cọc thuê nhà
+
+Tiền cọc bằng tiền thuê 1 tháng.
+
+4. Đơn phương chấm dứt hợp đồng thuê nhà:
+
+Trong trường hợp một trong hai bên muốn đơn phương chấm dứt Hợp đồng trước hạn thì phải thông báo bằng văn bản cho bên kia trước 30 (ba mươi) ngày so với ngày mong muốn chấm dứt. Nếu một trong hai bên không thực hiện nghĩa vụ thông báo cho bên kia thì sẽ phải bồi thường cho bên đó một khoản tiền thuê tương đương với thời gian không thông báo và các thiệt hại khác phát sinh do việc chấm dứt hợp đồng trái quy định.
+
+5. Phương thức thanh toán
+
+Việc thanh toán tiền thuê nhà được thực hiện bằng đồng tiền Việt Nam theo hình thức trả trực tiếp bằng tiền mặt.
+''';
+
+

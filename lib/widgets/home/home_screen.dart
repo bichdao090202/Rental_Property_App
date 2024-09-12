@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/widgets/home/filter_modal.dart';
 import 'package:rental_property_app/widgets/home/home_tab.dart';
 import 'package:rental_property_app/widgets/manager_rentals/manager_rentals_tab.dart';
 
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Center(child: ManagerRentalsTab()), //
     Center(child: HomeTab()), //
-    Center(child: Text('Search')), //
+    Center(child: FilterModal()), //
     Center(child: Text('Notice Page')), //
     Center(child: Text('Profile Page')), //
   ];
