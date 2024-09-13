@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_property_app/models/booking_request.dart';
 import 'package:rental_property_app/models/property.dart';
-import 'package:rental_property_app/widgets/manager_rentals/landlord_tab.dart';
-import 'package:rental_property_app/widgets/manager_rentals/renter_tab.dart';
-
+import 'package:rental_property_app/data/data.dart';
+import 'package:rental_property_app/common/format-data.dart';
 
 class PropertyDetailScreen extends StatefulWidget  {
   final Property property;
@@ -36,7 +35,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.property.title)),
+      appBar: AppBar(title: Text("Thông tin phòng trọ")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -44,41 +43,94 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           children: [
             Image.network(widget.property.image),
             SizedBox(height: 16),
-            Text(widget.property.type, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(widget.property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+
+            Text(
+              '${formatCurrency(widget.property.price)} đ',
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFF4511E),
+              ),
+            ),
+
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 40,
+                  child: TextButton(
+                    onPressed: () {
+                      _showBookingRequestModal();
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xFF1C3988),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      maximumSize: const Size(300, 40),
+                    ),
+                    child: const Text(
+                      'Yêu cầu thuê',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 40,
+                  child: TextButton(
+                    onPressed: () {
+                      _showTermOfServiceModal(widget.property.termOfService);
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xFF1C3988),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      maximumSize: const Size(300, 40),
+                    ),
+                    child: const Text(
+                      'Điều khoản dịch vụ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // SizedBox(height: 8),
+            // Text("Phân loại" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            // Text(widget.property.type),
+
             SizedBox(height: 8),
+            Text("Địa chỉ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             Text('${widget.property.address?.city}, ${widget.property.address?.district}, ${widget.property.address?.ward}, ${widget.property.address?.detail}'),
+
             SizedBox(height: 8),
-            Text('Giá: ${widget.property.price} VND'),
-            Text('Cọc: ${widget.property.deposit} VND'),
+            Text("Mô tả" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            Text(widget.property.description),
+
+            SizedBox(height: 8),
+
             Text('Kích thước phòng: ${widget.property.roomSize} m²'),
             Text('Giới tính: ${getGender(widget.property.gender)}'),
             Text(
               'Tiện ích: ${widget.property.utilities!.map((u) => u.name).join(', ')}',
             ),
 
+
             SizedBox(height: 16),
-            Text('Mô tả:', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.property.description),
-            ElevatedButton(
-              onPressed: () {
-                _showTermOfServiceModal(widget.property.termOfService);
-              },
-              child: Text('Điều khoản dịch vụ'),
-            ),
-            // Button: Nhắn tin với chủ trọ
-            ElevatedButton(
-              onPressed: () {
-                // Tạm thời chưa có sự kiện
-              },
-              child: Text('Nhắn tin với chủ trọ'),
-            ),
-            // Button: Yêu cầu thuê
-            ElevatedButton(
-              onPressed: () {
-                _showBookingRequestModal();
-              },
-              child: Text('Yêu cầu thuê'),
-            ),
+
+
 
           ],
         ),
@@ -92,7 +144,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       builder: (context) {
         return AlertDialog(
           title: Text('Điều khoản dịch vụ'),
-          content: Text(termOfService ?? 'Chưa có điều khoản dịch vụ.'),
+          content: SingleChildScrollView(
+            child: Text(termOfService ?? 'Chưa có điều khoản dịch vụ.')
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -201,7 +255,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       );
 
                       print('Booking request đã được tạo: ${bookingRequest.toString()}');
-
+                      bookingRequests.add(bookingRequest);
                       Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

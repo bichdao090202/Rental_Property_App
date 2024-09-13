@@ -26,6 +26,17 @@ class MyApp extends StatelessWidget {
           buttonTheme: const ButtonThemeData(
             buttonColor: Color(0xFF1C3988), // Màu cho nút
           ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xFF1C3988), // Màu nền AppBar
+            titleTextStyle: TextStyle(
+              color: Colors.white, // Màu chữ trắng
+              // fontWeight: FontWeight.bold, // In đậm
+              fontSize: 20, // Kích thước chữ
+            ),
+            iconTheme: IconThemeData(
+              color: Colors.white, // Màu icon AppBar
+            ),
+          ),
         ),
       home: HomeScreen()
     );

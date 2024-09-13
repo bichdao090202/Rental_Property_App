@@ -150,7 +150,7 @@ List<Property> properties = [
       Utility(id: 1, name: "tủ lạnh"),
       Utility(id: 2, name: "máy giặc"),
     ],
-    price: 3000,
+    price: 3000000,
     deposit: 3000,
     gender: 0,
     roomSize: 20,
@@ -175,7 +175,7 @@ List<Property> properties = [
       Utility(id: 1, name: "tủ lạnh"),
       Utility(id: 2, name: "máy giặc"),
     ],
-    price: 3000,
+    price: 3000000,
     deposit: 3000,
     gender: 0,
     roomSize: 20,
@@ -200,7 +200,7 @@ List<Property> properties = [
         Utility(id: 1, name: "tủ lạnh"),
         Utility(id: 2, name: "máy giặc"),
       ],
-      price: 3000,
+      price: 3000000,
       deposit: 3000,
       gender: 0,
       roomSize: 20,
@@ -225,7 +225,7 @@ List<Property> properties = [
         Utility(id: 1, name: "tủ lạnh"),
         Utility(id: 2, name: "máy giặc"),
       ],
-      price: 3000,
+      price: 3000000,
       deposit: 3000,
       gender: 0,
       roomSize: 20,
@@ -237,27 +237,22 @@ List<Property> properties = [
 
 String termOfService1 = '''
 1. Các tài sản cho thuê kèm theo:
-
 - Tủ lạnh
 - Máy giặt
 
 2. Tiền thuê và thời hạn thuê
-
 - Thuê 3 tháng: 1 800 000 VND/tháng
 - Thuê 6 tháng: 1 700 000 VND/tháng
 
 Tiền thuê nhà không bao gồm chi phí khác như tiền điện, nước, vệ sinh... Khoản tiền này sẽ do người thuê trả theo khối lượng, công suất sử dụng thực tế hàng tháng, được tính theo đơn giá của nhà nước.
 
 3. Tiền cọc thuê nhà
-
 Tiền cọc bằng tiền thuê 1 tháng.
 
 4. Đơn phương chấm dứt hợp đồng thuê nhà:
-
 Trong trường hợp một trong hai bên muốn đơn phương chấm dứt Hợp đồng trước hạn thì phải thông báo bằng văn bản cho bên kia trước 30 (ba mươi) ngày so với ngày mong muốn chấm dứt. Nếu một trong hai bên không thực hiện nghĩa vụ thông báo cho bên kia thì sẽ phải bồi thường cho bên đó một khoản tiền thuê tương đương với thời gian không thông báo và các thiệt hại khác phát sinh do việc chấm dứt hợp đồng trái quy định.
 
 5. Phương thức thanh toán
-
 Việc thanh toán tiền thuê nhà được thực hiện bằng đồng tiền Việt Nam theo hình thức trả trực tiếp bằng tiền mặt.
 ''';
 

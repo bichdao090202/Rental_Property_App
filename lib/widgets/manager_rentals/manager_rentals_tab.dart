@@ -16,8 +16,7 @@ class _ManagerRentalsTabState extends State<ManagerRentalsTab> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Quản lý', style: TextStyle(color: Colors.white)),
-            backgroundColor: Color(0xFF1C3988),
+            title: const Text('Quản lý'),
             bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(40.0),
                 child: TabBar(
