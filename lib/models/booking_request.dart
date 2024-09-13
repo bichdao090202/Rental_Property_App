@@ -41,27 +41,33 @@ class BookingRequest {
     this.responseDate = responseDate;
   }
 
-  // Method cập nhật khi hợp đồng được ký
-  void updateContract(int contractId) {
-    this.contractId = contractId;
-    this.status = "Contract Signed";
-  }
-
-  // Method cập nhật trạng thái khi hợp đồng hết hạn
   void markAsExpired() {
     this.status = "Expired";
   }
 
-  // Method từ chối yêu cầu
-  void rejectRequest(String reason) {
-    this.status = "Rejected";
-    this.note = reason;
+  void cancelByRenter() {
+    status = "Failure";
+    note = "Renter canceled";
+    responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
   }
 
-  // Method hủy yêu cầu
-  void cancelRequest(String reason) {
-    this.status = "Cancelled";
-    this.note = reason;
+  void rejectByLandlord() {
+    status = "Failure";
+    note = "Landlord rejected";
+    responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
+  }
+
+  void approveByLandlord(int contractId) {
+    status = "Processing"; // Status vẫn ở Processing cho tới khi người thuê ký và thanh toán
+    note = "Waiting for renter to sign and pay";
+    this.contractId = contractId;
+    responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
+  }
+
+  void approveByRenter() {
+    status = "Success";
+    note = "Active";
+    // responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
   }
 
   String getStatusString() {

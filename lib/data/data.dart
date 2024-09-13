@@ -1,4 +1,5 @@
 import 'package:rental_property_app/models/booking_request.dart';
+import 'package:rental_property_app/models/contract.dart';
 import 'package:rental_property_app/models/property.dart';
 import 'package:rental_property_app/models/property.dart';
 import 'package:rental_property_app/models/user.dart';
@@ -42,6 +43,7 @@ final List<BookingRequest> bookingRequests = [
     startDate: DateTime.parse('2024-08-15'),
     rentalDuration: 6,
     priceOffered: 1200,
+    contractId: 1
   ),
   BookingRequest(
     requestId: 2,
@@ -55,6 +57,7 @@ final List<BookingRequest> bookingRequests = [
     startDate: DateTime.parse('2024-08-20'),
     rentalDuration: 12,
     priceOffered: 1500,
+    // contractId: 2
   ),
   BookingRequest(
     requestId: 3,
@@ -70,7 +73,8 @@ final List<BookingRequest> bookingRequests = [
     rentalDuration: 9,
     priceOffered: 1000,
     responseDate: DateTime.parse('2024-08-10'),
-    contractId: 101,
+    contractId: 1,
+
   ),
   BookingRequest(
     requestId: 4,
@@ -85,7 +89,7 @@ final List<BookingRequest> bookingRequests = [
     rentalDuration: 3,
     priceOffered: 800,
     responseDate: DateTime.parse('2024-06-10'),
-    contractId: 102,
+    contractId: 1,
   ),
   BookingRequest(
     requestId: 5,
@@ -99,6 +103,7 @@ final List<BookingRequest> bookingRequests = [
     startDate: DateTime.parse('2024-09-01'),
     rentalDuration: 4,
     priceOffered: 1100,
+    contractId: 2
   ),
   BookingRequest(
     requestId: 6,
@@ -112,6 +117,7 @@ final List<BookingRequest> bookingRequests = [
     startDate: DateTime.parse('2024-09-15'),
     rentalDuration: 3,
     priceOffered: 950,
+    contractId: 2
   ),
   BookingRequest(
     requestId: 7,
@@ -125,6 +131,7 @@ final List<BookingRequest> bookingRequests = [
     startDate: DateTime.parse('2024-10-01'),
     rentalDuration: 6,
     priceOffered: 1400,
+    contractId: 3
   ),
 ];
 
@@ -255,5 +262,104 @@ Trong trường hợp một trong hai bên muốn đơn phương chấm dứt H�
 5. Phương thức thanh toán
 Việc thanh toán tiền thuê nhà được thực hiện bằng đồng tiền Việt Nam theo hình thức trả trực tiếp bằng tiền mặt.
 ''';
+
+
+// Data mẫu các hợp đồng
+List<Contract> contracts = [
+  Contract(
+      id: 1,
+      name: "Hợp đồng thuê phòng trọ - 3 tháng",
+      content: '''
+HỢP ĐỒNG THUÊ PHÒNG TRỌ
+
+1. Bên cho thuê: Nguyễn Văn A
+2. Bên thuê: Trần Văn B
+
+Điều 1: Đối tượng hợp đồng
+- Bên cho thuê đồng ý cho bên thuê thuê phòng trọ tại địa chỉ: 123 Đường ABC, Quận 1, TP.HCM
+- Thời hạn thuê: 3 tháng, từ ngày 01/09/2024 đến ngày 01/12/2024
+
+Điều 2: Tiền thuê và tiền cọc
+- Tiền thuê phòng: 2.000.000 VND/tháng
+- Tiền cọc: 1 tháng tiền thuê (2.000.000 VND), thanh toán ngay khi ký hợp đồng.
+
+Điều 3: Quyền và nghĩa vụ của hai bên
+- Bên thuê có quyền sử dụng phòng và các tiện ích đi kèm: điện, nước, internet.
+- Bên thuê phải thanh toán tiền thuê đúng hạn và tuân thủ quy định chung của khu nhà.
+
+Điều 4: Đơn phương chấm dứt hợp đồng
+- Mỗi bên phải thông báo trước 30 ngày nếu muốn chấm dứt hợp đồng sớm.
+- Nếu không tuân thủ, bên vi phạm sẽ bồi thường tiền thuê phòng trong khoảng thời gian không thông báo.
+
+Điều 5: Điều khoản khác
+- Hợp đồng này có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
+    '''
+  ),
+  Contract(
+      id: 2,
+      name: "Hợp đồng thuê phòng trọ - 6 tháng",
+      content: '''
+HỢP ĐỒNG THUÊ PHÒNG TRỌ
+
+1. Bên cho thuê: Nguyễn Văn A
+2. Bên thuê: Trần Văn C
+
+Điều 1: Đối tượng hợp đồng
+- Bên cho thuê đồng ý cho bên thuê thuê phòng trọ tại địa chỉ: 456 Đường DEF, Quận 3, TP.HCM
+- Thời hạn thuê: 6 tháng, từ ngày 01/09/2024 đến ngày 01/03/2025
+
+Điều 2: Tiền thuê và tiền cọc
+- Tiền thuê phòng: 1.800.000 VND/tháng
+- Tiền cọc: 1 tháng tiền thuê (1.800.000 VND), thanh toán ngay khi ký hợp đồng.
+
+Điều 3: Quyền và nghĩa vụ của hai bên
+- Bên thuê được quyền sử dụng phòng và các tiện ích như: tủ lạnh, máy giặt, điều hòa.
+- Bên thuê phải bảo quản tài sản và chịu trách nhiệm nếu xảy ra hư hỏng.
+
+Điều 4: Đơn phương chấm dứt hợp đồng
+- Bên thuê hoặc bên cho thuê có quyền đơn phương chấm dứt hợp đồng nếu không thực hiện đúng nghĩa vụ.
+
+Điều 5: Điều khoản khác
+- Hợp đồng có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
+    '''
+  ),
+  Contract(
+      id: 3,
+      name: "Hợp đồng thuê phòng trọ - 12 tháng",
+      content: '''
+HỢP ĐỒNG THUÊ PHÒNG TRỌ
+
+1. Bên cho thuê: Nguyễn Văn A
+2. Bên thuê: Trần Thị D
+
+Điều 1: Đối tượng hợp đồng
+- Bên cho thuê cho bên thuê thuê căn phòng tại địa chỉ: 789 Đường XYZ, Quận 7, TP.HCM
+- Thời hạn thuê: 12 tháng, từ ngày 01/09/2024 đến ngày 01/09/2025
+
+Điều 2: Tiền thuê và tiền cọc
+- Tiền thuê phòng: 1.500.000 VND/tháng
+- Tiền cọc: 1 tháng tiền thuê (1.500.000 VND), thanh toán khi ký hợp đồng.
+
+Điều 3: Quyền và nghĩa vụ của hai bên
+- Bên thuê được sử dụng các tiện ích như: điện, nước, wifi, bếp chung.
+- Bên thuê phải giữ gìn vệ sinh và an ninh chung.
+
+Điều 4: Đơn phương chấm dứt hợp đồng
+- Mỗi bên phải thông báo bằng văn bản trước 30 ngày nếu muốn chấm dứt hợp đồng.
+
+Điều 5: Điều khoản khác
+- Hợp đồng này có giá trị từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
+    '''
+  ),
+];
+
+Contract getContractById(int id) {
+  return contracts.firstWhere(
+        (contract) => contract.id == id,
+    orElse: () => Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy'),
+  );
+}
+
+
 
 

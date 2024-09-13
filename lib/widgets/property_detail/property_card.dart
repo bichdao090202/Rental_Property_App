@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/common/format-data.dart';
 import 'package:rental_property_app/models/property.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -36,7 +37,15 @@ class PropertyCard extends StatelessWidget {
                     property.title,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
-                  Text('Giá: ${property.price} VND', style: TextStyle(fontSize: 13)),
+
+                  Text(
+                    '${formatCurrency(property.price)} đ',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF4511E),
+                    ),
+                  ),
                   Text(
                     'Tiện ích: ${property.utilities?.map((u) => u.name).join(', ') ?? 'Không có tiện ích'}',
                     style: TextStyle(fontSize: 11, color: Colors.grey[700]),
