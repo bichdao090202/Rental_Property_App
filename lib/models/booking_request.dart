@@ -1,3 +1,4 @@
+import 'package:rental_property_app/common/format-data.dart';
 import 'package:rental_property_app/models/property.dart';
 
 class BookingRequest {
@@ -34,6 +35,14 @@ class BookingRequest {
     this.contractId,
   });
 
+  String getStartDate(){
+    return formatDay(startDate);
+  }
+
+  // String getResponseDate(){
+  //   re
+  // }
+
   // Method cập nhật khi chủ trọ phản hồi yêu cầu
   void updateResponseFromLandlord(String message, String status, DateTime responseDate) {
     this.messageFromLandlord = message;
@@ -51,9 +60,10 @@ class BookingRequest {
     responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
   }
 
-  void rejectByLandlord() {
+  void rejectByLandlord(String messageFromLandlord) {
     status = "Failure";
     note = "Landlord rejected";
+    this.messageFromLandlord = messageFromLandlord;
     responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
   }
 

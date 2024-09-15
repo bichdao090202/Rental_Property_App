@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/manager_rentals/booking_request_card_from_renter.dart';
+import 'package:rental_property_app/widgets/card/booking_request_card_from_renter.dart';
 
 class RenterTab extends StatefulWidget {
   @override

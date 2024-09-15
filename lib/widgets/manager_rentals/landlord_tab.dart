@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/manager_rentals/booking_request_card_from_landlord.dart';
-import 'package:rental_property_app/widgets/manager_rentals/booking_request_card_from_renter.dart';
+import 'package:rental_property_app/widgets/card/booking_request_card_from_landlord.dart';
+import 'package:rental_property_app/widgets/home/file_picker.dart';
+import 'package:rental_property_app/widgets/manager_rentals/contract_tab.dart';
 
 
 class LandlordTab extends StatefulWidget {
@@ -44,6 +45,7 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
+              //Booking request
             SingleChildScrollView(
                 child: Column(
                   children: [
@@ -62,14 +64,8 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
                   ],
                 )
             ),
-              Card(
-                margin: EdgeInsets.all(16.0),
-                child: Center(child: Text('Bài đăng')),
-              ),
-              Card(
-                margin: EdgeInsets.all(16.0),
-                child: Center(child: Text('Hợp đồng')),
-              ),
+              SingleFilepickerScreen(),
+              ContractTab(),
             ],
           ),
         ),

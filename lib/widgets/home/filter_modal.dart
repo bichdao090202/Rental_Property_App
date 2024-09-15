@@ -152,8 +152,8 @@ class _FilterModalState extends State<FilterModal>
               child: SlideTransition(
                 position: _animation!,
                 child: Container(
-                  height: MediaQuery.of(context).size.height, // Full chiều cao
-                  width: MediaQuery.of(context).size.width / 3 * 2, // Chiều rộng 2/3
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width ,
                   color: Colors.white,
                   child: Column(
                     children: [

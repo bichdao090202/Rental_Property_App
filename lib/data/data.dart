@@ -57,7 +57,7 @@ final List<BookingRequest> bookingRequests = [
     startDate: DateTime.parse('2024-08-20'),
     rentalDuration: 12,
     priceOffered: 1500,
-    // contractId: 2
+    contractId: 2
   ),
   BookingRequest(
     requestId: 3,
@@ -133,6 +133,7 @@ final List<BookingRequest> bookingRequests = [
     priceOffered: 1400,
     contractId: 3
   ),
+
 ];
 
 final List<String> services = ['Internet', 'Bảo vệ', 'Camera', 'Bãi đỗ xe', 'Thang máy'];
@@ -191,8 +192,8 @@ List<Property> properties = [
     termOfService: termOfService1
   ),
   Property(
-      id: 2,
-      title: "Căn hộ cho thuê giá rẻ",
+      id: 3,
+      title: "Kí túc xá",
       type: "apartment",
       image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/02/22/cho-thue-phong-tro_1613975723.jpg",
       address: Address(
@@ -216,7 +217,7 @@ List<Property> properties = [
       termOfService: termOfService1
   ),
   Property(
-      id: 2,
+      id: 4,
       title: "Căn hộ cho thuê giá rẻ",
       type: "apartment",
       image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/02/11/c11a6917-a0ac-4de4-9135-1b4c1e166892_1676120670.jpg",
@@ -264,11 +265,10 @@ Việc thanh toán tiền thuê nhà được thực hiện bằng đồng tiề
 ''';
 
 
-// Data mẫu các hợp đồng
 List<Contract> contracts = [
   Contract(
       id: 1,
-      name: "Hợp đồng thuê phòng trọ - 3 tháng",
+      name: "Hợp đồng A - 3 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -293,11 +293,12 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
 Điều 5: Điều khoản khác
 - Hợp đồng này có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
-    '''
+    ''',
+    landlordId: 1
   ),
   Contract(
       id: 2,
-      name: "Hợp đồng thuê phòng trọ - 6 tháng",
+      name: "Hợp đồng B - 6 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -321,11 +322,12 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
 Điều 5: Điều khoản khác
 - Hợp đồng có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
-    '''
+    ''',
+      landlordId: 1
   ),
   Contract(
       id: 3,
-      name: "Hợp đồng thuê phòng trọ - 12 tháng",
+      name: "Hợp đồng 19/8 - 12 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -349,17 +351,40 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
 Điều 5: Điều khoản khác
 - Hợp đồng này có giá trị từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
-    '''
+    ''',
+      landlordId: 1
   ),
 ];
 
 Contract getContractById(int id) {
   return contracts.firstWhere(
         (contract) => contract.id == id,
-    orElse: () => Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy'),
-  );
+    orElse: () =>
+        Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0));
 }
 
 
+// lib/data.dart
+
+const String platformRules = '''
+Chào mừng bạn đến với nền tảng của chúng tôi! Dưới đây là các quy định mà bạn cần tuân thủ:
+
+1. Đăng ký và Tài khoản:
+Bạn phải cung cấp thông tin chính xác và đầy đủ khi đăng ký tài khoản. Bạn chịu trách nhiệm về mọi hoạt động xảy ra dưới tài khoản của bạn.
+
+2. Bảo mật và An toàn:
+Bạn không được chia sẻ thông tin tài khoản của bạn với bất kỳ ai. Nếu bạn nghi ngờ tài khoản của mình đã bị xâm phạm, hãy thông báo ngay cho chúng tôi.
+
+3. Nội dung và Hành vi:
+Bạn không được đăng tải hoặc chia sẻ bất kỳ nội dung nào vi phạm luật pháp, chứa thông tin sai lệch, hoặc mang tính xúc phạm, phân biệt đối xử, hoặc khiêu dâm.
+
+4. Quyền và Trách nhiệm:
+Chúng tôi có quyền sửa đổi, tạm ngừng hoặc chấm dứt dịch vụ nếu bạn vi phạm các quy định. Chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại nào phát sinh từ việc bạn không tuân thủ quy định.
+
+5. Thay đổi Quy định:
+Chúng tôi có quyền thay đổi các quy định này bất cứ lúc nào. Các thay đổi sẽ có hiệu lực khi được công bố trên nền tảng của chúng tôi.
+
+Cảm ơn bạn đã tuân thủ các quy định này và hợp tác cùng chúng tôi để tạo ra một môi trường an toàn và thân thiện!
+''';
 
 

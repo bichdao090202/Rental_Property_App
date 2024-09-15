@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Rental property app',
         theme: ThemeData(
           primaryColor: Colors.white, // Màu chính của ứng dụng
           // hintColor: Colors.orange, // Màu phụ của ứng dụng

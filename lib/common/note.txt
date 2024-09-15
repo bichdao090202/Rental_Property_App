@@ -1,0 +1,13 @@
+1. dependencies:
+     flutter:
+       sdk: flutter
+     file_picker: ^5.2.4
+
+2. download android design: android/app/src/main/AndroidManifest.xml
+
+3. Edit file xml:
+
+Phone:
+Setting -> Build number -> tap 3 times to open mode developer
+Developer option -> open mode "USB Debugging"
+Use cap to match Devices

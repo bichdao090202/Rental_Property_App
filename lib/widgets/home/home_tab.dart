@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/property_detail/property_card.dart';
+import 'package:rental_property_app/widgets/card/property_card.dart';
 import 'package:rental_property_app/widgets/property_detail/property_detail_screen.dart';
 
 class HomeTab extends StatefulWidget {

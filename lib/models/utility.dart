@@ -7,3 +7,4 @@ class Utility {
     required this.name,
   });
 }
+

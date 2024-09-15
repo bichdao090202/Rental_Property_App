@@ -1,26 +1,172 @@
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/models/booking_request.dart';
+import 'package:rental_property_app/models/contract.dart';
 
-class BookingRequestCardFromLandlord extends StatefulWidget {
+class BookingRequestCardFromRenter extends StatefulWidget {
   final BookingRequest request;
 
-  BookingRequestCardFromLandlord({required this.request});
+  BookingRequestCardFromRenter({required this.request});
 
   @override
-  _BookingRequestCardFromLandlordState createState() => _BookingRequestCardFromLandlordState();
+  _BookingRequestCardFromRenterState createState() => _BookingRequestCardFromRenterState();
 }
 
-class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromLandlord> {
+class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRenter> {
+  bool _agreeWithContract = false;
+  bool _agreeWithPlatformRules = false;
+
   void _handleApprove() {
-    setState(() {
-      widget.request.approveByLandlord(1);
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return AlertDialog(
+              title: Text('Nội dung hợp đồng'),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16.0),
+                    FutureBuilder<Contract?>(
+                      future: Future.delayed(Duration.zero, () => getContractById(widget.request.contractId!)),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasData) {
+                          final contract = snapshot.data;
+                          if (contract != null) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 8),
+                                Text(contract.content),
+                              ],
+                            );
+                          } else {
+                            return Text('Hợp đồng không tìm thấy');
+                          }
+                        } else {
+                          return Text('Lỗi khi lấy dữ liệu hợp đồng');
+                        }
+                      },
+                    ),
+
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _agreeWithContract,
+                          onChanged: (bool? value) {
+                            setStateDialog(() {
+                              _agreeWithContract = value ?? false;
+                            });
+                          },
+                        ),
+                        Text('Tôi đồng ý chấp thuận với yêu cầu của hợp đồng'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _agreeWithPlatformRules,
+                          onChanged: (bool? value) {
+                            setStateDialog(() {
+                              _agreeWithPlatformRules = value ?? false;
+                            });
+                          },
+                        ),
+                        // Text('Tôi đồng ý tuân thủ các quy định của nền tảng', style: TextStyle(color: Colors.blue)),
+                        InkWell(
+                          onTap: () {
+                            _togglePlatformRules();
+                          },
+                          child: const Text(
+                            'Tôi đồng ý tuân thủ các quy định của nền tảng',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Huỷ'),
+                ),
+
+                SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: TextButton(
+                    onPressed: (_agreeWithContract && _agreeWithPlatformRules)
+                        ? () {
+                      setState(() {
+                        widget.request.approveByRenter();
+                      });
+                      Navigator.pop(context);
+                    }
+                        : null,
+                    style: TextButton.styleFrom(
+                      backgroundColor: (_agreeWithContract && _agreeWithPlatformRules)
+                          ? Colors.green
+                          : Colors.grey[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      maximumSize: const Size(200, 40),
+                    ),
+                    child: const Text(
+                      'Đồng ý và thanh toán',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
+  void _togglePlatformRules() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Quy định nền tảng'),
+          content: const SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(platformRules),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Đóng'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _handleCancel() {
     setState(() {
-      widget.request.rejectByLandlord();
+      widget.request.cancelByRenter();
     });
   }
 
@@ -60,7 +206,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
         );
       },
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -92,25 +238,32 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 3),
 
                     // Trạng thái
                     Text(
                       'Trạng thái: ${widget.request.getStatusString()}',
                       style: TextStyle(fontSize: 12),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 3),
 
                     Text('Ghi chú: ${widget.request.getNoteString()}',
                         style: TextStyle(fontSize: 12)),
+                    SizedBox(height: 3),
 
-                    SizedBox(height: 8),
+                    Text('Ngày bắt đầu: ${widget.request.startDate}',
+                        style: TextStyle(fontSize: 12)),
+                    SizedBox(height: 3),
+
+                    Text('Thời gian thuê: ${widget.request.rentalDuration} tháng',
+                        style: TextStyle(fontSize: 12)),
+                    SizedBox(height: 3),
 
                     Row(
                       mainAxisAlignment: _getMainAxisAlignment(widget.request),
                       children: [
                         // Nút "Thanh toán" chỉ hiển thị khi request.note là "Waiting for renter to sign and pay"
-                        if (widget.request.note == "Waiting for landlord approval")
+                        if (widget.request.note == "Waiting for renter to sign and pay")
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.26, // 30% chiều rộng
                             height: 30, // Điều chỉnh chiều cao thành 30
@@ -124,7 +277,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                                 maximumSize: const Size(200, 40),
                               ),
                               child: const Text(
-                                'Đồng ý',
+                                'Thanh toán',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -135,7 +288,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
 
                         if (widget.request.status == "Processing")
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.2, // 30% chiều rộng
+                            width: MediaQuery.of(context).size.width * 0.15,
                             height: 30,
                             child: TextButton(
                               onPressed: _handleCancel,
@@ -147,7 +300,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                                 maximumSize: const Size(200, 40),
                               ),
                               child: const Text(
-                                'Từ chối',
+                                'Hủy',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -155,6 +308,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                               ),
                             ),
                           ),
+
 
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.21,
@@ -193,14 +347,12 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
 
   MainAxisAlignment _getMainAxisAlignment(BookingRequest request) {
     int buttonCount = 1;
-
     if (request.note == "Waiting for renter to sign and pay") {
       buttonCount++;
     }
     if (request.status == "Processing") {
       buttonCount++;
     }
-
     return buttonCount == 1 ? MainAxisAlignment.start : MainAxisAlignment.spaceAround;
   }
 }
