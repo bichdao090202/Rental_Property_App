@@ -39,9 +39,13 @@ class BookingRequest {
     return formatDay(startDate);
   }
 
-  // String getResponseDate(){
-  //   re
-  // }
+  String getResponseDate(){
+    return formatDatetime(responseDate!);
+  }
+
+  String getRequestDate(){
+    return formatDatetime(requestDate);
+  }
 
   // Method cập nhật khi chủ trọ phản hồi yêu cầu
   void updateResponseFromLandlord(String message, String status, DateTime responseDate) {

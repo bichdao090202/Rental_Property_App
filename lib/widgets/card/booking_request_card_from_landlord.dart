@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/models/booking_request.dart';
+import 'package:rental_property_app/widgets/custom/action_button.dart';
 
 import '../../data/data.dart';
 
@@ -14,11 +15,6 @@ class BookingRequestCardFromLandlord extends StatefulWidget {
 
 class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromLandlord> {
   int? _selectedContractId;
-  // void _handleApprove() {
-  //   setState(() {
-  //     widget.request.approveByLandlord(1);
-  //   });
-  // }
 
   void _handleApprove() {
     showDialog(
@@ -54,7 +50,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Đóng dialog
+                    Navigator.of(context).pop();
                   },
                   child: Text('Đóng'),
                 ),
@@ -64,7 +60,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                       setState(() {
                         widget.request.approveByLandlord(_selectedContractId!);
                       });
-                      Navigator.of(context).pop(); // Đóng dialog sau khi phê duyệt
+                      Navigator.of(context).pop();
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Vui lòng chọn hợp đồng.')),
@@ -104,56 +100,26 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
             ],
           ),
           actions: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.26, // 30% chiều rộng
-              height: 30, // Điều chỉnh chiều cao thành 30
-              child: TextButton(
-                onPressed: (){
-                    setState(() {
-                      widget.request.rejectByLandlord(rejectionReason);
-                    });
-                    Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.green, // Màu xanh lá
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  maximumSize: const Size(200, 40),
-                ),
-                child: const Text(
-                  'Gửi',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+            ActionButton(
+              width: MediaQuery.of(context).size.width * 0.26,
+              backgroundColor: Colors.green,
+              text: 'Gửi',
+              onPressed: (){
+                setState(() {
+                  widget.request.rejectByLandlord(rejectionReason);
+                });
+                Navigator.of(context).pop();
+              },
             ),
 
             if (widget.request.status == "Processing")
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2, // 30% chiều rộng
-                height: 30,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Đóng hộp thoại
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.red, // Màu đỏ
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    maximumSize: const Size(200, 40),
-                  ),
-                  child: const Text(
-                    'Đóng',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              ActionButton(
+                width: MediaQuery.of(context).size.width * 0.2,
+                backgroundColor: Colors.red,
+                text: 'Đóng',
+                onPressed: () {
+                  Navigator.of(context).pop(); // Đóng hộp thoại
+                },
               ),
           ],
         );
@@ -256,73 +222,26 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                       children: [
                         // Nút "Thanh toán" chỉ hiển thị khi request.note là "Waiting for renter to sign and pay"
                         if (widget.request.note == "Waiting for landlord approval")
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.26, // 30% chiều rộng
-                            height: 30, // Điều chỉnh chiều cao thành 30
-                            child: TextButton(
-                              onPressed: _handleApprove,
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.green, // Màu xanh lá
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                maximumSize: const Size(200, 40),
-                              ),
-                              child: const Text(
-                                'Đồng ý',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.26,
+                            backgroundColor: Colors.green,
+                            text: 'Đồng ý',
+                            onPressed: _handleApprove,
                           ),
-
                         if (widget.request.status == "Processing")
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.2, // 30% chiều rộng
-                            height: 30,
-                            child: TextButton(
-                              onPressed: _handleCancel,
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.red, // Màu đỏ
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                maximumSize: const Size(200, 40),
-                              ),
-                              child: const Text(
-                                'Từ chối',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            backgroundColor: Colors.red,
+                            text: 'Từ chối',
+                            onPressed: _handleCancel,
                           ),
-
-                        SizedBox(
+                        ActionButton(
                           width: MediaQuery.of(context).size.width * 0.21,
-                          height: 30,
-                          child: TextButton(
-                            onPressed: () {
-                              print('Xem bài clicked');
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.blue, // Màu xanh
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              maximumSize: const Size(200, 40),
-                            ),
-                            child: const Text(
-                              'Xem bài',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          backgroundColor: Colors.blue,
+                          text: 'Xem bài',
+                          onPressed: () {
+                            print('Xem bài clicked');
+                          },
                         ),
                       ],
                     )
@@ -338,14 +257,12 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
 
   MainAxisAlignment _getMainAxisAlignment(BookingRequest request) {
     int buttonCount = 1;
-
     if (request.note == "Waiting for renter to sign and pay") {
       buttonCount++;
     }
     if (request.status == "Processing") {
       buttonCount++;
     }
-
     return buttonCount == 1 ? MainAxisAlignment.start : MainAxisAlignment.spaceAround;
   }
 }

@@ -170,7 +170,7 @@ List<Property> properties = [
     id: 2,
     title: "Căn hộ cho thuê giá rẻ",
     type: "apartment",
-    image: "https://lh6.googleusercontent.com/proxy/rVhmNBxYcdrU7epkQMzZ5MGx2fb8JLNXOIRV0Z_vevpPbMzBaZjk5427DStnjO_Y-Gu32zQio_GDzk1KCf3nfgH4evogftgUuChB_SPoLkTxcU7y49jLmNhJljfrR13MwoIwDcu6",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
       address: Address(
           id: 1,
           city: 'TP.HCM',

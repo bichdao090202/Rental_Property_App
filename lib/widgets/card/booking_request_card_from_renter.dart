@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/models/booking_request.dart';
 import 'package:rental_property_app/models/contract.dart';
+import 'package:rental_property_app/widgets/custom/action_button.dart';
 
 class BookingRequestCardFromRenter extends StatefulWidget {
   final BookingRequest request;
@@ -15,6 +16,19 @@ class BookingRequestCardFromRenter extends StatefulWidget {
 class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRenter> {
   bool _agreeWithContract = false;
   bool _agreeWithPlatformRules = false;
+  Contract? _contract;
+  bool _isLoading = true;
+
+  @override
+  void initState() async {
+    super.initState();
+    Contract contract = await getContractById(widget.request.contractId!);
+    setState(() {
+      _contract = contract;
+      _isLoading = false;
+    });
+  }
+
 
   void _handleApprove() {
     showDialog(
@@ -29,29 +43,30 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16.0),
-                    FutureBuilder<Contract?>(
-                      future: Future.delayed(Duration.zero, () => getContractById(widget.request.contractId!)),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasData) {
-                          final contract = snapshot.data;
-                          if (contract != null) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 8),
-                                Text(contract.content),
-                              ],
-                            );
-                          } else {
-                            return Text('Hợp đồng không tìm thấy');
-                          }
-                        } else {
-                          return Text('Lỗi khi lấy dữ liệu hợp đồng');
-                        }
-                      },
-                    ),
+                    Text(_contract!.content),
+                    // FutureBuilder<Contract?>(
+                    //   future: Future.delayed(Duration.zero, () => getContractById(widget.request.contractId!)),
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.connectionState == ConnectionState.waiting) {
+                    //       return const CircularProgressIndicator();
+                    //     } else if (snapshot.hasData) {
+                    //       final contract = snapshot.data;
+                    //       if (contract != null) {
+                    //         return Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             SizedBox(height: 8),
+                    //             Text(contract.content),
+                    //           ],
+                    //         );
+                    //       } else {
+                    //         return Text('Hợp đồng không tìm thấy');
+                    //       }
+                    //     } else {
+                    //       return Text('Lỗi khi lấy dữ liệu hợp đồng');
+                    //     }
+                    //   },
+                    // ),
 
                     Row(
                       children: [
@@ -76,14 +91,13 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                             });
                           },
                         ),
-                        // Text('Tôi đồng ý tuân thủ các quy định của nền tảng', style: TextStyle(color: Colors.blue)),
                         InkWell(
                           onTap: () {
                             _togglePlatformRules();
                           },
                           child: const Text(
                             'Tôi đồng ý tuân thủ các quy định của nền tảng',
-                            style: TextStyle(color: Colors.blue),
+                            style: TextStyle(color: Colors.blueAccent),
                           ),
                         )
                       ],
@@ -194,8 +208,8 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                   Text('Request ID: ${widget.request.requestId}'),
                   Text('Trạng thái: ${widget.request.getStatusString()}'),
                   Text('Ghi chú: ${widget.request.getNoteString()}'),
-                  Text('Ngày yêu cầu: ${widget.request.requestDate}'),
-                  Text('Ngày bắt đầu: ${widget.request.startDate}'),
+                  Text('Ngày yêu cầu: ${widget.request.getRequestDate()}'),
+                  Text('Ngày bắt đầu: ${widget.request.getStartDate()}'),
                   Text('Thời gian thuê: ${widget.request.rentalDuration} tháng'),
                   Text('Tin nhắn từ khách hàng: ${widget.request.messageFromRenter}'),
                   Text('Tin nhắn từ chủ trọ: ${widget.request.messageFromLandlord ?? "Chưa có"}'),
@@ -211,10 +225,9 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              // Hình ảnh chiếm 25% chiều rộng
               Container(
                 width: MediaQuery.of(context).size.width * 0.20,
-                height: 100, // Chiều cao cố định cho ảnh
+                height: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
@@ -225,7 +238,6 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
               ),
               SizedBox(width: 16),
 
-              // Phần chiếm 75% còn lại
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +263,7 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                         style: TextStyle(fontSize: 12)),
                     SizedBox(height: 3),
 
-                    Text('Ngày bắt đầu: ${widget.request.startDate}',
+                    Text('Ngày bắt đầu: ${widget.request.getStartDate()}',
                         style: TextStyle(fontSize: 12)),
                     SizedBox(height: 3),
 
@@ -262,76 +274,27 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                     Row(
                       mainAxisAlignment: _getMainAxisAlignment(widget.request),
                       children: [
-                        // Nút "Thanh toán" chỉ hiển thị khi request.note là "Waiting for renter to sign and pay"
                         if (widget.request.note == "Waiting for renter to sign and pay")
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.26, // 30% chiều rộng
-                            height: 30, // Điều chỉnh chiều cao thành 30
-                            child: TextButton(
-                              onPressed: _handleApprove,
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.green, // Màu xanh lá
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                maximumSize: const Size(200, 40),
-                              ),
-                              child: const Text(
-                                'Thanh toán',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.26,
+                            backgroundColor: Colors.green,
+                            text: 'Thanh toán',
+                            onPressed: _handleApprove,
                           ),
-
                         if (widget.request.status == "Processing")
-                          SizedBox(
+                          ActionButton(
                             width: MediaQuery.of(context).size.width * 0.15,
-                            height: 30,
-                            child: TextButton(
-                              onPressed: _handleCancel,
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.red, // Màu đỏ
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                maximumSize: const Size(200, 40),
-                              ),
-                              child: const Text(
-                                'Hủy',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                            backgroundColor: Colors.red,
+                            text: 'Hủy',
+                            onPressed: _handleCancel,
                           ),
-
-
-                        SizedBox(
+                        ActionButton(
                           width: MediaQuery.of(context).size.width * 0.21,
-                          height: 30,
-                          child: TextButton(
-                            onPressed: () {
-                              print('Xem bài clicked');
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.blue, // Màu xanh
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              maximumSize: const Size(200, 40),
-                            ),
-                            child: const Text(
-                              'Xem bài',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          backgroundColor: Colors.blue,
+                          text: 'Xem bài',
+                          onPressed: () {
+                            print('Xem bài clicked');
+                          },
                         ),
                       ],
                     )
