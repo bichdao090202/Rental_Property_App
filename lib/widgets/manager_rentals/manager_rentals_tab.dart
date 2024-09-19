@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/widgets/manager_rentals/landlord_tab.dart';
 import 'package:rental_property_app/widgets/manager_rentals/renter_tab.dart';
+import 'dart:convert';
 
 class ManagerRentalsTab extends StatefulWidget {
   @override
@@ -9,8 +10,17 @@ class ManagerRentalsTab extends StatefulWidget {
 }
 
 class _ManagerRentalsTabState extends State<ManagerRentalsTab> {
+
   @override
   Widget build(BuildContext context) {
+    String originalString = 'Hello';
+    // List<int> bytes = utf8.encode(originalString);
+    // String base64String = base64Encode(bytes);
+    // print('Base64 encoded: $base64String');
+    // List<int> bytess = base64Decode(base64String);
+    // String originalStringg = utf8.decode(bytess);
+    // print('Decoded string: $originalStringg');
+
     return Scaffold(
       body: DefaultTabController(
         length: 2,
@@ -20,15 +30,15 @@ class _ManagerRentalsTabState extends State<ManagerRentalsTab> {
             bottom: const PreferredSize(
                 preferredSize: Size.fromHeight(40.0),
                 child: TabBar(
-                  labelColor: Colors.white, // Màu chữ của Tab đang được chọn
-                  unselectedLabelColor: Colors.white, // Màu chữ của Tab không được chọn
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white,
                   labelStyle: TextStyle(
-                    fontSize: 16, // Kích thước chữ của Tab đang được chọn
-                    fontWeight: FontWeight.bold, // Chữ đậm
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                   unselectedLabelStyle: TextStyle(
-                    fontSize: 14, // Kích thước chữ của Tab không được chọn
-                    fontWeight: FontWeight.normal, // Chữ thường
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
                   ),
                   tabs: [
                     Tab(

@@ -20,9 +20,9 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
   bool _isLoading = true;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    Contract contract = await getContractById(widget.request.contractId!);
+    Contract contract = getContractById(widget.request.contractId!);
     setState(() {
       _contract = contract;
       _isLoading = false;
@@ -44,30 +44,6 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                   children: [
                     const SizedBox(height: 16.0),
                     Text(_contract!.content),
-                    // FutureBuilder<Contract?>(
-                    //   future: Future.delayed(Duration.zero, () => getContractById(widget.request.contractId!)),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState == ConnectionState.waiting) {
-                    //       return const CircularProgressIndicator();
-                    //     } else if (snapshot.hasData) {
-                    //       final contract = snapshot.data;
-                    //       if (contract != null) {
-                    //         return Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             SizedBox(height: 8),
-                    //             Text(contract.content),
-                    //           ],
-                    //         );
-                    //       } else {
-                    //         return Text('Hợp đồng không tìm thấy');
-                    //       }
-                    //     } else {
-                    //       return Text('Lỗi khi lấy dữ liệu hợp đồng');
-                    //     }
-                    //   },
-                    // ),
-
                     Row(
                       children: [
                         Checkbox(
@@ -78,7 +54,7 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                             });
                           },
                         ),
-                        Text('Tôi đồng ý chấp thuận với yêu cầu của hợp đồng'),
+                        const Flexible(child: Text('Tôi đồng ý chấp thuận với yêu cầu của hợp đồng'))
                       ],
                     ),
                     Row(
@@ -91,14 +67,16 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                             });
                           },
                         ),
-                        InkWell(
-                          onTap: () {
-                            _togglePlatformRules();
-                          },
-                          child: const Text(
-                            'Tôi đồng ý tuân thủ các quy định của nền tảng',
-                            style: TextStyle(color: Colors.blueAccent),
-                          ),
+                        Flexible(
+                            child: InkWell(
+                              onTap: () {
+                                _togglePlatformRules();
+                              },
+                              child: const Text(
+                                'Tôi đồng ý tuân thủ các quy định của nền tảng',
+                                style: TextStyle(color: Colors.blueAccent),
+                              ),
+                            )
                         )
                       ],
                     ),
