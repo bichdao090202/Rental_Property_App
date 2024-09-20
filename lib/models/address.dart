@@ -12,4 +12,12 @@ class Address {
     required this.ward,
     required this.detail,
   });
+
+  String getShortAddress() {
+    return '$city, $district, $ward';
+  }
+
+  String getAddressDetail() {
+    return '$detail, $ward, $district, $city';
+  }
 }

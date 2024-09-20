@@ -18,8 +18,14 @@ class PropertyDetailScreen extends StatefulWidget  {
 class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   DateTime? _startDate;
   int? _rentalDuration;
-  double? _priceOffered;
   String? _messageFromRenter;
+  final TextEditingController _rentalDurationController = TextEditingController();
+
+  @override
+  void dispose() {
+    _rentalDurationController.dispose();
+    super.dispose();
+  }
 
   String getGender(int gender) {
     switch (gender) {
@@ -127,6 +133,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               'Tiện ích: ${widget.property.utilities!.map((u) => u.name).join(', ')}',
             ),
 
+            SizedBox(height: 8),
+            Text("Phí dịch vụ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            Text(widget.property.getChargeableServiceString()),
+
+
 
             SizedBox(height: 16),
 
@@ -160,7 +171,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     );
   }
 
-  // Hiển thị modal Yêu cầu thuê
+
   void _showBookingRequestModal() {
     showDialog(
       context: context,
@@ -196,6 +207,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         ),
                       ],
                     ),
+
                     // Chọn rental_duration
                     Row(
                       children: [
@@ -217,6 +229,27 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         ),
                       ],
                     ),
+                    // Row(
+                    //   children: [
+                    //     const Text('Thời gian thuê  '),
+                    //     SizedBox(
+                    //       width: 80, // Giới hạn kích thước của input cho gọn
+                    //       child: TextField(
+                    //         controller: _rentalDurationController,
+                    //         keyboardType: TextInputType.number, // Chỉ cho phép nhập số
+                    //         decoration: const InputDecoration(
+                    //           hintText: '',
+                    //         ),
+                    //         onChanged: (String value) {
+                    //           setState(() {
+                    //             _rentalDuration = int.tryParse(value); // Chuyển đổi chuỗi thành số nguyên
+                    //           });
+                    //         },
+                    //       ),
+                    //     ),
+                    //     const Text('tháng'),
+                    //   ],
+                    // ),
                     // Price offered
                     // Text('Giá thuê: ${widget.property.price} VND/tháng'),
                     // SizedBox(height: 10),
@@ -251,7 +284,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         messageFromRenter: _messageFromRenter ?? '',
                         startDate: _startDate!,
                         rentalDuration: _rentalDuration!,
-                        priceOffered: widget.property.price.toDouble(),
                       );
 
                       print('Booking request đã được tạo: ${bookingRequest.toString()}');

@@ -5,19 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:typed_data';
 
-class SingleFilepickerScreen extends StatefulWidget {
-  const SingleFilepickerScreen({super.key});
+class FilePickerDialog extends StatefulWidget {
+  const FilePickerDialog({super.key});
 
   @override
-  State<SingleFilepickerScreen> createState() => _SingleFilepickerScreenState();
+  State<FilePickerDialog> createState() => _FilePickerDialogState();
 }
 
-class _SingleFilepickerScreenState extends State<SingleFilepickerScreen> {
+class _FilePickerDialogState extends State<FilePickerDialog> {
   String? _fileName;
-  Uint8List? _fileBytes; // Use for web to hold file content bytes
+  Uint8List? _fileBytes;
   io.File? _file;
-  String? _base64File;
-
 
   Future<void> getFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -28,21 +26,13 @@ class _SingleFilepickerScreenState extends State<SingleFilepickerScreen> {
         _fileBytes = result.files.first.bytes;
         _fileName = result.files.first.name;
       } else {
-        // If running on mobile (iOS/Android), use path
         final file = io.File(result.files.single.path!);
-        setState(() {
-          _fileName = file.path.split('/').last; // Lấy tên file
-        });
         _file = file;
         _fileName = file.path.split('/').last;
-        Uint8List fileBytes = await _file!.readAsBytes();
-        // _base64File = base64Encode(fileBytes);
       }
-      setState(() {
-        print('Base64 của file: $_base64File');
-      });
+      setState(() {});
     } else {
-      // User canceled the picker
+
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please select a file'),
       ));
@@ -112,7 +102,7 @@ class _SingleFilepickerScreenState extends State<SingleFilepickerScreen> {
               ],
             ),
 
-          // Nút để mở PDF trong dialog
+
           if (_file != null && _file!.path.endsWith('.pdf'))
             ElevatedButton(
               onPressed: () {
@@ -131,4 +121,40 @@ class _SingleFilepickerScreenState extends State<SingleFilepickerScreen> {
       ),
     );
   }
+}
+
+void showFilePickerDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: const FilePickerDialog(),
+        ),
+        actions: [
+          // Nút "Add"
+          TextButton(
+            onPressed: () {
+              // Xử lý khi bấm nút "Add"
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("File added!")),
+              );
+            },
+            child: const Text('Add'),
+          ),
+          // Nút "Close"
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Đóng dialog
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
 }

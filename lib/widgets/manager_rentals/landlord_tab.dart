@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/widgets/card/booking_request_card_from_landlord.dart';
 import 'package:rental_property_app/widgets/home/file_picker.dart';
-import 'package:rental_property_app/widgets/manager_rentals/contract_tab.dart';
-
+import 'package:rental_property_app/widgets/manager_rentals/contract_tab_from_landlord.dart';
 
 class LandlordTab extends StatefulWidget {
   const LandlordTab({super.key});
-
 
   @override
   _LandlordTabState createState() => _LandlordTabState();
@@ -65,7 +63,7 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
                 )
             ),
               SingleFilepickerScreen(),
-              ContractTab(),
+              ContractTabFromLandlord(),
             ],
           ),
         ),

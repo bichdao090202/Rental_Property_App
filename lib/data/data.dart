@@ -1,4 +1,5 @@
 import 'package:rental_property_app/models/booking_request.dart';
+import 'package:rental_property_app/models/chargeable_service.dart';
 import 'package:rental_property_app/models/contract.dart';
 import 'package:rental_property_app/models/property.dart';
 import 'package:rental_property_app/models/property.dart';
@@ -11,6 +12,27 @@ import '../models/property.dart';
 final List<User> users = [
   User(id: 1, name: "John Doe"),
   User(id: 2, name: "Jane Smith"),
+];
+
+List<ChargeableService> chargeableServices = [
+  ChargeableService(
+    serviceName: 'Điện',
+    quantity: 1,
+    unitPrice: 4000,
+    unitOfMeasurement: "kWh"
+  ),
+  ChargeableService(
+    serviceName: 'Nước',
+    quantity: 1,
+    unitPrice: 15000,
+      unitOfMeasurement: "m3"
+  ),
+  ChargeableService(
+    serviceName: 'Xe',
+    quantity: 1,
+    unitPrice: 100000,
+      unitOfMeasurement: "chiếc"
+  ),
 ];
 
 final List<Utility> utilities = [
@@ -42,7 +64,6 @@ final List<BookingRequest> bookingRequests = [
     messageFromRenter: "Interested in renting this cozy apartment.",
     startDate: DateTime.parse('2024-08-15'),
     rentalDuration: 6,
-    priceOffered: 1200,
     contractId: 1
   ),
   BookingRequest(
@@ -56,8 +77,7 @@ final List<BookingRequest> bookingRequests = [
     messageFromRenter: "Ready to sign the lease for the spacious house.",
     startDate: DateTime.parse('2024-08-20'),
     rentalDuration: 12,
-    priceOffered: 1500,
-    contractId: 2
+    contractId: 3
   ),
   BookingRequest(
     requestId: 3,
@@ -71,7 +91,6 @@ final List<BookingRequest> bookingRequests = [
     messageFromLandlord: "Contract signed and payment received.",
     startDate: DateTime.parse('2024-09-01'),
     rentalDuration: 9,
-    priceOffered: 1000,
     responseDate: DateTime.parse('2024-08-10'),
     contractId: 1,
 
@@ -87,7 +106,6 @@ final List<BookingRequest> bookingRequests = [
     messageFromRenter: "I enjoyed the stay but the lease has ended.",
     startDate: DateTime.parse('2024-06-01'),
     rentalDuration: 3,
-    priceOffered: 800,
     responseDate: DateTime.parse('2024-06-10'),
     contractId: 1,
   ),
@@ -102,7 +120,6 @@ final List<BookingRequest> bookingRequests = [
     messageFromRenter: "Please reconsider my application.",
     startDate: DateTime.parse('2024-09-01'),
     rentalDuration: 4,
-    priceOffered: 1100,
     contractId: 2
   ),
   BookingRequest(
@@ -116,7 +133,6 @@ final List<BookingRequest> bookingRequests = [
     messageFromRenter: "I've decided to cancel the booking.",
     startDate: DateTime.parse('2024-09-15'),
     rentalDuration: 3,
-    priceOffered: 950,
     contractId: 2
   ),
   BookingRequest(
@@ -130,7 +146,6 @@ final List<BookingRequest> bookingRequests = [
     messageFromRenter: "I'm ready to proceed with the lease.",
     startDate: DateTime.parse('2024-10-01'),
     rentalDuration: 6,
-    priceOffered: 1400,
     contractId: 3
   ),
 
@@ -159,12 +174,13 @@ List<Property> properties = [
       Utility(id: 2, name: "máy giặc"),
     ],
     price: 3000000,
-    deposit: 3000,
+    deposit: 3000000,
     gender: 0,
     roomSize: 20,
     ownerId: 1,
     description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-    termOfService: termOfService1
+    termOfService: termOfService1,
+    chargeableServices: chargeableServices
   ),
   Property(
     id: 2,
@@ -174,22 +190,23 @@ List<Property> properties = [
       address: Address(
           id: 1,
           city: 'TP.HCM',
-          district: 'Gò Vấp',
-          ward: "phường 4",
-          detail: "109"
+          district: 'Bình Thạnh',
+          ward: "phường 12",
+          detail: "77A"
       ),
 
     utilities: [
       Utility(id: 1, name: "tủ lạnh"),
       Utility(id: 2, name: "máy giặc"),
     ],
-    price: 3000000,
-    deposit: 3000,
+    price: 4000000,
+    deposit: 5000000,
     gender: 0,
     roomSize: 20,
     ownerId: 1,
     description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-    termOfService: termOfService1
+    termOfService: termOfService1,
+      chargeableServices: chargeableServices
   ),
   Property(
       id: 3,
@@ -199,22 +216,23 @@ List<Property> properties = [
       address: Address(
           id: 1,
           city: 'TP.HCM',
-          district: 'Gò Vấp',
-          ward: "phường 4",
-          detail: "109"
+          district: 'Phú Nhuận',
+          ward: "phường 7",
+          detail: "12"
       ),
 
       utilities: [
         Utility(id: 1, name: "tủ lạnh"),
         Utility(id: 2, name: "máy giặc"),
       ],
-      price: 3000000,
-      deposit: 3000,
+      price: 1500000,
+      deposit: 1500000,
       gender: 0,
       roomSize: 20,
       ownerId: 1,
       description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-      termOfService: termOfService1
+      termOfService: termOfService1,
+      chargeableServices: chargeableServices
   ),
   Property(
       id: 4,
@@ -224,9 +242,9 @@ List<Property> properties = [
       address: Address(
           id: 1,
           city: 'TP.HCM',
-          district: 'Gò Vấp',
-          ward: "phường 4",
-          detail: "109"
+          district: 'Thủ Đức',
+          ward: "phường Linh Trung",
+          detail: "109 Kha Vạn Cân"
       ),
 
       utilities: [
@@ -234,12 +252,13 @@ List<Property> properties = [
         Utility(id: 2, name: "máy giặc"),
       ],
       price: 3000000,
-      deposit: 3000,
+      deposit: 3000000,
       gender: 0,
       roomSize: 20,
       ownerId: 1,
       description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-      termOfService: termOfService1
+      termOfService: termOfService1,
+      chargeableServices: chargeableServices
   ),
 ];
 
@@ -298,7 +317,7 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
   ),
   Contract(
       id: 2,
-      name: "Hợp đồng B - 6 tháng",
+      name: "Hợp đồng B - 9 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -352,9 +371,26 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 Điều 5: Điều khoản khác
 - Hợp đồng này có giá trị từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
-      landlordId: 1
+    landlordId: 1,
+    // renterId: 2,
+    // property: properties[3],
+    // dateComplete: DateTime.now(),
+    // datePay: DateTime.now(),
+    // startRentDate: DateTime(2024, 9, 1),
+    // rentalDuration: 12,
+
   ),
+
 ];
+
+void updateContractById(int contractId, BookingRequest request) {
+  final index = contracts.indexWhere((contract) => contract.id == contractId);
+  if (index != -1) {
+    contracts[index].completeContract(request);
+  } else {
+    print("Contract not found");
+  }
+}
 
 Contract getContractById(int id) {
   return contracts.firstWhere(
@@ -362,9 +398,6 @@ Contract getContractById(int id) {
     orElse: () =>
         Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0));
 }
-
-
-// lib/data.dart
 
 const String platformRules = '''
 Chào mừng bạn đến với nền tảng của chúng tôi! Dưới đây là các quy định mà bạn cần tuân thủ:
