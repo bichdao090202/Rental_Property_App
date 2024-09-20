@@ -1,4 +1,5 @@
 import 'package:rental_property_app/models/address.dart';
+import 'package:rental_property_app/models/chargeable_service.dart';
 import 'package:rental_property_app/models/utility.dart';
 
 class Property {
@@ -9,12 +10,13 @@ class Property {
   Address? address;
   List<Utility>? utilities;
   final double price;
-  final int deposit;
+  final double deposit;
   final int gender;
   final int roomSize;
   final String description;
   String? termOfService;
   final String type;
+  List<ChargeableService> chargeableServices;
 
   Property({
     required this.id,
@@ -30,6 +32,7 @@ class Property {
     required this.description,
     this.termOfService,
     required this.type,
+    required this.chargeableServices
   });
 
   Property.withDefaultAddressAndUtilities({
@@ -46,10 +49,14 @@ class Property {
     required this.description,
     String? termOfService,
     required this.type,
+    required this.chargeableServices,
   })  : this.address = address ?? Address(id: 0, city: "TP.HCM", district: "Gò Vấp", ward: "Phường 1", detail: "Địa chỉ mặc định"),
         this.utilities = utilities ?? [Utility(id: 1, name: "Internet miễn phí")],
         this.termOfService = termOfService ?? "Không có điều khoản dịch vụ";
 
+  String getChargeableServiceString() {
+    return chargeableServices.map((service) => '- ${service.getService()}').join('\n');
+  }
 
   // factory Property.fromJson(Map<String, dynamic> json) {
   //   return Property(
@@ -70,6 +77,8 @@ class Property {
   //     type: json['type'],
   //   );
   // }
+
+
 
 
 }

@@ -100,6 +100,7 @@ class _BookingRequestCardFromRenterState extends State<BookingRequestCardFromRen
                       setState(() {
                         widget.request.approveByRenter();
                       });
+                      updateContractById(widget.request.contractId!, widget.request);
                       Navigator.pop(context);
                     }
                         : null,

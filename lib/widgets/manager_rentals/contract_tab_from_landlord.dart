@@ -3,17 +3,18 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/models/contract.dart';
-import 'package:rental_property_app/widgets/card/contract_card.dart';
+import 'package:rental_property_app/widgets/card/contract_card_from_landlord.dart';
 
 import 'package:rental_property_app/data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/widgets/custom/file_picker_pdf_dialog.dart';
 
-class ContractTab extends StatefulWidget {
+class ContractTabFromLandlord extends StatefulWidget {
   @override
-  _ContractTabState createState() => _ContractTabState();
+  _ContractTabFromLandlordState createState() => _ContractTabFromLandlordState();
 }
 
-class _ContractTabState extends State<ContractTab> {
+class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
   void _createContract() async {
     String? fileContent;
     TextEditingController _nameController = TextEditingController();
@@ -82,13 +83,14 @@ class _ContractTabState extends State<ContractTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: Text('Danh sách hợp đồng'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: _createContract, // Thêm nút "+" để tạo hợp đồng mới
+              onPressed: () {
+                showFilePickerDialog(context);
+              },
           ),
         ],
       ),
@@ -102,7 +104,7 @@ class _ContractTabState extends State<ContractTab> {
                 itemCount: contracts.length,
                 itemBuilder: (context, index) {
                   final contract = contracts[index];
-                  return ContractCard(contract: contract);
+                  return ContractCardFromLandlord(contract: contract);
                 },
               ),
             ),

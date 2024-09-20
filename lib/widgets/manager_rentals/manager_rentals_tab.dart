@@ -14,12 +14,6 @@ class _ManagerRentalsTabState extends State<ManagerRentalsTab> {
   @override
   Widget build(BuildContext context) {
     String originalString = 'Hello';
-    // List<int> bytes = utf8.encode(originalString);
-    // String base64String = base64Encode(bytes);
-    // print('Base64 encoded: $base64String');
-    // List<int> bytess = base64Decode(base64String);
-    // String originalStringg = utf8.decode(bytess);
-    // print('Decoded string: $originalStringg');
 
     return Scaffold(
       body: DefaultTabController(

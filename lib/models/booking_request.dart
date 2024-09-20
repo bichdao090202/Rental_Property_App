@@ -13,11 +13,9 @@ class BookingRequest {
   String? messageFromLandlord;
   DateTime startDate;
   int rentalDuration;
-  double priceOffered;
   DateTime? responseDate;
   int? contractId;
 
-  // Constructor với các giá trị mặc định
   BookingRequest({
     required this.requestId,
     required this.renterId,
@@ -30,7 +28,6 @@ class BookingRequest {
     this.messageFromLandlord,
     required this.startDate,
     required this.rentalDuration,
-    required this.priceOffered,
     this.responseDate,
     this.contractId,
   });
@@ -47,7 +44,6 @@ class BookingRequest {
     return formatDatetime(requestDate);
   }
 
-  // Method cập nhật khi chủ trọ phản hồi yêu cầu
   void updateResponseFromLandlord(String message, String status, DateTime responseDate) {
     this.messageFromLandlord = message;
     this.status = status;
@@ -61,27 +57,27 @@ class BookingRequest {
   void cancelByRenter() {
     status = "Failure";
     note = "Renter canceled";
-    responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
+    responseDate = DateTime.now();
   }
 
   void rejectByLandlord(String messageFromLandlord) {
     status = "Failure";
     note = "Landlord rejected";
     this.messageFromLandlord = messageFromLandlord;
-    responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
+    responseDate = DateTime.now();
   }
 
   void approveByLandlord(int contractId) {
-    status = "Processing"; // Status vẫn ở Processing cho tới khi người thuê ký và thanh toán
+    status = "Processing";
     note = "Waiting for renter to sign and pay";
     this.contractId = contractId;
-    responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
+    responseDate = DateTime.now();
   }
 
   void approveByRenter() {
     status = "Success";
-    note = "Active";
-    // responseDate = DateTime.now(); // Cập nhật thời gian phản hồi
+    note = "Success";
+    // responseDate = DateTime.now();
   }
 
   String getStatusString() {

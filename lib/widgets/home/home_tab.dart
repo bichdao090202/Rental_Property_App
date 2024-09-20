@@ -46,6 +46,8 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
       parent: _controller!,
       curve: Curves.easeInOut,
     ));
+
+    contracts[1].completeContract(bookingRequests[2]);
   }
 
   void _showFilterModal() {
