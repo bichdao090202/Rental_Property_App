@@ -83,7 +83,7 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ActionButton(
-                          width: MediaQuery.of(context).size.width * 0.21,
+                          width: MediaQuery.of(context).size.width * 0.24,
                           backgroundColor: Colors.blue,
                           text: 'Thông tin',
                           onPressed: () {
@@ -94,14 +94,14 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                           },
                         ),
                         ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.20,
+                            width: MediaQuery.of(context).size.width * 0.22,
                             backgroundColor: Colors.green,
                             text: 'Hóa đơn',
                             onPressed: () => print('t'),
                           ),
                         if (widget.contract.status == "Active")
                         ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.20,
+                            width: MediaQuery.of(context).size.width * 0.17,
                             backgroundColor: Colors.red,
                             text: 'Hủy',
                             onPressed: () => print('t'),

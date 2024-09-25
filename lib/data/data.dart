@@ -392,6 +392,10 @@ void updateContractById(int contractId, BookingRequest request) {
   }
 }
 
+void addContract(Contract newContract) {
+  contracts.add(newContract);
+}
+
 Contract getContractById(int id) {
   return contracts.firstWhere(
         (contract) => contract.id == id,

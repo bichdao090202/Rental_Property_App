@@ -15,7 +15,6 @@ class ContractCardFromLandlord extends StatelessWidget {
       child: ListTile(
         title: Text(contract.name),
         onTap: () {
-          // Mở dialog khi nhấn vào card
           showDialog(
             context: context,
             builder: (context) => ContractDialog(contract: contract),

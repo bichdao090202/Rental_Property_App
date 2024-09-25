@@ -9,7 +9,7 @@ class ActionButton extends StatefulWidget {
 
   const ActionButton({super.key,
     required this.width,
-    this.height = 30,
+    this.height = 34,
     required this.backgroundColor,
     required this.text,
     required this.onPressed,

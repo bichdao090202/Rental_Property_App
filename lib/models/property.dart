@@ -2,10 +2,10 @@ import 'package:rental_property_app/models/address.dart';
 import 'package:rental_property_app/models/chargeable_service.dart';
 import 'package:rental_property_app/models/utility.dart';
 
-class Property {
+class Property { //room + status
   final int id;
   final String title;
-  final String image;
+  final String image; //list
   final int ownerId;
   Address? address;
   List<Utility>? utilities;
