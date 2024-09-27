@@ -24,11 +24,9 @@ class _SingleFilepickerScreenState extends State<SingleFilepickerScreen> {
 
     if (result != null) {
       if (kIsWeb) {
-        // If running on web, use bytes
         _fileBytes = result.files.first.bytes;
         _fileName = result.files.first.name;
       } else {
-        // If running on mobile (iOS/Android), use path
         final file = io.File(result.files.single.path!);
         setState(() {
           _fileName = file.path.split('/').last; // Lấy tên file

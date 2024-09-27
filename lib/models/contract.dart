@@ -17,6 +17,7 @@ class Contract {
   double? price;
   double? deposit;
   List<ChargeableService>? chargeableServices;
+  String pdfPath;
 
   Contract({
     required this.id,
@@ -29,7 +30,8 @@ class Contract {
     this.datePay,
     this.startRentDate,
     this.rentalDuration,
-    this.status = "Active"
+    this.status = "Active",
+    required this.pdfPath,
   });
 
   void completeContract(BookingRequest bookingRequest) {

@@ -43,25 +43,31 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              //Booking request
-            SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                        width: double.maxFinite,
-                        child:
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: bookingRequests.length,
-                            itemBuilder: (context, index) {
-                              final request = bookingRequests[index];
-                              return BookingRequestCardFromLandlord(request: request);
-                            }
-                        )
-                    )
-                  ],
-                )
-            ),
+              ListView.builder(
+                itemCount: bookingRequests.length,
+                itemBuilder: (context, index) {
+                  final request = bookingRequests[index];
+                  return BookingRequestCardFromLandlord(request: request);
+                },
+              ),
+            // SingleChildScrollView(
+            //     child: Column(
+            //       children: [
+            //         Container(
+            //             width: double.maxFinite,
+            //             child:
+            //             ListView.builder(
+            //                 shrinkWrap: true,
+            //                 itemCount: bookingRequests.length,
+            //                 itemBuilder: (context, index) {
+            //                   final request = bookingRequests[index];
+            //                   return BookingRequestCardFromLandlord(request: request);
+            //                 }
+            //             )
+            //         )
+            //       ],
+            //     )
+            // ),
               SingleFilepickerScreen(),
               ContractTabFromLandlord(),
             ],

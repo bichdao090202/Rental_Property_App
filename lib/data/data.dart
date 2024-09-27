@@ -313,7 +313,8 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 Điều 5: Điều khoản khác
 - Hợp đồng này có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
-    landlordId: 1
+    landlordId: 1,
+    pdfPath: 'assets/hop-dong-thue.pdf',
   ),
   Contract(
       id: 2,
@@ -342,7 +343,8 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 Điều 5: Điều khoản khác
 - Hợp đồng có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
-      landlordId: 1
+      landlordId: 1,
+      pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',
   ),
   Contract(
       id: 3,
@@ -372,6 +374,7 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 - Hợp đồng này có giá trị từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
     landlordId: 1,
+    pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405 (1).pdf',
     // renterId: 2,
     // property: properties[3],
     // dateComplete: DateTime.now(),
@@ -400,7 +403,7 @@ Contract getContractById(int id) {
   return contracts.firstWhere(
         (contract) => contract.id == id,
     orElse: () =>
-        Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0));
+        Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0,pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',));
 }
 
 const String platformRules = '''

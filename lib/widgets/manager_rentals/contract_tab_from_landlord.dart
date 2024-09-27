@@ -66,6 +66,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
                         name: _nameController.text,
                         content: fileContent!,
                         landlordId: 1,
+                        pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',
                       ),
                     );
                   });
@@ -96,22 +97,12 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: double.maxFinite,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: contracts.length,
-                itemBuilder: (context, index) {
-                  final contract = contracts[index];
-                  return ContractCardFromLandlord(contract: contract);
-                },
-              ),
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: contracts.length,
+        itemBuilder: (context, index) {
+          final contract = contracts[index];
+          return ContractCardFromLandlord(contract: contract);
+        },
       ),
     );
   }

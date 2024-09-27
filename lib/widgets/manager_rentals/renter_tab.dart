@@ -41,43 +41,56 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              //Booking request
-              SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                          width: double.maxFinite,
-                          child:
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: bookingRequests.length,
-                              itemBuilder: (context, index) {
-                                final request = bookingRequests[index];
-                                return BookingRequestCardFromRenter(request: request);
-                              }
-                          )
-                      )
-                    ],
-                  )
+              ListView.builder(
+                  itemCount: bookingRequests.length,
+                  itemBuilder: (context, index) {
+                    final request = bookingRequests[index];
+                    return BookingRequestCardFromRenter(request: request);
+                  }
               ),
-              SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                          width: double.maxFinite,
-                          child:
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: contracts.where((contract) => contract.renterId != null).length,
-                              itemBuilder: (context, index) {
-                                final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
-                                return ContractCardFromRenter(contract: contract);
-                              }
-                          )
-                      )
-                    ],
-                  )
+              // SingleChildScrollView(
+              //     child: Column(
+              //       children: [
+              //         Container(
+              //             width: double.maxFinite,
+              //             child:
+              //             ListView.builder(
+              //                 shrinkWrap: true,
+              //                 itemCount: bookingRequests.length,
+              //                 itemBuilder: (context, index) {
+              //                   final request = bookingRequests[index];
+              //                   return BookingRequestCardFromRenter(request: request);
+              //                 }
+              //             )
+              //         )
+              //       ],
+              //     )
+              // ),
+              ListView.builder(
+                  itemCount: contracts.where((contract) => contract.renterId != null).length,
+                  itemBuilder: (context, index) {
+                    final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
+                    return ContractCardFromRenter(contract: contract);
+                  }
               ),
+              // SingleChildScrollView(
+              //     child: Column(
+              //       children: [
+              //         Container(
+              //             width: double.maxFinite,
+              //             child:
+              //             ListView.builder(
+              //                 shrinkWrap: true,
+              //                 itemCount: contracts.where((contract) => contract.renterId != null).length,
+              //                 itemBuilder: (context, index) {
+              //                   final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
+              //                   return ContractCardFromRenter(contract: contract);
+              //                 }
+              //             )
+              //         )
+              //       ],
+              //     )
+              // ),
             ],
           ),
         ),
