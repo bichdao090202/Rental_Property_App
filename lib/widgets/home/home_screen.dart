@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/widgets/custom/file_picker_pdf_dialog.dart';
 import 'package:rental_property_app/widgets/home/filter_modal.dart';
 import 'package:rental_property_app/widgets/home/home_tab.dart';
+import 'package:rental_property_app/widgets/home/upload_image_page.dart';
 import 'package:rental_property_app/widgets/manager_rentals/manager_rentals_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,6 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void _onItemTapped(int index) {
+    FilePickerDialog.show(context);
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => UploadImagePage(imagePath: 'assets/logo.png'),
+    //   ),
+    // );
     setState(() {
       _selectedIndex = index; //
     });

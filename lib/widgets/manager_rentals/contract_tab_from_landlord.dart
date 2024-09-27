@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/common/api.dart';
 import 'package:rental_property_app/models/contract.dart';
 import 'package:rental_property_app/widgets/card/contract_card_from_landlord.dart';
 
 import 'package:rental_property_app/data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:rental_property_app/widgets/card/contract_card_from_renter.dart';
 import 'package:rental_property_app/widgets/custom/file_picker_pdf_dialog.dart';
 
 class ContractTabFromLandlord extends StatefulWidget {
@@ -43,8 +45,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
                   );
 
                   if (result != null && result.files.single.path != null) {
-                    // Giả sử bạn đọc nội dung từ file, ở đây sẽ là fileContent
-                    fileContent = 'Nội dung từ file'; // Thay thế bằng đọc file thực sự
+                    fileContent = 'Nội dung từ file';
                     print('Chọn file: ${result.files.single.name}');
                   }
                 },
@@ -81,6 +82,15 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
     );
   }
 
+  Future<void> _handleSignature(String base64File) async {
+    try {
+      final response = await signPdfDocument(base64File);
+      // Xử lý response ở đây
+    } catch (e) {
+      // Xử lý lỗi
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,19 +100,17 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
           IconButton(
             icon: Icon(Icons.add),
               onPressed: () {
-                showFilePickerDialog(context);
-                // _createContract();
-
+                FilePickerDialog.show(context);
               },
           ),
         ],
       ),
       body: ListView.builder(
-        itemCount: contracts.length,
-        itemBuilder: (context, index) {
-          final contract = contracts[index];
-          return ContractCardFromLandlord(contract: contract);
-        },
+          itemCount: contracts.where((contract) => contract.renterId != null).length,
+          itemBuilder: (context, index) {
+            final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
+            return ContractCardFromRenter(contract: contract);
+          }
       ),
     );
   }
