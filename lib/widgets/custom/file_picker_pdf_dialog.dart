@@ -109,13 +109,14 @@ class _FilePickerDialogState extends State<FilePickerDialog> {
 
   Future<void> _handleAddDigitalSignature() async {
     try {
+      String stringBase64 = await encodeFileToBase64(filePath!);
       final response = await signPdfDocument(stringBase64);
+      print('Response: ${response.signedFileBase64}');
       if (response.signedFileBase64.isEmpty) {
         throw Exception('No data received from server');
       }
       try {
         Uint8List fileBytes = base64Decode(response.signedFileBase64);
-
         // final directory = await getTemporaryDirectory();
         final directory = await getApplicationSupportDirectory();
         final filePath = '${directory.path}/signed_document.pdf';
@@ -168,15 +169,15 @@ class _FilePickerDialogState extends State<FilePickerDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextField(
-            controller: _contractNameController,
-            decoration: InputDecoration(
-              labelText: 'Contract Name',
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.grey[200],
-            ),
-          ),
+          // TextField(
+          //   controller: _contractNameController,
+          //   decoration: InputDecoration(
+          //     labelText: 'Contract Name',
+          //     border: OutlineInputBorder(),
+          //     filled: true,
+          //     fillColor: Colors.grey[200],
+          //   ),
+          // ),
           const SizedBox(height: 20),
           Card(
             elevation: 4,
@@ -207,7 +208,7 @@ class _FilePickerDialogState extends State<FilePickerDialog> {
           ElevatedButton.icon(
             onPressed: getFile,
             icon: const Icon(Icons.file_upload),
-            label: const Text("Select File"),
+            label: const Text("Chọn file"),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
@@ -232,11 +233,11 @@ class _FilePickerDialogState extends State<FilePickerDialog> {
               TextButton(
                 // onPressed: _file != null ? _handleAddDigitalSignature : null,
                 onPressed: _handleAddDigitalSignature,
-                child: const Text('Add Digital Signature'),
+                child: const Text('Ký'),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Close'),
+                child: const Text('Đóng'),
               ),
             ],
           ),

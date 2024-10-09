@@ -23,7 +23,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
         return StatefulBuilder(
           builder: (context, setStateDialog) {
             return AlertDialog(
-              title: Text('Chọn hợp đồng'),
+              title: const Text('Chọn hợp đồng'),
               content: Container(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -31,7 +31,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                   children: [
                     DropdownButton<int>(
                       value: _selectedContractId,
-                      hint: Text('Chọn hợp đồng'),
+                      hint: const Text('Chọn hợp đồng'),
                       items: contracts.map((contract) {
                         return DropdownMenuItem<int>(
                           value: contract.id,
@@ -52,7 +52,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Đóng'),
+                  child: const Text('Đóng'),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -63,11 +63,11 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                       Navigator.of(context).pop();
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Vui lòng chọn hợp đồng.')),
+                        const SnackBar(content: Text('Vui lòng chọn hợp đồng.')),
                       );
                     }
                   },
-                  child: Text('Đồng ý'),
+                  child: const Text('Đồng ý'),
                 ),
               ],
             );
@@ -84,7 +84,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
       builder: (BuildContext context) {
         String rejectionReason = '';
         return AlertDialog(
-          title: Text('Nhập lý do từ chối'),
+          title: const Text('Nhập lý do từ chối'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -92,7 +92,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                 onChanged: (value) {
                   rejectionReason = value;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Nhập lý do từ chối ở đây...',
                 ),
                 maxLines: 3,
@@ -136,7 +136,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
           context: context,
           builder: (BuildContext context) {
             return Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +148,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text('Request ID: ${widget.request.requestId}'),
                   Text('Trạng thái: ${widget.request.getStatusString()}'),
                   Text('Ghi chú: ${widget.request.getNoteString()}'),
@@ -164,7 +164,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
         );
       },
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -181,7 +181,7 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                   ),
                 ),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
 
               // Phần chiếm 75% còn lại
               Expanded(
@@ -196,26 +196,26 @@ class _BookingRequestCardFromLandlordState extends State<BookingRequestCardFromL
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
 
                     // Trạng thái
                     Text(
                       'Trạng thái: ${widget.request.getStatusString()}',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
 
                     Text('Ghi chú: ${widget.request.getNoteString()}',
-                        style: TextStyle(fontSize: 12)),
-                    SizedBox(height: 3),
+                        style: const TextStyle(fontSize: 12)),
+                    const SizedBox(height: 3),
 
                     Text('Ngày bắt đầu: ${widget.request.startDate}',
-                        style: TextStyle(fontSize: 12)),
-                    SizedBox(height: 3),
+                        style: const TextStyle(fontSize: 12)),
+                    const SizedBox(height: 3),
 
                     Text('Thời gian thuê: ${widget.request.rentalDuration} tháng',
-                        style: TextStyle(fontSize: 12)),
-                    SizedBox(height: 3),
+                        style: const TextStyle(fontSize: 12)),
+                    const SizedBox(height: 3),
 
                     Row(
                       mainAxisAlignment: _getMainAxisAlignment(widget.request),

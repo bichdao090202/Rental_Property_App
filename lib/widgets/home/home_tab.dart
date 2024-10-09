@@ -88,7 +88,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             AppBar(
-                              title: Text('Lọc'),
+                              title: const Text('Lọc'),
                               automaticallyImplyLeading: false,
                             ),
                             const Text('Chọn dịch vụ:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -113,7 +113,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
 
                             DropdownButtonFormField<String>(
                               value: selectedRoomType,
-                              hint: Text('Chọn loại phòng'),
+                              hint: const Text('Chọn loại phòng'),
                               onChanged: (String? newValue) {
                                 setState(() {
                                   selectedRoomType = newValue!;
@@ -126,11 +126,11 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                                 );
                               }).toList(),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
 
                             // Nhập địa chỉ
                             TextField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Địa chỉ',
                                 border: OutlineInputBorder(),
                               ),
@@ -140,7 +140,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                                 });
                               },
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
 
                             // Nhập giá tiền
                             Row(
@@ -148,7 +148,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                                 Flexible(
                                   child: TextField(
                                     keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Giá thấp nhất',
                                       border: OutlineInputBorder(),
                                     ),
@@ -159,11 +159,11 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                                     },
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Flexible(
                                   child: TextField(
                                     keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Giá cao nhất',
                                       border: OutlineInputBorder(),
                                     ),
@@ -176,12 +176,12 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
 
                             // Dropdown giới tính
                             DropdownButtonFormField<String>(
                               value: selectedGender,
-                              hint: Text('Giới tính'),
+                              hint: const Text('Giới tính'),
                               onChanged: (String? newValue) {
                                 setState(() {
                                   selectedGender = newValue!;
@@ -220,11 +220,11 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: _showFilterModal,
           ),
         ],
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -234,10 +234,10 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-              Text('Phổ biến', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10),
+              const Text('Phổ biến', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
 
               // ListView.builder(
               //   shrinkWrap: true,

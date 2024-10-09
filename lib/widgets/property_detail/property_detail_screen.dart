@@ -41,15 +41,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Thông tin phòng trọ")),
+      appBar: AppBar(title: const Text("Thông tin phòng trọ")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(widget.property.image),
-            SizedBox(height: 16),
-            Text(widget.property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            Text(widget.property.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
 
             Text(
               '${formatCurrency(widget.property.price)} đ',
@@ -60,7 +60,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               ),
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -117,15 +117,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             // Text("Phân loại" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             // Text(widget.property.type),
 
-            SizedBox(height: 8),
-            Text("Địa chỉ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            const Text("Địa chỉ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             Text('${widget.property.address?.city}, ${widget.property.address?.district}, ${widget.property.address?.ward}, ${widget.property.address?.detail}'),
 
-            SizedBox(height: 8),
-            Text("Mô tả" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            const Text("Mô tả" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             Text(widget.property.description),
 
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             Text('Kích thước phòng: ${widget.property.roomSize} m²'),
             Text('Giới tính: ${getGender(widget.property.gender)}'),
@@ -133,13 +133,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               'Tiện ích: ${widget.property.utilities!.map((u) => u.name).join(', ')}',
             ),
 
-            SizedBox(height: 8),
-            Text("Phí dịch vụ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            const Text("Phí dịch vụ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             Text(widget.property.getChargeableServiceString()),
 
 
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
 
 
@@ -154,7 +154,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Điều khoản dịch vụ'),
+          title: const Text('Điều khoản dịch vụ'),
           content: SingleChildScrollView(
             child: Text(termOfService ?? 'Chưa có điều khoản dịch vụ.')
           ),
@@ -163,7 +163,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Đóng'),
+              child: const Text('Đóng'),
             ),
           ],
         );
@@ -179,14 +179,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('Yêu cầu thuê'),
+              title: const Text('Yêu cầu thuê'),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     // Chọn start_date
                     Row(
                       children: [
-                        Text('Ngày bắt đầu'),
+                        const Text('Ngày bắt đầu'),
                         TextButton(
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
@@ -211,10 +211,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                     // Chọn rental_duration
                     Row(
                       children: [
-                        Text('Thời gian thuê '),
+                        const Text('Thời gian thuê '),
                         DropdownButton<int>(
                           value: _rentalDuration,
-                          hint: Text('Chọn'),
+                          hint: const Text('Chọn'),
                           onChanged: (int? value) {
                             setState(() {
                               _rentalDuration = value;
@@ -255,7 +255,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                     // SizedBox(height: 10),
                     // Textfield: Nhập message_from_renter
                     TextField(
-                      decoration: InputDecoration(labelText: 'Lời nhắn đến chủ trọ'),
+                      decoration: const InputDecoration(labelText: 'Lời nhắn đến chủ trọ'),
                       onChanged: (value) {
                         setState(() {
                           _messageFromRenter = value;
@@ -270,7 +270,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('Hủy'),
+                  child: const Text('Hủy'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -291,11 +291,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Vui lòng nhập đầy đủ thông tin')),
+                        const SnackBar(content: Text('Vui lòng nhập đầy đủ thông tin')),
                       );
                     }
                   },
-                  child: Text('Gửi yêu cầu'),
+                  child: const Text('Gửi yêu cầu'),
                 ),
               ],
             );

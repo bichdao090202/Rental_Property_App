@@ -11,9 +11,9 @@ class _ManagerRentalsTabState extends State<ManagerRentalsTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quản lý'),
+        title: const Text('Quản lý'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Manager Rentals Tab'),
       ),
     );

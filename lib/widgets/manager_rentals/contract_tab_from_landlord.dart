@@ -7,7 +7,6 @@ import 'package:rental_property_app/models/contract.dart';
 import 'package:rental_property_app/widgets/card/contract_card_from_landlord.dart';
 
 import 'package:rental_property_app/data/data.dart';
-import 'package:flutter/material.dart';
 import 'package:rental_property_app/widgets/card/contract_card_from_renter.dart';
 import 'package:rental_property_app/widgets/custom/file_picker_pdf_dialog.dart';
 
@@ -26,18 +25,18 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Tạo hợp đồng'),
+          title: const Text('Tạo hợp đồng'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Tên hợp đồng'),
+                decoration: const InputDecoration(labelText: 'Tên hợp đồng'),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton.icon(
-                icon: Icon(Icons.attach_file),
-                label: Text('Chọn file'),
+                icon: const Icon(Icons.attach_file),
+                label: const Text('Chọn file'),
                 onPressed: () async {
                   FilePickerResult? result = await FilePicker.platform.pickFiles(
                     type: FileType.custom,
@@ -55,7 +54,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Đóng'),
+              child: const Text('Đóng'),
             ),
             TextButton(
               onPressed: () {
@@ -74,7 +73,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
                   Navigator.of(context).pop();
                 }
               },
-              child: Text('Tạo'),
+              child: const Text('Tạo'),
             ),
           ],
         );
@@ -95,10 +94,10 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách hợp đồng'),
+        title: const Text('Danh sách hợp đồng'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
               onPressed: () {
                 FilePickerDialog.show(context);
               },

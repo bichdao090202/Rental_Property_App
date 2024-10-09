@@ -24,7 +24,7 @@ class PropertyCard extends StatelessWidget {
                 width: 70,
                 child: Image.network(property.image, height: 70, width: double.infinity, fit: BoxFit.cover),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +35,7 @@ class PropertyCard extends StatelessWidget {
                   ),
                   Text(
                     property.title,
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
 
                   Text(

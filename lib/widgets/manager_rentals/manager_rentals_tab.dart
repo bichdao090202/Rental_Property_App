@@ -45,7 +45,7 @@ class _ManagerRentalsTabState extends State<ManagerRentalsTab> {
                 ),
             )
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               RenterTab(),
               LandlordTab(),

@@ -2,7 +2,6 @@ import 'package:rental_property_app/models/booking_request.dart';
 import 'package:rental_property_app/models/chargeable_service.dart';
 import 'package:rental_property_app/models/contract.dart';
 import 'package:rental_property_app/models/property.dart';
-import 'package:rental_property_app/models/property.dart';
 import 'package:rental_property_app/models/user.dart';
 import '../models/address.dart';
 import '../models/utility.dart';

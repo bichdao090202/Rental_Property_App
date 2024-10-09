@@ -42,7 +42,7 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                   ),
                 ),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
 
               Expanded(
                 child: Column(
@@ -57,27 +57,27 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                     ),
                     Text(
                       'Ngày bắt đầu: ${widget.contract.startRentDate != null ? formatDay(widget.contract.startRentDate!) : 'Không xác định'}',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
 
                     Text(
                       'Thời gian thuê: ${widget.contract.rentalDuration} tháng',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
 
                     Text(
                       'Giá: ${widget.contract.price != null ? formatCurrency(widget.contract.price!) : 'Không xác định'}đ/tháng',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
 
                     Text(
                       'Tiền cọc: ${widget.contract.deposit != null ? formatCurrency(widget.contract.deposit!) : 'Không xác định'}đ',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

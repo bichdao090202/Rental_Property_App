@@ -10,7 +10,7 @@ class ContractDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(16.0),
+      insetPadding: const EdgeInsets.all(16.0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.9,
@@ -20,12 +20,12 @@ class ContractDialog extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 contract.name,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Text(contract.content),
               ),
             ),
@@ -58,7 +58,7 @@ class ContractDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Đóng'),
+                  child: const Text('Đóng'),
                 ),
               ),
             ),

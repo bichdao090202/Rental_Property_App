@@ -13,7 +13,7 @@ class PdfViewerDialog extends StatelessWidget {
       insetPadding: const EdgeInsets.all(16),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.9,
+        height: MediaQuery.of(context).size.height * 0.7,
         child: Column(
           children: [
             Expanded(
@@ -36,10 +36,6 @@ class PdfViewerDialog extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
                 child: const Text('Đóng'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.red,
-                ),
               ),
             ),
           ],

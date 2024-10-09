@@ -158,10 +158,10 @@ class _FilterModalState extends State<FilterModal>
                   child: Column(
                     children: [
                       AppBar(
-                        title: Text('Lọc'),
+                        title: const Text('Lọc'),
                         automaticallyImplyLeading: false,
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Center(child: Text('Tùy chọn bộ lọc...')),
                       ),
                     ],
@@ -181,15 +181,15 @@ class _FilterModalState extends State<FilterModal>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Filter Modal'),
+        title: const Text('Filter Modal'),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: _showFilterModal,
           ),
         ],
       ),
-      body: Center(
+      body: const Center(
         child: Text('Nhấn vào icon bộ lọc để mở FilterModal'),
       ),
     );

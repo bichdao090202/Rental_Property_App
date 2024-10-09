@@ -19,12 +19,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Center(child: HomeTab()), //
     Center(child: ManagerRentalsTab()), //
     // Center(child: FilterModal()), //
-    Center(child: Text('Message Page')), //
-    Center(child: Text('Profile Page')), //
+    const Center(child: Text('Message Page')), //
+    const Center(child: Text('Profile Page')), //
   ];
 
   void _onItemTapped(int index) {
-    FilePickerDialog.show(context);
+    // FilePickerDialog.show(context);
     // Navigator.push(
     //   context,
     //   MaterialPageRoute(
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF1C3988),
+        selectedItemColor: const Color(0xFF1C3988),
         onTap: _onItemTapped,
         backgroundColor: Colors.white,
       ),
