@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rental_property_app/models/booking_request.dart';
-import 'package:rental_property_app/models/property.dart';
+import 'package:rental_property_app/data/models/booking_request.dart';
+import 'package:rental_property_app/data/models/property.dart';
 import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/common/format-data.dart';
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/api.dart';
-import 'package:rental_property_app/models/contract.dart';
+import 'package:rental_property_app/data/models/contract.dart';
 import 'package:rental_property_app/widgets/card/contract_card_from_landlord.dart';
 
 import 'package:rental_property_app/data/data.dart';

@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver  
   final _messangerKey = GlobalKey<ScaffoldMessengerState>();
 
 
-  // Hàm validator cho username
   String? _validateUsername(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your username';
@@ -27,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver  
     return null;
   }
 
-  // Hàm validator cho password
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your password';
@@ -149,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver  
                 ),
               )
           )
-
         )
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/format-data.dart';
-import 'package:rental_property_app/models/property.dart';
+import 'package:rental_property_app/data/models/property.dart';
 
 class PropertyCard extends StatelessWidget {
   final Property property;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rental_property_app/models/contract.dart';
+import 'package:rental_property_app/data/models/contract.dart';
 import 'package:rental_property_app/widgets/custom/contract_dialog.dart';
 
 class ContractCardFromLandlord extends StatelessWidget {

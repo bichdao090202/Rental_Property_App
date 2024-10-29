@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/format-data.dart';
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/models/contract.dart';
+import 'package:rental_property_app/data/models/contract.dart';
 import 'package:rental_property_app/widgets/custom/action_button.dart';
 import 'package:rental_property_app/widgets/custom/contract_dialog.dart';
 
