@@ -1,16 +1,17 @@
-import 'package:rental_property_app/models/booking_request.dart';
-import 'package:rental_property_app/models/chargeable_service.dart';
-import 'package:rental_property_app/models/contract.dart';
-import 'package:rental_property_app/models/property.dart';
-import 'package:rental_property_app/models/user.dart';
-import '../models/address.dart';
-import '../models/utility.dart';
-import '../models/property.dart';
+
 
 // Sample data
+import 'package:rental_property_app/data/models/address.dart';
+import 'package:rental_property_app/data/models/booking_request.dart';
+import 'package:rental_property_app/data/models/chargeable_service.dart';
+import 'package:rental_property_app/data/models/contract.dart';
+import 'package:rental_property_app/data/models/room.dart';
+import 'package:rental_property_app/data/models/user.dart';
+import 'package:rental_property_app/data/models/utility.dart';
+
 final List<User> users = [
-  User(id: 1, name: "John Doe"),
-  User(id: 2, name: "Jane Smith"),
+  User(id: 1, fullName: "John Doe",address: null, balance: 0,accessToken: ""),
+  User(id: 2, fullName: "Jane Smith",address: null,balance: 0, accessToken: ""),
 ];
 
 List<ChargeableService> chargeableServices = [
@@ -43,9 +44,9 @@ final List<Utility> utilities = [
 
 final Address address = Address(
     id: 1,
-    city: 'TP.HCM',
-    district: 'Gò Vấp',
-    ward: "phường 4",
+    provinceName: 'TP.HCM',
+    districtName: 'Gò Vấp',
+    wardName: "phường 4",
     detail: "109"
 );
 
@@ -53,10 +54,10 @@ final Address address = Address(
 
 final List<BookingRequest> bookingRequests = [
   BookingRequest(
-    requestId: 1,
+    id: 1,
     renterId: 1,
     landlordId: 2,
-    property: properties[2],
+    room: properties[2],
     requestDate: DateTime.parse('2024-08-01'),
     status: "Processing",
     note: "Waiting for landlord approval",
@@ -66,10 +67,10 @@ final List<BookingRequest> bookingRequests = [
     contractId: 1
   ),
   BookingRequest(
-    requestId: 2,
+    id: 2,
     renterId: 1,
     landlordId: 2,
-    property: properties[2],
+    room: properties[2],
     requestDate: DateTime.parse('2024-08-02'),
     status: "Processing",
     note: "Waiting for renter to sign and pay",
@@ -79,10 +80,10 @@ final List<BookingRequest> bookingRequests = [
     contractId: 3
   ),
   BookingRequest(
-    requestId: 3,
+    id: 3,
     renterId: 2,
     landlordId: 1,
-    property: properties[1],
+    room: properties[1],
     requestDate: DateTime.parse('2024-08-05'),
     status: "Success",
     note: "Active",
@@ -95,10 +96,10 @@ final List<BookingRequest> bookingRequests = [
 
   ),
   BookingRequest(
-    requestId: 4,
+    id: 4,
     renterId: 2,
     landlordId: 1,
-    property: properties[1],
+    room: properties[1],
     requestDate: DateTime.parse('2024-08-10'),
     status: "Success",
     note: "Expired",
@@ -109,10 +110,10 @@ final List<BookingRequest> bookingRequests = [
     contractId: 1,
   ),
   BookingRequest(
-    requestId: 5,
+    id: 5,
     renterId: 1,
     landlordId: 2,
-    property: properties[3],
+    room: properties[3],
     requestDate: DateTime.parse('2024-08-12'),
     status: "Failure",
     note: "Landlord rejected",
@@ -122,10 +123,10 @@ final List<BookingRequest> bookingRequests = [
     contractId: 2
   ),
   BookingRequest(
-    requestId: 6,
+    id: 6,
     renterId: 2,
     landlordId: 2,
-    property: properties[3],
+    room: properties[3],
     requestDate: DateTime.parse('2024-08-15'),
     status: "Failure",
     note: "Renter canceled",
@@ -135,10 +136,10 @@ final List<BookingRequest> bookingRequests = [
     contractId: 2
   ),
   BookingRequest(
-    requestId: 7,
+    id: 7,
     renterId: 1,
     landlordId: 2,
-    property: properties[3],
+    room: properties[3],
     requestDate: DateTime.parse('2024-08-20'),
     status: "Processing",
     note: "Waiting for renter to sign and pay",
@@ -155,17 +156,17 @@ final List<String> services = ['Internet', 'Bảo vệ', 'Camera', 'Bãi đỗ x
 // Mô phỏng loại phòng
 final List<String> roomTypes = ['Căn hộ', 'Nhà riêng', 'Phòng trọ', 'Studio', 'Biệt thự'];
 
-List<Property> properties = [
-  Property(
+List<Room> properties = [
+  Room(
     id: 1,
     title: "Căn hộ cho thuê giá rẻ",
     type: "apartment",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
       address: Address(
           id: 1,
-          city: 'TP.HCM',
-          district: 'Gò Vấp',
-          ward: "phường 4",
+          provinceName: 'TP.HCM',
+          districtName: 'Gò Vấp',
+          wardName: "phường 4",
           detail: "109"
       ),
     utilities: [
@@ -181,16 +182,16 @@ List<Property> properties = [
     termOfService: termOfService1,
     chargeableServices: chargeableServices
   ),
-  Property(
+  Room(
     id: 2,
     title: "Căn hộ cho thuê giá rẻ",
     type: "apartment",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
       address: Address(
           id: 1,
-          city: 'TP.HCM',
-          district: 'Bình Thạnh',
-          ward: "phường 12",
+          provinceName: 'TP.HCM',
+          districtName: 'Bình Thạnh',
+          wardName: "phường 12",
           detail: "77A"
       ),
 
@@ -207,16 +208,16 @@ List<Property> properties = [
     termOfService: termOfService1,
       chargeableServices: chargeableServices
   ),
-  Property(
+  Room(
       id: 3,
       title: "Kí túc xá",
       type: "apartment",
       image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/02/22/cho-thue-phong-tro_1613975723.jpg",
       address: Address(
           id: 1,
-          city: 'TP.HCM',
-          district: 'Phú Nhuận',
-          ward: "phường 7",
+          provinceName: 'TP.HCM',
+          districtName: 'Phú Nhuận',
+          wardName: "phường 7",
           detail: "12"
       ),
 
@@ -233,16 +234,16 @@ List<Property> properties = [
       termOfService: termOfService1,
       chargeableServices: chargeableServices
   ),
-  Property(
+  Room(
       id: 4,
       title: "Căn hộ cho thuê giá rẻ",
       type: "apartment",
       image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/02/11/c11a6917-a0ac-4de4-9135-1b4c1e166892_1676120670.jpg",
       address: Address(
           id: 1,
-          city: 'TP.HCM',
-          district: 'Thủ Đức',
-          ward: "phường Linh Trung",
+          provinceName: 'TP.HCM',
+          districtName: 'Thủ Đức',
+          wardName: "phường Linh Trung",
           detail: "109 Kha Vạn Cân"
       ),
 
@@ -286,7 +287,7 @@ Việc thanh toán tiền thuê nhà được thực hiện bằng đồng tiề
 List<Contract> contracts = [
   Contract(
       id: 1,
-      name: "Hợp đồng A - 3 tháng",
+      title: "Hợp đồng A - 3 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -317,7 +318,7 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
   ),
   Contract(
       id: 2,
-      name: "Hợp đồng B - 9 tháng",
+      title: "Hợp đồng B - 9 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -347,7 +348,7 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
   ),
   Contract(
       id: 3,
-      name: "Hợp đồng 19/8 - 12 tháng",
+      title: "Hợp đồng 19/8 - 12 tháng",
       content: '''
 HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
@@ -402,7 +403,7 @@ Contract getContractById(int id) {
   return contracts.firstWhere(
         (contract) => contract.id == id,
     orElse: () =>
-        Contract(id: -1, name: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0,pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',));
+        Contract(id: -1, title: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0,pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',));
 }
 
 const String platformRules = '''

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rental_property_app/widgets/custom/file_picker_pdf_dialog.dart';
-import 'package:rental_property_app/widgets/home/filter_modal.dart';
-import 'package:rental_property_app/widgets/home/home_tab.dart';
-import 'package:rental_property_app/widgets/home/upload_image_page.dart';
-import 'package:rental_property_app/widgets/manager_rentals/manager_rentals_tab.dart';
+import 'package:rental_property_app/presentation/widgets/home/home_tab.dart';
+import 'package:rental_property_app/presentation/widgets/home/profile_tab.dart';
+import 'package:rental_property_app/presentation/widgets/manager_rentals/manager_rentals_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Center(child: ManagerRentalsTab()), //
     // Center(child: FilterModal()), //
     const Center(child: Text('Message Page')), //
-    const Center(child: Text('Profile Page')), //
+    // const Center(child: Text('Profile Page')),
+    ProfileTab(),
   ];
 
   void _onItemTapped(int index) {

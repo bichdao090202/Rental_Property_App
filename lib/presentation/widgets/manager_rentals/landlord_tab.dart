@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/card/booking_request_card_from_landlord.dart';
-import 'package:rental_property_app/widgets/home/file_picker.dart';
-import 'package:rental_property_app/widgets/manager_rentals/contract_tab_from_landlord.dart';
+import 'package:rental_property_app/presentation/providers/manager_contract_provider.dart';
+import 'package:rental_property_app/presentation/widgets/card/booking_request_card.dart';
+import 'package:rental_property_app/presentation/widgets/home/file_picker.dart';
+import 'package:rental_property_app/presentation/widgets/manager_rentals/contract_tab_from_landlord.dart';
 
 class LandlordTab extends StatefulWidget {
   const LandlordTab({super.key});
@@ -19,6 +21,10 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ManagerContractProvider>(context, listen: false)
+          .getListBookingRequestByLessorId(3);
+    });
   }
 
   @override
@@ -29,6 +35,8 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    final bookingRequestProvider = Provider.of<ManagerContractProvider>(context);
+
     return Column(
       children: <Widget>[
         TabBar.secondary(
@@ -43,11 +51,14 @@ class _LandlordTabState extends State<LandlordTab> with TickerProviderStateMixin
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              ListView.builder(
-                itemCount: bookingRequests.length,
+              bookingRequestProvider.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                shrinkWrap: true,
+                itemCount: bookingRequestProvider.bookingRequests.length,
                 itemBuilder: (context, index) {
-                  final request = bookingRequests[index];
-                  return BookingRequestCardFromLandlord(request: request);
+                  final bookingRequest = bookingRequestProvider.bookingRequests[index];
+                  return BookingRequestCard(request: bookingRequest, type: 'lessor');
                 },
               ),
             // SingleChildScrollView(

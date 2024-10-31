@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatefulWidget {
   final double width;
   final double? height;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final String text;
   final VoidCallback onPressed;
 
   const ActionButton({super.key,
     required this.width,
     this.height = 34,
-    required this.backgroundColor,
+    this.backgroundColor,
     required this.text,
     required this.onPressed,
   });
@@ -28,7 +28,7 @@ class _ActionButtonState extends State<ActionButton> {
       child: TextButton(
         onPressed: widget.onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: widget.backgroundColor,
+          backgroundColor: widget.backgroundColor ?? Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

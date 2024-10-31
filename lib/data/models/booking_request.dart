@@ -1,11 +1,11 @@
 import 'package:rental_property_app/common/format-data.dart';
-import 'package:rental_property_app/models/property.dart';
+import 'package:rental_property_app/data/models/room.dart';
 
 class BookingRequest {
-  int requestId;
+  int id;
   int renterId;
   int landlordId;
-  Property property;
+  Room room;
   DateTime requestDate;
   String status;
   String note;
@@ -17,10 +17,10 @@ class BookingRequest {
   int? contractId;
 
   BookingRequest({
-    required this.requestId,
+    required this.id,
     required this.renterId,
     required this.landlordId,
-    required this.property,
+    required this.room,
     required this.requestDate,
     this.status = "Processing",
     this.note = "Waiting for landlord approval",
@@ -93,6 +93,10 @@ class BookingRequest {
     }
   }
 
+  String getStatus(){
+    return status;
+  }
+
   String getNoteString() {
     switch (note) {
       case 'Waiting for landlord approval':
@@ -111,6 +115,27 @@ class BookingRequest {
         return 'Không xác định';
     }
   }
+
+  factory BookingRequest.fromJson(Map<String, dynamic> json) {
+    return BookingRequest(
+      id: json['id'] ?? 0,
+      renterId: json['renter_id'] ?? 0,
+      landlordId: json['lessor_id'] ?? 0,
+      room: Room.fromJson(json['room'] ?? {}),
+      requestDate: DateTime.tryParse(json['request_date'] ?? '') ?? DateTime(0),
+      status: json['status'] ?? "Processing",
+      note: json['note'] ?? "Waiting for landlord approval",
+      messageFromRenter: json['message_from_renter'] ?? "",
+      messageFromLandlord: json['message_from_lessor'] ?? "",
+      startDate: DateTime.tryParse(json['start_date'] ?? '') ?? DateTime(0),
+      rentalDuration: json['rental_duration'] ?? 0,
+      responseDate: json['response_date'] != null
+          ? DateTime.tryParse(json['response_date'])
+          : null,
+      contractId: json['contract_id'] ?? 0,
+    );
+  }
+
 
 }
 

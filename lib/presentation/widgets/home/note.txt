@@ -1,54 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/card/property_card.dart';
-import 'package:rental_property_app/widgets/property_detail/property_detail_screen.dart';
-
-class HomeTab extends StatefulWidget {
-  @override
-  _HomeTabState createState() => _HomeTabState();
-
-}
-
-class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-  Animation<Offset>? _animation;
-
-  String? selectedService;
-  String? selectedRoomType;
-  String? selectedGender;
-  String minPrice = '';
-  String maxPrice = '';
-  String address = '';
-  List<String> selectedServices = [];
-  List<String> services = ['Dịch vụ 1', 'Dịch vụ 2', 'Dịch vụ 3']; // Danh sách dịch vụ
-
-  void _toggleService(String service) {
-    setState(() {
-      if (selectedServices.contains(service)) {
-        selectedServices.remove(service); // Xóa dịch vụ nếu đã chọn
-      } else {
-        selectedServices.add(service); // Thêm dịch vụ nếu chưa chọn
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _animation = Tween<Offset>(
-      begin: const Offset(1.0, 1.0), // Bắt đầu từ ngoài màn hình bên phải
-      end: Offset.zero, // Đích là vị trí bình thường (0,0)
-    ).animate(CurvedAnimation(
-      parent: _controller!,
-      curve: Curves.easeInOut,
-    ));
-
-    contracts[1].completeContract(bookingRequests[2]);
-  }
+home tab:
 
   void _showFilterModal() {
     showModalBottomSheet(
@@ -204,18 +154,15 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
             }
         );
       },
-    ).whenComplete(() => _controller!.reset()); // Reset lại animation khi modal đóng
-    _controller!.forward(); // Kích hoạt animation khi mở modal
+    ).whenComplete(() => _controller!.reset());
+    _controller!.forward();
   }
 
-  @override
-  void dispose() {
-    _controller?.dispose();
-    super.dispose();
-  }
 
-  @override
+
+@override
   Widget build(BuildContext context) {
+    final roomProvider = Provider.of<RoomProvider>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -227,72 +174,3 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
         title: const Text('Home'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              const SizedBox(height: 10),
-
-              const Text('Phổ biến', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   physics: NeverScrollableScrollPhysics(),
-              //   itemCount: popularItems.length,
-              //   itemBuilder: (context, index) {
-              //     final item = popularItems[index];
-              //     return Card(
-              //       margin: EdgeInsets.symmetric(vertical: 8),
-              //       child: ListTile(
-              //         leading: Image.network(item['image'], width: 80, height: 80, fit: BoxFit.cover),
-              //         title: Text(item['title']),
-              //         subtitle: Text('Giá: ${item['price']} \nĐịa chỉ: ${item['address']['district']}, ${item['address']['city']}'),
-              //       ),
-              //     );
-              //   },
-              // ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: properties.length,
-                itemBuilder: (context, index) {
-                  final property = properties[index];
-                  return PropertyCard(
-                    property: property,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PropertyDetailScreen(property: property),
-                        ),
-                      );
-                    },
-                  );
-                  // return ListTile(
-                  //   leading: Image.network(property.image),
-                  //   title: Text(property.title),
-                  //   subtitle: Text('${property.city}, ${property.district}'),
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => PropertyDetailScreen(property: property),
-                  //       ),
-                  //     );
-                  //   },
-                  // );
-                },
-              )
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  
-  
-}

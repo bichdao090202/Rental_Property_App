@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/format-data.dart';
-import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/data/models/contract.dart';
-import 'package:rental_property_app/widgets/custom/action_button.dart';
-import 'package:rental_property_app/widgets/custom/contract_dialog.dart';
+import 'package:rental_property_app/presentation/widgets/custom/action_button.dart';
+import 'package:rental_property_app/presentation/widgets/custom/contract_dialog.dart';
 
-class ContractCardFromRenter extends StatefulWidget {
+class ContractCard extends StatefulWidget {
   final Contract contract;
+  final String type;
 
-  ContractCardFromRenter({required this.contract});
+  ContractCard({required this.contract, required this.type});
 
   @override
-  _ContractCardFromRenterState createState() => _ContractCardFromRenterState();
+  _ContractCardState createState() => _ContractCardState();
 }
 
-class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
+class _ContractCardState extends State<ContractCard> {
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage(widget.contract.property?.image ?? ''),
+                    image: NetworkImage(widget.contract.room?.image ?? ''),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -56,7 +56,7 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                       ),
                     ),
                     Text(
-                      'Ngày bắt đầu: ${widget.contract.startRentDate != null ? formatDay(widget.contract.startRentDate!) : 'Không xác định'}',
+                      'Ngày bắt đầu: ${widget.contract.startDate != null ? formatDay(widget.contract.startDate!) : 'Không xác định'}',
                       style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 3),
@@ -68,7 +68,7 @@ class _ContractCardFromRenterState extends State<ContractCardFromRenter> {
                     const SizedBox(height: 3),
 
                     Text(
-                      'Giá: ${widget.contract.price != null ? formatCurrency(widget.contract.price!) : 'Không xác định'}đ/tháng',
+                      'Giá: ${widget.contract.monthlyPrice != null ? formatCurrency(widget.contract.monthlyPrice!) : 'Không xác định'}đ/tháng',
                       style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 3),

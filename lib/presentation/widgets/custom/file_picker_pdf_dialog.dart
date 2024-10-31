@@ -35,7 +35,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rental_property_app/common/api.dart';
 import 'package:rental_property_app/common/file-base64.dart';
-import 'package:rental_property_app/widgets/custom/pdf_viewer_dialog.dart';
+import 'package:rental_property_app/presentation/widgets/custom/pdf_viewer_dialog.dart';
 
 class FilePickerDialog extends StatefulWidget {
   const FilePickerDialog({Key? key}) : super(key: key);

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rental_property_app/data/models/booking_request.dart';
-import 'package:rental_property_app/data/models/property.dart';
+import 'package:rental_property_app/data/models/room.dart';
 import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/common/format-data.dart';
 
-class PropertyDetailScreen extends StatefulWidget  {
-  final Property property;
+class RoomDetailScreen extends StatefulWidget  {
+  final Room property;
 
-  PropertyDetailScreen({required this.property});
+  RoomDetailScreen({required this.property});
 
   @override
-  _PropertyDetailScreenState createState() => _PropertyDetailScreenState();
+  _RoomDetailScreenState createState() => _RoomDetailScreenState();
 
 }
 
-class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
+class _RoomDetailScreenState extends State<RoomDetailScreen> {
   DateTime? _startDate;
   int? _rentalDuration;
   String? _messageFromRenter;
@@ -119,7 +119,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
             const SizedBox(height: 8),
             const Text("Địa chỉ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Text('${widget.property.address?.city}, ${widget.property.address?.district}, ${widget.property.address?.ward}, ${widget.property.address?.detail}'),
+            Text('${widget.property.address?.provinceName}, ${widget.property.address?.districtName}, ${widget.property.address?.wardName}, ${widget.property.address?.detail}'),
 
             const SizedBox(height: 8),
             const Text("Mô tả" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
@@ -276,10 +276,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                   onPressed: () {
                     if (_startDate != null && _rentalDuration != null) {
                       BookingRequest bookingRequest = BookingRequest(
-                        requestId: 1, // Giả lập requestId
+                        id: 1, // Giả lập requestId
                         renterId: 2, // Giả lập renterId
                         landlordId: widget.property.ownerId,
-                        property: widget.property,
+                        room: widget.property,
                         requestDate: DateTime.now(),
                         messageFromRenter: _messageFromRenter ?? '',
                         startDate: _startDate!,

@@ -41,9 +41,9 @@ class _SingleFilepickerScreenState extends State<SingleFilepickerScreen> {
       });
     } else {
       // User canceled the picker
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Please select a file'),
-      ));
+      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //   content: Text('Please select a file'),
+      // ));
     }
   }
 

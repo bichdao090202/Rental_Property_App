@@ -1,16 +1,26 @@
+import 'package:rental_property_app/data/models/address.dart';
+
 class User {
   int id;
-  String name;
+  String fullName;
   String? email;
-  String? phoneNumber;
-  String? profileImage;
+  String? phone;
+  String? imgUrl;
+  Address? address;
+  double balance;
+  String? accessToken;
+  String? identityNumber;
 
   User({
     required this.id,
-    required this.name,
+    required this.fullName,
     this.email,
-    this.phoneNumber,
-    this.profileImage,
+    this.phone,
+    this.imgUrl,
+    this.address,
+    required this.balance,
+    this.accessToken,
+    this.identityNumber
   });
 
   void updateProfile({
@@ -20,20 +30,41 @@ class User {
     String? newProfileImage,
   }) {
     if (newName != null) {
-      this.name = newName;
+      this.fullName = newName;
     }
     if (newEmail != null) {
       this.email = newEmail;
     }
     if (newPhoneNumber != null) {
-      this.phoneNumber = newPhoneNumber;
+      this.phone = newPhoneNumber;
     }
     if (newProfileImage != null) {
-      this.profileImage = newProfileImage;
+      this.imgUrl = newProfileImage;
     }
   }
 
+  String getPhoneNumber() {
+    return phone ?? 'Chưa cập nhật';
+  }
+
+  String getEmail() {
+    return email ?? 'Chưa cập nhật';
+  }
+
   String displayUserInfo() {
-    return ('User ID: $id Name: $name');
+    return ('User ID: $id Name: $fullName');
+  }
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      fullName: json['full_name'],
+      email: json['email'],
+      imgUrl: json['img_url'],
+      phone: json['phone'],
+      identityNumber: json['identity_number'],
+      address: json['address'] != null ? Address.fromJson(json['address']) : null,
+      balance: (json['balance'] as num).toDouble(),
+    );
   }
 }

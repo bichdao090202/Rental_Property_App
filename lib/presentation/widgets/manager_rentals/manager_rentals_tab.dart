@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rental_property_app/widgets/manager_rentals/landlord_tab.dart';
-import 'package:rental_property_app/widgets/manager_rentals/renter_tab.dart';
+import 'package:rental_property_app/presentation/widgets/manager_rentals/landlord_tab.dart';
+import 'package:rental_property_app/presentation/widgets/manager_rentals/renter_tab.dart';
 import 'dart:convert';
 
 class ManagerRentalsTab extends StatefulWidget {

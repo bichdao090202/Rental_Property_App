@@ -4,11 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/api.dart';
 import 'package:rental_property_app/data/models/contract.dart';
-import 'package:rental_property_app/widgets/card/contract_card_from_landlord.dart';
-
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/card/contract_card_from_renter.dart';
-import 'package:rental_property_app/widgets/custom/file_picker_pdf_dialog.dart';
+import 'package:rental_property_app/presentation/widgets/card/contract_card.dart';
+import 'package:rental_property_app/presentation/widgets/custom/file_picker_pdf_dialog.dart';
 
 class ContractTabFromLandlord extends StatefulWidget {
   @override
@@ -63,7 +61,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
                     contracts.add(
                       Contract(
                         id: contracts.length + 1,
-                        name: _nameController.text,
+                        title: _nameController.text,
                         content: fileContent!,
                         landlordId: 1,
                         pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',
@@ -108,7 +106,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
           itemCount: contracts.where((contract) => contract.renterId != null).length,
           itemBuilder: (context, index) {
             final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
-            return ContractCardFromRenter(contract: contract);
+            return ContractCard(contract: contract, type: "renter",);
           }
       ),
     );

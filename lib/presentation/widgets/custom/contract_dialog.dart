@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/data/models/contract.dart';
-import 'package:rental_property_app/widgets/custom/pdf_viewer_dialog.dart';
+import 'package:rental_property_app/presentation/widgets/custom/pdf_viewer_dialog.dart';
 
 class ContractDialog extends StatelessWidget {
   final Contract contract;
@@ -19,7 +19,7 @@ class ContractDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                contract.name,
+                contract.title,
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),

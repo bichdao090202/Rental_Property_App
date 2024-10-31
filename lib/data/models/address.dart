@@ -1,23 +1,33 @@
 class Address {
   final int id;
-  final String city;
-  final String district;
-  final String ward;
+  final String provinceName;
+  final String districtName;
+  final String wardName;
   final String detail;
 
   Address({
     required this.id,
-    required this.city,
-    required this.district,
-    required this.ward,
+    required this.provinceName,
+    required this.districtName,
+    required this.wardName,
     required this.detail,
   });
 
   String getShortAddress() {
-    return '$city, $district, $ward';
+    return '$provinceName, $districtName, $wardName';
   }
 
   String getAddressDetail() {
-    return '$detail, $ward, $district, $city';
+    return '$detail, $wardName, $districtName, $provinceName';
+  }
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      id: json['id']??0,
+      provinceName: json['province_name']??'',
+      districtName: json['district_name']??'',
+      wardName: json['ward_name']??'',
+      detail: json['detail']??'',
+    );
   }
 }

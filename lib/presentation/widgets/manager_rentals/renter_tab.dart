@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_property_app/data/data.dart';
-import 'package:rental_property_app/widgets/card/booking_request_card_from_renter.dart';
-import 'package:rental_property_app/widgets/card/contract_card_from_renter.dart';
+import 'package:rental_property_app/presentation/providers/manager_contract_provider.dart';
+import 'package:rental_property_app/presentation/widgets/card/booking_request_card.dart';
+import 'package:rental_property_app/presentation/widgets/card/contract_card.dart';
 
 class RenterTab extends StatefulWidget {
   const RenterTab({super.key});
@@ -18,6 +20,10 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ManagerContractProvider>(context, listen: false)
+          .getListBookingRequestByRenterId(4);
+    });
   }
 
   @override
@@ -28,6 +34,8 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final bookingRequestProvider = Provider.of<ManagerContractProvider>(context);
+
     return Column(
       children: <Widget>[
         TabBar.secondary(
@@ -41,13 +49,25 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              ListView.builder(
-                  itemCount: bookingRequests.length,
-                  itemBuilder: (context, index) {
-                    final request = bookingRequests[index];
-                    return BookingRequestCardFromRenter(request: request);
-                  }
+              // ListView.builder(
+              //     itemCount: bookingRequests.length,
+              //     itemBuilder: (context, index) {
+              //       final request = bookingRequests[index];
+              //       return BookingRequestCardFromRenter(request: request, type: 'renter');
+              //     }
+              // ),
+
+              bookingRequestProvider.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                shrinkWrap: true,
+                itemCount: bookingRequestProvider.bookingRequests.length,
+                itemBuilder: (context, index) {
+                  final bookingRequest = bookingRequestProvider.bookingRequests[index];
+                  return BookingRequestCard(request: bookingRequest, type: 'renter');
+                },
               ),
+
               // SingleChildScrollView(
               //     child: Column(
               //       children: [
@@ -70,7 +90,7 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
                   itemCount: contracts.where((contract) => contract.renterId != null).length,
                   itemBuilder: (context, index) {
                     final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
-                    return ContractCardFromRenter(contract: contract);
+                    return ContractCard(contract: contract, type: "renter",);
                   }
               ),
               // SingleChildScrollView(

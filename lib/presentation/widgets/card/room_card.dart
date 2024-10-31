@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/format-data.dart';
-import 'package:rental_property_app/data/models/property.dart';
+import 'package:rental_property_app/data/models/room.dart';
 
-class PropertyCard extends StatelessWidget {
-  final Property property;
+class RoomCard extends StatelessWidget {
+  final Room property;
   final VoidCallback onTap;
 
-  PropertyCard({required this.property, required this.onTap});
+  RoomCard({required this.property, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class PropertyCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${property.address?.city}, ${property.address?.district}, ${property.address?.ward}',
+                    '${property.address?.provinceName}, ${property.address?.districtName}, ${property.address?.wardName}',
                     style: TextStyle(color: Colors.grey[600], fontSize: 11),
                   ),
                   Text(
