@@ -1,10 +1,12 @@
 import 'package:rental_property_app/common/format-data.dart';
+import 'package:rental_property_app/data/models/borrowed_item.dart';
 import 'package:rental_property_app/data/models/room.dart';
 
 class BookingRequest {
   int id;
   int renterId;
   int landlordId;
+  int cancelBy;
   Room room;
   DateTime requestDate;
   String status;
@@ -15,6 +17,7 @@ class BookingRequest {
   int rentalDuration;
   DateTime? responseDate;
   int? contractId;
+  List<BorrowItem>? borrowItems;
 
   BookingRequest({
     required this.id,
@@ -30,6 +33,8 @@ class BookingRequest {
     required this.rentalDuration,
     this.responseDate,
     this.contractId,
+    this.borrowItems,
+    this.cancelBy = 0,
   });
 
   String getStartDate(){
@@ -121,6 +126,7 @@ class BookingRequest {
       id: json['id'] ?? 0,
       renterId: json['renter_id'] ?? 0,
       landlordId: json['lessor_id'] ?? 0,
+      cancelBy: json['cancel_by'] ?? 0,
       room: Room.fromJson(json['room'] ?? {}),
       requestDate: DateTime.tryParse(json['request_date'] ?? '') ?? DateTime(0),
       status: json['status'] ?? "Processing",
@@ -129,9 +135,9 @@ class BookingRequest {
       messageFromLandlord: json['message_from_lessor'] ?? "",
       startDate: DateTime.tryParse(json['start_date'] ?? '') ?? DateTime(0),
       rentalDuration: json['rental_duration'] ?? 0,
-      responseDate: json['response_date'] != null
-          ? DateTime.tryParse(json['response_date'])
-          : null,
+      // responseDate: json['response_date'] != null
+      //     ? DateTime.tryParse(json['response_date'])
+      //     : null,
       contractId: json['contract_id'] ?? 0,
     );
   }

@@ -1,7 +1,5 @@
 import 'package:rental_property_app/data/services/api_service.dart';
 
-import '../models/user_model.dart';
-
 class AuthRepository {
   final ApiService _apiService;
 

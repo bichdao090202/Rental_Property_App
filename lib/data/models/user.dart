@@ -8,7 +8,6 @@ class User {
   String? imgUrl;
   Address? address;
   double balance;
-  String? accessToken;
   String? identityNumber;
 
   User({
@@ -19,7 +18,6 @@ class User {
     this.imgUrl,
     this.address,
     required this.balance,
-    this.accessToken,
     this.identityNumber
   });
 

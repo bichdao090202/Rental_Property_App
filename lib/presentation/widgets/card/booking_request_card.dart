@@ -3,6 +3,7 @@ import 'package:rental_property_app/common/format-data.dart';
 import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/data/models/booking_request.dart';
 import 'package:rental_property_app/data/models/contract.dart';
+// import 'package:rental_property_app/data/models/contract.dart';
 import 'package:rental_property_app/presentation/widgets/custom/action_button.dart';
 
 class BookingRequestCard extends StatefulWidget {
@@ -80,7 +81,7 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage(widget.request.room.image),
+                    image: NetworkImage(widget.request.room.images[0]),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -211,7 +212,6 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                             print('Xem bài clicked');
                           },
                         ),
-
                       ],
                     ),
                   ],
@@ -284,7 +284,6 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                   },
                   child: const Text('Huỷ'),
                 ),
-
                 SizedBox(
                   width: 200,
                   height: 40,
@@ -294,7 +293,7 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                       setState(() {
                         widget.request.approveByRenter();
                       });
-                      updateContractById(widget.request.contractId!, widget.request);
+                      // updateContractById(widget.request.contractId!, widget.request);
                       Navigator.pop(context);
                     }
                         : null,

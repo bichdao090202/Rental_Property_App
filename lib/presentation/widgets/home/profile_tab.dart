@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_property_app/presentation/providers/auth_provider.dart';
+import 'package:rental_property_app/presentation/widgets/auth/login_screen.dart';
 
 // class ProfileTab extends StatefulWidget {
 //   @override
@@ -20,22 +21,21 @@ import 'package:rental_property_app/presentation/providers/auth_provider.dart';
 //
 // }
 
-// widgets/profile/profile_tab.dart
+
 class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
         final user = authProvider.userInfo;
-
         if (user == null) {
-          return Center(child: CircularProgressIndicator());
+          // return Center(child: CircularProgressIndicator());
+          return LoginScreen();
         }
 
         return SingleChildScrollView(
           child: Column(
             children: [
-              // Header với avatar và thông tin cơ bản
               Container(
                 padding: EdgeInsets.all(16),
                 color: Theme.of(context).primaryColor,

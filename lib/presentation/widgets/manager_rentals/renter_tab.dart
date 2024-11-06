@@ -23,6 +23,8 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ManagerContractProvider>(context, listen: false)
           .getListBookingRequestByRenterId(4);
+      Provider.of<ManagerContractProvider>(context, listen: false)
+          .getContractByRenterId(4);
     });
   }
 
@@ -34,7 +36,7 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final bookingRequestProvider = Provider.of<ManagerContractProvider>(context);
+    final managerProvider = Provider.of<ManagerContractProvider>(context);
 
     return Column(
       children: <Widget>[
@@ -49,68 +51,36 @@ class _RenterTabState extends State<RenterTab> with TickerProviderStateMixin {
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              // ListView.builder(
-              //     itemCount: bookingRequests.length,
-              //     itemBuilder: (context, index) {
-              //       final request = bookingRequests[index];
-              //       return BookingRequestCardFromRenter(request: request, type: 'renter');
-              //     }
-              // ),
-
-              bookingRequestProvider.isLoading
+              managerProvider.isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                 shrinkWrap: true,
-                itemCount: bookingRequestProvider.bookingRequests.length,
+                itemCount: managerProvider.bookingRequests.length,
                 itemBuilder: (context, index) {
-                  final bookingRequest = bookingRequestProvider.bookingRequests[index];
+                  final bookingRequest = managerProvider.bookingRequests[index];
                   return BookingRequestCard(request: bookingRequest, type: 'renter');
                 },
               ),
+              // ListView.builder(
+              //     itemCount: contracts.where((contract) => contract.renter.id != null).length,
+              //     itemBuilder: (context, index) {
+              //       final contract = contracts.where((contract) => contract.renter.id != null).elementAt(index);
+              //       return ContractCard(contract: contract, type: "renter",);
+              //     }
+              // ),
 
-              // SingleChildScrollView(
-              //     child: Column(
-              //       children: [
-              //         Container(
-              //             width: double.maxFinite,
-              //             child:
-              //             ListView.builder(
-              //                 shrinkWrap: true,
-              //                 itemCount: bookingRequests.length,
-              //                 itemBuilder: (context, index) {
-              //                   final request = bookingRequests[index];
-              //                   return BookingRequestCardFromRenter(request: request);
-              //                 }
-              //             )
-              //         )
-              //       ],
-              //     )
-              // ),
-              ListView.builder(
-                  itemCount: contracts.where((contract) => contract.renterId != null).length,
-                  itemBuilder: (context, index) {
-                    final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
-                    return ContractCard(contract: contract, type: "renter",);
-                  }
+              managerProvider.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                shrinkWrap: true,
+                itemCount: managerProvider.contracts.length,
+                itemBuilder: (context, index) {
+                  final contract = managerProvider.contracts[index];
+                  return ContractCard(contract: contract, type: "renter",);
+                },
               ),
-              // SingleChildScrollView(
-              //     child: Column(
-              //       children: [
-              //         Container(
-              //             width: double.maxFinite,
-              //             child:
-              //             ListView.builder(
-              //                 shrinkWrap: true,
-              //                 itemCount: contracts.where((contract) => contract.renterId != null).length,
-              //                 itemBuilder: (context, index) {
-              //                   final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
-              //                   return ContractCardFromRenter(contract: contract);
-              //                 }
-              //             )
-              //         )
-              //       ],
-              //     )
-              // ),
+
+
             ],
           ),
         ),

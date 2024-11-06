@@ -47,7 +47,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
       parent: _controller!,
       curve: Curves.easeInOut,
     ));
-    contracts[1].completeContract(bookingRequests[2]);
+    // contracts[1].completeContract(bookingRequests[2]);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<RoomProvider>(context, listen: false).getListRooms();
     });

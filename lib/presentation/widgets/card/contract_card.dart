@@ -37,7 +37,7 @@ class _ContractCardState extends State<ContractCard> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage(widget.contract.room?.image ?? ''),
+                    image: NetworkImage(widget.contract.room?.images[0] ?? ''),
                     fit: BoxFit.cover,
                   ),
                 ),

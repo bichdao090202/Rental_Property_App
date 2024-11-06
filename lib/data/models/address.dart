@@ -22,6 +22,15 @@ class Address {
   }
 
   factory Address.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      return Address(
+        id: 0,
+        provinceName: 'TP.HCM',
+        districtName: 'Gò Vấp',
+        wardName: 'Phường 1',
+        detail: 'Địa chỉ mặc định',
+      );
+    }
     return Address(
       id: json['id']??0,
       provinceName: json['province_name']??'',
@@ -31,3 +40,4 @@ class Address {
     );
   }
 }
+

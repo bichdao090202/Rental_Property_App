@@ -3,44 +3,37 @@
 // Sample data
 import 'package:rental_property_app/data/models/address.dart';
 import 'package:rental_property_app/data/models/booking_request.dart';
-import 'package:rental_property_app/data/models/chargeable_service.dart';
+import 'package:rental_property_app/data/models/service.dart';
 import 'package:rental_property_app/data/models/contract.dart';
 import 'package:rental_property_app/data/models/room.dart';
 import 'package:rental_property_app/data/models/user.dart';
-import 'package:rental_property_app/data/models/utility.dart';
 
 final List<User> users = [
-  User(id: 1, fullName: "John Doe",address: null, balance: 0,accessToken: ""),
-  User(id: 2, fullName: "Jane Smith",address: null,balance: 0, accessToken: ""),
+  User(id: 1, fullName: "John Doe",address: null, balance: 0,),
+  User(id: 2, fullName: "Jane Smith",address: null,balance: 0,),
 ];
 
-List<ChargeableService> chargeableServices = [
-  ChargeableService(
-    serviceName: 'Điện',
-    quantity: 1,
-    unitPrice: 4000,
-    unitOfMeasurement: "kWh"
-  ),
-  ChargeableService(
-    serviceName: 'Nước',
-    quantity: 1,
-    unitPrice: 15000,
-      unitOfMeasurement: "m3"
-  ),
-  ChargeableService(
-    serviceName: 'Xe',
-    quantity: 1,
-    unitPrice: 100000,
-      unitOfMeasurement: "chiếc"
-  ),
-];
+// List<Service> chargeableServices = [
+//   Service(
+//     serviceName: 'Điện',
+//     quantity: 1,
+//     unitPrice: 4000,
+//     unitOfMeasurement: "kWh"
+//   ),
+//   Service(
+//     serviceName: 'Nước',
+//     quantity: 1,
+//     unitPrice: 15000,
+//       unitOfMeasurement: "m3"
+//   ),
+//   Service(
+//     serviceName: 'Xe',
+//     quantity: 1,
+//     unitPrice: 100000,
+//       unitOfMeasurement: "chiếc"
+//   ),
+// ];
 
-final List<Utility> utilities = [
-  Utility(id: 1, name: 'WiFi'),
-  Utility(id: 2, name: 'Air Conditioner'),
-  Utility(id: 3, name: 'Washing Machine'),
-  Utility(id: 4, name: 'Parking'),
-];
 
 final Address address = Address(
     id: 1,
@@ -52,215 +45,217 @@ final Address address = Address(
 
 
 
-final List<BookingRequest> bookingRequests = [
-  BookingRequest(
-    id: 1,
-    renterId: 1,
-    landlordId: 2,
-    room: properties[2],
-    requestDate: DateTime.parse('2024-08-01'),
-    status: "Processing",
-    note: "Waiting for landlord approval",
-    messageFromRenter: "Interested in renting this cozy apartment.",
-    startDate: DateTime.parse('2024-08-15'),
-    rentalDuration: 6,
-    contractId: 1
-  ),
-  BookingRequest(
-    id: 2,
-    renterId: 1,
-    landlordId: 2,
-    room: properties[2],
-    requestDate: DateTime.parse('2024-08-02'),
-    status: "Processing",
-    note: "Waiting for renter to sign and pay",
-    messageFromRenter: "Ready to sign the lease for the spacious house.",
-    startDate: DateTime.parse('2024-08-20'),
-    rentalDuration: 12,
-    contractId: 3
-  ),
-  BookingRequest(
-    id: 3,
-    renterId: 2,
-    landlordId: 1,
-    room: properties[1],
-    requestDate: DateTime.parse('2024-08-05'),
-    status: "Success",
-    note: "Active",
-    messageFromRenter: "Excited to move into the modern studio.",
-    messageFromLandlord: "Contract signed and payment received.",
-    startDate: DateTime.parse('2024-09-01'),
-    rentalDuration: 9,
-    responseDate: DateTime.parse('2024-08-10'),
-    contractId: 1,
+// final List<BookingRequest> bookingRequests = [
+//   BookingRequest(
+//     id: 1,
+//     renterId: 1,
+//     landlordId: 2,
+//     room: properties[2],
+//     requestDate: DateTime.parse('2024-08-01'),
+//     status: "Processing",
+//     note: "Waiting for landlord approval",
+//     messageFromRenter: "Interested in renting this cozy apartment.",
+//     startDate: DateTime.parse('2024-08-15'),
+//     rentalDuration: 6,
+//     contractId: 1
+//   ),
+//   BookingRequest(
+//     id: 2,
+//     renterId: 1,
+//     landlordId: 2,
+//     room: properties[2],
+//     requestDate: DateTime.parse('2024-08-02'),
+//     status: "Processing",
+//     note: "Waiting for renter to sign and pay",
+//     messageFromRenter: "Ready to sign the lease for the spacious house.",
+//     startDate: DateTime.parse('2024-08-20'),
+//     rentalDuration: 12,
+//     contractId: 3
+//   ),
+//   BookingRequest(
+//     id: 3,
+//     renterId: 2,
+//     landlordId: 1,
+//     room: properties[1],
+//     requestDate: DateTime.parse('2024-08-05'),
+//     status: "Success",
+//     note: "Active",
+//     messageFromRenter: "Excited to move into the modern studio.",
+//     messageFromLandlord: "Contract signed and payment received.",
+//     startDate: DateTime.parse('2024-09-01'),
+//     rentalDuration: 9,
+//     responseDate: DateTime.parse('2024-08-10'),
+//     contractId: 1,
+//
+//   ),
+//   BookingRequest(
+//     id: 4,
+//     renterId: 2,
+//     landlordId: 1,
+//     room: properties[1],
+//     requestDate: DateTime.parse('2024-08-10'),
+//     status: "Success",
+//     note: "Expired",
+//     messageFromRenter: "I enjoyed the stay but the lease has ended.",
+//     startDate: DateTime.parse('2024-06-01'),
+//     rentalDuration: 3,
+//     responseDate: DateTime.parse('2024-06-10'),
+//     contractId: 1,
+//   ),
+//   BookingRequest(
+//     id: 5,
+//     renterId: 1,
+//     landlordId: 2,
+//     room: properties[3],
+//     requestDate: DateTime.parse('2024-08-12'),
+//     status: "Failure",
+//     note: "Landlord rejected",
+//     messageFromRenter: "Please reconsider my application.",
+//     startDate: DateTime.parse('2024-09-01'),
+//     rentalDuration: 4,
+//     contractId: 2
+//   ),
+//   BookingRequest(
+//     id: 6,
+//     renterId: 2,
+//     landlordId: 2,
+//     room: properties[3],
+//     requestDate: DateTime.parse('2024-08-15'),
+//     status: "Failure",
+//     note: "Renter canceled",
+//     messageFromRenter: "I've decided to cancel the booking.",
+//     startDate: DateTime.parse('2024-09-15'),
+//     rentalDuration: 3,
+//     contractId: 2
+//   ),
+//   BookingRequest(
+//     id: 7,
+//     renterId: 1,
+//     landlordId: 2,
+//     room: properties[3],
+//     requestDate: DateTime.parse('2024-08-20'),
+//     status: "Processing",
+//     note: "Waiting for renter to sign and pay",
+//     messageFromRenter: "I'm ready to proceed with the lease.",
+//     startDate: DateTime.parse('2024-10-01'),
+//     rentalDuration: 6,
+//     contractId: 3
+//   ),
+//
+// ];
 
-  ),
-  BookingRequest(
-    id: 4,
-    renterId: 2,
-    landlordId: 1,
-    room: properties[1],
-    requestDate: DateTime.parse('2024-08-10'),
-    status: "Success",
-    note: "Expired",
-    messageFromRenter: "I enjoyed the stay but the lease has ended.",
-    startDate: DateTime.parse('2024-06-01'),
-    rentalDuration: 3,
-    responseDate: DateTime.parse('2024-06-10'),
-    contractId: 1,
-  ),
-  BookingRequest(
-    id: 5,
-    renterId: 1,
-    landlordId: 2,
-    room: properties[3],
-    requestDate: DateTime.parse('2024-08-12'),
-    status: "Failure",
-    note: "Landlord rejected",
-    messageFromRenter: "Please reconsider my application.",
-    startDate: DateTime.parse('2024-09-01'),
-    rentalDuration: 4,
-    contractId: 2
-  ),
-  BookingRequest(
-    id: 6,
-    renterId: 2,
-    landlordId: 2,
-    room: properties[3],
-    requestDate: DateTime.parse('2024-08-15'),
-    status: "Failure",
-    note: "Renter canceled",
-    messageFromRenter: "I've decided to cancel the booking.",
-    startDate: DateTime.parse('2024-09-15'),
-    rentalDuration: 3,
-    contractId: 2
-  ),
-  BookingRequest(
-    id: 7,
-    renterId: 1,
-    landlordId: 2,
-    room: properties[3],
-    requestDate: DateTime.parse('2024-08-20'),
-    status: "Processing",
-    note: "Waiting for renter to sign and pay",
-    messageFromRenter: "I'm ready to proceed with the lease.",
-    startDate: DateTime.parse('2024-10-01'),
-    rentalDuration: 6,
-    contractId: 3
-  ),
-
-];
+var user = User(id: 1, fullName: "John Doe",address: null, balance: 0,);
 
 final List<String> services = ['Internet', 'Bảo vệ', 'Camera', 'Bãi đỗ xe', 'Thang máy'];
 
 // Mô phỏng loại phòng
 final List<String> roomTypes = ['Căn hộ', 'Nhà riêng', 'Phòng trọ', 'Studio', 'Biệt thự'];
 
-List<Room> properties = [
-  Room(
-    id: 1,
-    title: "Căn hộ cho thuê giá rẻ",
-    type: "apartment",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
-      address: Address(
-          id: 1,
-          provinceName: 'TP.HCM',
-          districtName: 'Gò Vấp',
-          wardName: "phường 4",
-          detail: "109"
-      ),
-    utilities: [
-      Utility(id: 1, name: "tủ lạnh"),
-      Utility(id: 2, name: "máy giặc"),
-    ],
-    price: 3000000,
-    deposit: 3000000,
-    gender: 0,
-    roomSize: 20,
-    ownerId: 1,
-    description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-    termOfService: termOfService1,
-    chargeableServices: chargeableServices
-  ),
-  Room(
-    id: 2,
-    title: "Căn hộ cho thuê giá rẻ",
-    type: "apartment",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
-      address: Address(
-          id: 1,
-          provinceName: 'TP.HCM',
-          districtName: 'Bình Thạnh',
-          wardName: "phường 12",
-          detail: "77A"
-      ),
-
-    utilities: [
-      Utility(id: 1, name: "tủ lạnh"),
-      Utility(id: 2, name: "máy giặc"),
-    ],
-    price: 4000000,
-    deposit: 5000000,
-    gender: 0,
-    roomSize: 20,
-    ownerId: 1,
-    description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-    termOfService: termOfService1,
-      chargeableServices: chargeableServices
-  ),
-  Room(
-      id: 3,
-      title: "Kí túc xá",
-      type: "apartment",
-      image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/02/22/cho-thue-phong-tro_1613975723.jpg",
-      address: Address(
-          id: 1,
-          provinceName: 'TP.HCM',
-          districtName: 'Phú Nhuận',
-          wardName: "phường 7",
-          detail: "12"
-      ),
-
-      utilities: [
-        Utility(id: 1, name: "tủ lạnh"),
-        Utility(id: 2, name: "máy giặc"),
-      ],
-      price: 1500000,
-      deposit: 1500000,
-      gender: 0,
-      roomSize: 20,
-      ownerId: 1,
-      description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-      termOfService: termOfService1,
-      chargeableServices: chargeableServices
-  ),
-  Room(
-      id: 4,
-      title: "Căn hộ cho thuê giá rẻ",
-      type: "apartment",
-      image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/02/11/c11a6917-a0ac-4de4-9135-1b4c1e166892_1676120670.jpg",
-      address: Address(
-          id: 1,
-          provinceName: 'TP.HCM',
-          districtName: 'Thủ Đức',
-          wardName: "phường Linh Trung",
-          detail: "109 Kha Vạn Cân"
-      ),
-
-      utilities: [
-        Utility(id: 1, name: "tủ lạnh"),
-        Utility(id: 2, name: "máy giặc"),
-      ],
-      price: 3000000,
-      deposit: 3000000,
-      gender: 0,
-      roomSize: 20,
-      ownerId: 1,
-      description: "Nhà rộng 10x20m, 3 phòng ngủ...",
-      termOfService: termOfService1,
-      chargeableServices: chargeableServices
-  ),
-];
+// List<Room> properties = [
+//   Room(
+//     id: 1,
+//     title: "Căn hộ cho thuê giá rẻ",
+//     type: "apartment",
+//     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
+//       address: Address(
+//           id: 1,
+//           provinceName: 'TP.HCM',
+//           districtName: 'Gò Vấp',
+//           wardName: "phường 4",
+//           detail: "109"
+//       ),
+//     utilities: [
+//       Utility(id: 1, name: "tủ lạnh"),
+//       Utility(id: 2, name: "máy giặc"),
+//     ],
+//     price: 3000000,
+//     deposit: 3000000,
+//     gender: 0,
+//     roomSize: 20,
+//     ownerId: 1,
+//     description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+//     termOfService: termOfService1,
+//     services: chargeableServices
+//   ),
+//   Room(
+//     id: 2,
+//     title: "Căn hộ cho thuê giá rẻ",
+//     type: "apartment",
+//     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRfuCW7HDB5lrA2NezJ12b7RnawDK3qPTlsg&s",
+//       address: Address(
+//           id: 1,
+//           provinceName: 'TP.HCM',
+//           districtName: 'Bình Thạnh',
+//           wardName: "phường 12",
+//           detail: "77A"
+//       ),
+//
+//     utilities: [
+//       Utility(id: 1, name: "tủ lạnh"),
+//       Utility(id: 2, name: "máy giặc"),
+//     ],
+//     price: 4000000,
+//     deposit: 5000000,
+//     gender: 0,
+//     roomSize: 20,
+//     ownerId: 1,
+//     description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+//     termOfService: termOfService1,
+//       services: chargeableServices
+//   ),
+//   Room(
+//       id: 3,
+//       title: "Kí túc xá",
+//       type: "apartment",
+//       image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/02/22/cho-thue-phong-tro_1613975723.jpg",
+//       address: Address(
+//           id: 1,
+//           provinceName: 'TP.HCM',
+//           districtName: 'Phú Nhuận',
+//           wardName: "phường 7",
+//           detail: "12"
+//       ),
+//
+//       utilities: [
+//         Utility(id: 1, name: "tủ lạnh"),
+//         Utility(id: 2, name: "máy giặc"),
+//       ],
+//       price: 1500000,
+//       deposit: 1500000,
+//       gender: 0,
+//       roomSize: 20,
+//       ownerId: 1,
+//       description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+//       termOfService: termOfService1,
+//       services: chargeableServices
+//   ),
+//   Room(
+//       id: 4,
+//       title: "Căn hộ cho thuê giá rẻ",
+//       type: "apartment",
+//       image: "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/02/11/c11a6917-a0ac-4de4-9135-1b4c1e166892_1676120670.jpg",
+//       address: Address(
+//           id: 1,
+//           provinceName: 'TP.HCM',
+//           districtName: 'Thủ Đức',
+//           wardName: "phường Linh Trung",
+//           detail: "109 Kha Vạn Cân"
+//       ),
+//
+//       utilities: [
+//         Utility(id: 1, name: "tủ lạnh"),
+//         Utility(id: 2, name: "máy giặc"),
+//       ],
+//       price: 3000000,
+//       deposit: 3000000,
+//       gender: 0,
+//       roomSize: 20,
+//       ownerId: 1,
+//       description: "Nhà rộng 10x20m, 3 phòng ngủ...",
+//       termOfService: termOfService1,
+//       services: chargeableServices
+//   ),
+// ];
 
 String termOfService1 = '''
 1. Các tài sản cho thuê kèm theo:
@@ -313,7 +308,8 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 Điều 5: Điều khoản khác
 - Hợp đồng này có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
-    landlordId: 1,
+    lessor: user,
+    renter: user,
     pdfPath: 'assets/hop-dong-thue.pdf',
   ),
   Contract(
@@ -343,7 +339,8 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 Điều 5: Điều khoản khác
 - Hợp đồng có hiệu lực từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
-      landlordId: 1,
+      lessor: user,
+    renter: user,
       pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',
   ),
   Contract(
@@ -373,7 +370,8 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 Điều 5: Điều khoản khác
 - Hợp đồng này có giá trị từ ngày ký và được lập thành 2 bản, mỗi bên giữ 1 bản.
     ''',
-    landlordId: 1,
+    lessor:user ,
+    renter: user,
     pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405 (1).pdf',
     // renterId: 2,
     // property: properties[3],
@@ -386,14 +384,14 @@ HỢP ĐỒNG THUÊ PHÒNG TRỌ
 
 ];
 
-void updateContractById(int contractId, BookingRequest request) {
-  final index = contracts.indexWhere((contract) => contract.id == contractId);
-  if (index != -1) {
-    contracts[index].completeContract(request);
-  } else {
-    print("Contract not found");
-  }
-}
+// void updateContractById(int contractId, BookingRequest request) {
+//   final index = contracts.indexWhere((contract) => contract.id == contractId);
+//   if (index != -1) {
+//     contracts[index].completeContract(request);
+//   } else {
+//     print("Contract not found");
+//   }
+// }
 
 void addContract(Contract newContract) {
   contracts.add(newContract);
@@ -403,7 +401,7 @@ Contract getContractById(int id) {
   return contracts.firstWhere(
         (contract) => contract.id == id,
     orElse: () =>
-        Contract(id: -1, title: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', landlordId: 0,pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',));
+        Contract(id: -1, title: 'Không tìm thấy', content: 'Nội dung hợp đồng không tìm thấy', lessor: user, renter: user,pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',));
 }
 
 const String platformRules = '''

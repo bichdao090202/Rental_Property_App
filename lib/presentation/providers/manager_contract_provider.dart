@@ -48,6 +48,7 @@ class ManagerContractProvider with ChangeNotifier {
     try {
       final responseData = await apiService.getContractByRenterId(id);
       final List<dynamic> contractsList = responseData['data'];
+      // print(contractsList);
       contracts = contractsList.map((contract) => Contract.fromJson(contract)).toList();
     } catch (error) {
       print('Error fetching data: $error');

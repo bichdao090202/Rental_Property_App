@@ -96,7 +96,9 @@ class MyApp extends StatelessWidget {
       LoginScreen(),
       // HomeScreen(),
       routes: {
-        '/home': (_) => HomeScreen(), // Define your HomeScreen route
+        '/home': (_) => HomeScreen(),
+        '/login': (_) => LoginScreen(),
+
       },
     );
   }

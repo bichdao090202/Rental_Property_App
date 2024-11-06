@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       try {
         await Provider.of<AuthProvider>(context, listen: false).login(phone, password);
-        Navigator.pushReplacementNamed(context, '/home'); // Navigate to home screen
+        Navigator.pushReplacementNamed(context, '/home');
       } catch (e) {
         // ScaffoldMessenger.of(context).showSnackBar(
         //   SnackBar(content: Text(e.toString())),

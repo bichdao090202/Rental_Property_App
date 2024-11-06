@@ -56,20 +56,20 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
             ),
             TextButton(
               onPressed: () {
-                if (_nameController.text.isNotEmpty && fileContent != null) {
-                  setState(() {
-                    contracts.add(
-                      Contract(
-                        id: contracts.length + 1,
-                        title: _nameController.text,
-                        content: fileContent!,
-                        landlordId: 1,
-                        pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',
-                      ),
-                    );
-                  });
-                  Navigator.of(context).pop();
-                }
+                // if (_nameController.text.isNotEmpty && fileContent != null) {
+                //   setState(() {
+                //     contracts.add(
+                //       Contract(
+                //         id: contracts.length + 1,
+                //         title: _nameController.text,
+                //         content: fileContent!,
+                //         landlordId: 1,
+                //         pdfPath: 'assets/hop-dong-thue-nha-o_2810144434_2011152916_0804150405.pdf',
+                //       ),
+                //     );
+                //   });
+                //   Navigator.of(context).pop();
+                // }
               },
               child: const Text('Tạo'),
             ),
@@ -103,9 +103,9 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
         ],
       ),
       body: ListView.builder(
-          itemCount: contracts.where((contract) => contract.renterId != null).length,
+          itemCount: contracts.where((contract) => contract.renter.id != null).length,
           itemBuilder: (context, index) {
-            final contract = contracts.where((contract) => contract.renterId != null).elementAt(index);
+            final contract = contracts.where((contract) => contract.renter.id != null).elementAt(index);
             return ContractCard(contract: contract, type: "renter",);
           }
       ),

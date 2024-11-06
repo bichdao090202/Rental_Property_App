@@ -47,10 +47,10 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(widget.property.image),
+            Image.network(widget.property.images[0]),
             const SizedBox(height: 16),
-            Text(widget.property.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-
+            Text(widget.property.title, style: const TextStyle(fontSize: 18, 
+              fontWeight: FontWeight.bold, )),
             Text(
               '${formatCurrency(widget.property.price)} đ',
               style: const TextStyle(
@@ -127,10 +127,10 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
             const SizedBox(height: 8),
 
-            Text('Kích thước phòng: ${widget.property.roomSize} m²'),
+            Text('Kích thước phòng: ${widget.property.acreage} m²'),
             Text('Giới tính: ${getGender(widget.property.gender)}'),
             Text(
-              'Tiện ích: ${widget.property.utilities!.map((u) => u.name).join(', ')}',
+              'Tiện ích: ${widget.property.services!.map((u) => u.name).join(', ')}',
             ),
 
             const SizedBox(height: 8),
@@ -287,7 +287,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                       );
 
                       print('Booking request đã được tạo: ${bookingRequest.toString()}');
-                      bookingRequests.add(bookingRequest);
+                      // bookingRequests.add(bookingRequest);
                       Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
