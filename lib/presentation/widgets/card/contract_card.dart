@@ -7,8 +7,9 @@ import 'package:rental_property_app/presentation/widgets/custom/contract_dialog.
 class ContractCard extends StatefulWidget {
   final Contract contract;
   final String type;
+  final int userId;
 
-  ContractCard({required this.contract, required this.type});
+  ContractCard({required this.contract, required this.type, required this.userId});
 
   @override
   _ContractCardState createState() => _ContractCardState();
@@ -55,6 +56,11 @@ class _ContractCardState extends State<ContractCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Text(
+                      'Trạng thái: ${getStatusText(widget.contract.status)} ',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    const SizedBox(height: 3),
                     Text(
                       'Ngày bắt đầu: ${widget.contract.startDate != null ? formatDay(widget.contract.startDate!) : 'Không xác định'}',
                       style: const TextStyle(fontSize: 12),
@@ -117,6 +123,44 @@ class _ContractCardState extends State<ContractCard> {
       ),
     );
   }
+
+  String getStatusText(int status) {
+    switch (status) {
+    // case 1:
+    //   return 'Processing';
+    // case 2:
+    //   return 'Active';
+    // case 3:
+    //   return 'Finished';
+    // case 4:
+    //   return 'Failure';
+    // case 5:
+    //   return 'One-side cancel';
+    // case 6:
+    //   return 'Agreed cancel';
+    // case 7:
+    //   return 'Đang chờ thanh khoản';
+    // default:
+    //   return 'Unknown status';
+      case 1:
+        return 'Đang xử lý';
+      case 2:
+        return 'Đang có hiệu lực';
+      case 3:
+        return 'Đã kết thúc';
+      case 4:
+        return 'Thất bại';
+      case 5:
+        return 'Hủy một phía';
+      case 6:
+        return 'Hủy đồng thuận';
+      case 7:
+        return 'Đang chờ thanh khoản';
+      default:
+        return 'Trạng thái không xác định';
+    }
+  }
+
 
 
 }

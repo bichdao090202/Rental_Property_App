@@ -25,6 +25,7 @@ class ApiService {
   }
 
   Future<dynamic> getBookingRequestByRenterId(int id) async {
+    print(id);
     return await get("booking-requests?renter_id=$id");
   }
 

@@ -32,9 +32,9 @@ class AuthProvider with ChangeNotifier {
     // final prefs = await SharedPreferences.getInstance();
     // await prefs.setString('access_token', _accessToken!);
     // await prefs.setString('user_info', json.encode(_user));
-    print('Save to local');
-    print("Access token: $_accessToken");
-    print("User info: $_user");
+    // print('Save to local');
+    // print("Access token: $_accessToken");
+    // print("User info: $_user");
     // html.window.localStorage['access_token'] = _accessToken!;
     // html.window.localStorage['user_info'] = _user.toString();
   }

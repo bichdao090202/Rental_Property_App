@@ -135,11 +135,19 @@ class BookingRequest {
       messageFromLandlord: json['message_from_lessor'] ?? "",
       startDate: DateTime.tryParse(json['start_date'] ?? '') ?? DateTime(0),
       rentalDuration: json['rental_duration'] ?? 0,
-      // responseDate: json['response_date'] != null
-      //     ? DateTime.tryParse(json['response_date'])
-      //     : null,
       contractId: json['contract_id'] ?? 0,
     );
+  }
+
+
+  @override
+  String toString() {
+    return 'BookingRequest(id: $id, renterId: $renterId, landlordId: $landlordId, '
+        'cancelBy: $cancelBy, room: ${room.toString()}, requestDate: $requestDate, '
+        'status: $status, note: $note, messageFromRenter: $messageFromRenter, '
+        'messageFromLandlord: $messageFromLandlord, startDate: $startDate, '
+        'rentalDuration: $rentalDuration, responseDate: $responseDate, '
+        'contractId: $contractId, borrowItems: ${borrowItems.toString()})';
   }
 
 

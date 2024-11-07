@@ -106,7 +106,7 @@ class _ContractTabFromLandlordState extends State<ContractTabFromLandlord> {
           itemCount: contracts.where((contract) => contract.renter.id != null).length,
           itemBuilder: (context, index) {
             final contract = contracts.where((contract) => contract.renter.id != null).elementAt(index);
-            return ContractCard(contract: contract, type: "renter",);
+            return ContractCard(contract: contract, type: "renter", userId: 3,);
           }
       ),
     );
