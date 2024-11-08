@@ -104,7 +104,8 @@ class Room {
       List<String> imagesList = [];
       if (json['images'] != null) {
         if (json['images'] is List) {
-          imagesList = (json['images'] as List).map((item) => item.toString()).toList();
+          imagesList =
+              (json['images'] as List).map((item) => item.toString()).toList();
         }
       }
 

@@ -50,7 +50,7 @@ class _ContractCardState extends State<ContractCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.contract.getContractTitle(),
+                      'ID: ${widget.contract.id}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

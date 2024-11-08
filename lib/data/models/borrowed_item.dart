@@ -13,8 +13,15 @@ class BorrowItem {
     return BorrowItem(
       id: json['id']??0,
       name: json['name']??'',
-      price: json['price']??0,
+      price : (json['price'] is int)
+          ? (json['price'] as int).toDouble()
+          : (json['price'] as num).toDouble()
     );
+  }
+
+  @override
+  String toString() {
+    return 'BorrowItem{id: $id, name: $name, price: $price}';
   }
 
 }

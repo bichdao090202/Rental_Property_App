@@ -17,7 +17,9 @@ class ContractsTab extends StatelessWidget {
     }
 
     final List<dynamic> contractsList = responseData['data'] ?? [];
-    return contractsList.map((roomData) => Contract.fromJson(roomData)).toList();
+    List<Contract> list = contractsList.map((roomData) => Contract.fromJson(roomData)).toList();
+    list.sort((a, b) => b.id.compareTo(a.id));
+    return list;
   }
 
   @override

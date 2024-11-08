@@ -17,6 +17,7 @@ class BookingRequestsTab extends StatelessWidget {
     }
     final List<dynamic> bookingRequestList = responseData['data'] ?? [];
     List<BookingRequest> list = bookingRequestList.map((roomData) => BookingRequest.fromJson(roomData)).toList();
+    list.sort((a, b) => b.id.compareTo(a.id));
     return list;
   }
 

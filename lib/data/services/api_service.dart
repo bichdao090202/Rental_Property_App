@@ -41,6 +41,16 @@ class ApiService {
     return await get("contracts?lessor_id=$id");
   }
 
+  Future<dynamic> getListTransactionByUserId(int id) async {
+    return await get("transactions?user_id=$id");
+  }
+
+  Future<dynamic> createBookingRequest(dynamic body) async {
+    return await post("booking-requests", body);
+  }
+
+
+
   Future<dynamic> get(String url, {bool auth = true, String cache = 'default'}) async {
     final response = await http.get(
       Uri.parse('$_baseUrl/$url'),
@@ -57,21 +67,63 @@ class ApiService {
   }
 
   // Hàm POST
+  // Future<dynamic> post(String url, dynamic body, {bool auth = true}) async {
+  //   final response = await http.post(
+  //     Uri.parse('$_baseUrl/$url'),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: jsonEncode(body),
+  //   );
+  //
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Server error!');
+  //   }
+  //
+  //   return jsonDecode(response.body);
+  // }
+
   Future<dynamic> post(String url, dynamic body, {bool auth = true}) async {
-    final response = await http.post(
-      Uri.parse('$_baseUrl/$url'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(body),
-    );
+    try {
+      // Print request details for debugging
+      // print('Request URL: $_baseUrl/$url');
+      // print('Request body: ${jsonEncode(body)}');
 
-    if (response.statusCode != 200) {
-      throw Exception('Server error!');
+      final response = await http.post(
+        Uri.parse('$_baseUrl/$url'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          // if (auth) 'Authorization': 'Bearer ${await getToken()}', // Thêm token nếu cần
+        },
+        body: jsonEncode(body),
+      );
+
+      // Print response for debugging
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(_parseErrorMessage(response.body)
+        );
+      }
+    } catch (e) {
+      print('Error details: $e');
+      rethrow;
     }
-
-    return jsonDecode(response.body);
   }
+
+  String _parseErrorMessage(String responseBody) {
+    try {
+      final parsed = jsonDecode(responseBody);
+      return parsed['message'] ?? parsed['error'] ?? 'Unknown error occurred';
+    } catch (e) {
+      return responseBody;
+    }
+  }
+
 
   // Hàm PUT
   Future<dynamic> put(String url, dynamic body, {bool auth = true}) async {

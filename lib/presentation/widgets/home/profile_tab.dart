@@ -4,170 +4,211 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rental_property_app/presentation/providers/auth_provider.dart';
 import 'package:rental_property_app/presentation/widgets/auth/login_screen.dart';
-
-// class ProfileTab extends StatefulWidget {
-//   @override
-//   _ProfileTabState createState() => _ProfileTabState();
-//
-// }
-//
-// class _ProfileTabState extends State<ProfileTab> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     throw UnimplementedError();
-//   }
-//
-//
-// }
-
+import 'package:rental_property_app/presentation/widgets/user/user_account_screen.dart';
+import 'package:rental_property_app/presentation/widgets/user/user_info_screen.dart';
+import 'package:rental_property_app/presentation/widgets/user/user_transaction_screen.dart';
 
 class ProfileTab extends StatelessWidget {
+  final List<Map<String, dynamic>> items = [
+    {
+      'title': 'Thông tin',
+      'key': '/user/info',
+      'icon': Icons.supervised_user_circle,
+    },
+    {
+      'title': 'Tài khoản',
+      'key': '/user/account',
+      'icon': Icons.manage_accounts,
+    },
+    {
+      'title': 'Giao dịch',
+      'key': '/user/transaction',
+      'icon': Icons.paid,
+    },
+    {
+      'title': 'Đăng xuất',
+      'key': '/log-out',
+      'icon': Icons.logout,
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
-      builder: (context, authProvider, child) {
-        final user = authProvider.userInfo;
-        if (user == null) {
-          // return Center(child: CircularProgressIndicator());
-          return LoginScreen();
-        }
+        builder: (context, authProvider, child)
+    {
+      final user = authProvider.userInfo;
+      if (user == null) {
+        return LoginScreen();
+      }
 
-        return SingleChildScrollView(
+
+      return Scaffold(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(16),
-                color: Theme.of(context).primaryColor,
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage:
-                      // user.imgUrl.isNotEmpty
-                      //     ? NetworkImage(user.imgUrl)
-                      //     :
-                      // AssetImage('assets/default_avatar.png') as ImageProvider,
-                      NetworkImage('https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI='),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      user.fullName,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                height: 200,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.person, size: 60, color: Theme
+                            .of(context)
+                            .primaryColor),
                       ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      user.getPhoneNumber(),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
+                      SizedBox(height: 12),
+                      const Text(
+                        'Quản lý tài khoản',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-
-              // Thông tin chi tiết
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.0),
                 child: Column(
-                  children: [
-                    _buildInfoTile(
-                      icon: Icons.email,
-                      title: 'Email',
-                      subtitle: user.getEmail(),
-                    ),
-                    _buildInfoTile(
-                      icon: Icons.account_balance_wallet,
-                      title: 'Số dư',
-                      subtitle: NumberFormat.currency(
-                        locale: 'vi_VN',
-                        symbol: 'đ',
-                      ).format(user.balance),
-                    ),
-                    if (user.address != null)
-                      _buildInfoTile(
-                        icon: Icons.location_on,
-                        title: 'Địa chỉ',
-                        subtitle: '${user.address!.detail}, ${user.address!.wardName}, ${user.address!.districtName}, ${user.address!.provinceName}',
-                      ),
-
-                    // Các nút tác vụ
-                    SizedBox(height: 24),
-                    _buildActionButton(
-                      context,
-                      'Chỉnh sửa thông tin',
-                      Icons.edit,
-                          () {
-                        // TODO: Navigate to edit profile
-                      },
-                    ),
-                    _buildActionButton(
-                      context,
-                      'Đổi mật khẩu',
-                      Icons.lock,
-                          () {
-                        // TODO: Navigate to change password
-                      },
-                    ),
-                    _buildActionButton(
-                      context,
-                      'Đăng xuất',
-                      Icons.logout,
-                          () async {
-                        await authProvider.logout();
-                        Navigator.pushReplacementNamed(context, '/login');
-                      },
-                    ),
-                  ],
+                  children: items.map((item) =>
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 8),
+                          leading: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Theme
+                                  .of(context)
+                                  .primaryColor
+                                  .withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(item['icon'], color: Theme
+                                .of(context)
+                                .primaryColor),
+                          ),
+                          title: Text(
+                            item['title'],
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                          onTap: () async {
+                            switch (item['key']) {
+                              case '/user/info':
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (_) => UserInfoScreen()));
+                                break;
+                              case '/user/account':
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (_) => UserAccountScreen()));
+                                break;
+                              case '/user/transaction':
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (_) => UserTransactionScreen()));
+                                break;
+                              case '/log-out':
+                                final authProvider = Provider.of<AuthProvider>(
+                                    context, listen: false);
+                                await authProvider.logout();
+                                Navigator.pushReplacementNamed(
+                                    context, '/login');
+                                break;
+                            }
+                          },
+                        ),
+                      )).toList(),
                 ),
               ),
             ],
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 
-  Widget _buildInfoTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      subtitle: Text(subtitle),
-    );
-  }
 
-  Widget _buildActionButton(
-      BuildContext context,
-      String title,
-      IconData icon,
-      VoidCallback onPressed,
-      ) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 12),
-          minimumSize: Size(double.infinity, 0),
-        ),
-        onPressed: onPressed,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon),
-            SizedBox(width: 8),
-            Text(title),
-          ],
-        ),
-      ),
-    );
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: Padding(
+  //       padding: EdgeInsets.symmetric(horizontal: 20.0),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           SizedBox(height: 40),
+  //           Text(
+  //             'Cài đặt',
+  //             style: TextStyle(
+  //               fontSize: 32,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //           SizedBox(height: 32),
+  //           ...items.map((item) =>
+  //               Column(
+  //                 children: [
+  //                   InkWell(
+  //                     onTap: () {
+  //                       switch (item['key']) {
+  //                         case '/user/info':
+  //                           Navigator.push(context, MaterialPageRoute(
+  //                               builder: (_) => UserInfoScreen()));
+  //                           break;
+  //                         case '/user/account':
+  //                           Navigator.push(context, MaterialPageRoute(
+  //                               builder: (_) => UserAccountScreen()));
+  //                           break;
+  //                         case '/user/transaction':
+  //                           Navigator.push(context, MaterialPageRoute(
+  //                               builder: (_) => UserTransactionScreen()));
+  //                           break;
+  //                       }
+  //                     },
+  //                     child: Padding(
+  //                       padding: EdgeInsets.symmetric(vertical: 16),
+  //                       child: Row(
+  //                         children: [
+  //                           Icon(item['icon'], size: 24),
+  //                           SizedBox(width: 16),
+  //                           Text(
+  //                             item['title'],
+  //                             style: TextStyle(fontSize: 18),
+  //                           ),
+  //                           Spacer(),
+  //                           Icon(Icons.arrow_forward_ios, size: 16),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Divider(),
+  //                 ],
+  //               )).toList(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

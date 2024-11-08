@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:rental_property_app/data/models/booking_request.dart';
 import 'package:rental_property_app/data/models/room.dart';
 import 'package:rental_property_app/common/format-data.dart';
 import 'package:rental_property_app/data/services/api_service.dart';
+import 'package:rental_property_app/presentation/providers/auth_provider.dart';
 
 class RoomDetailScreen extends StatefulWidget  {
-  final Room property;
+  final Room room;
 
-  RoomDetailScreen({required this.property});
+  RoomDetailScreen({required this.room});
 
   @override
   _RoomDetailScreenState createState() => _RoomDetailScreenState();
@@ -40,17 +42,56 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
     }
   }
 
-  Future<void> sendBookingRequest() async {
+  Future<void> sendBookingRequest(DateTime startDate, int rentalDuration, String messageFromRenter) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final userId = authProvider.userInfo?.id;
+    final room = widget.room;
+    print(userId);
+
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Không thể lấy thông tin người dùng')),
+      );
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
 
     Map<String, dynamic> bookingData = {
-      'room_id': 123,
-      'user_id': 456,
-      'start_date': DateTime.now().toIso8601String(),
-      'end_date': DateTime.now().add(Duration(days: 7)).toIso8601String(),
+      'renter_id': userId,
+      'lessor_id': room.ownerId,
+      'room_id': room.id,
+      'status': "PROCESSING",
+      'note': "Waiting for landlord approval",
+      'message_from_renter': messageFromRenter,
+      'start_date': startDate.toUtc().toIso8601String(),
+      'rental_duration': rentalDuration,
     };
+
+
+
+
+    final response = await apiService.createBookingRequest(bookingData);
+
+    if (response['status'] == "SUCCESS") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Đã gửi yêu cầu đặt phòng thành công')),
+      );
+
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Thao tác thất bại, vui lòng thử lại')),
+      );
+    }
+    Navigator.pop(context);
+
+    // Map<String, dynamic> bookingData = {
+    //   'room_id': 123,
+    //   'user_id': 456,
+    //   'start_date': DateTime.now().toIso8601String(),
+    // };
     // final success = await apiService.createBookingRequest(bookingData);
 
     setState(() {
@@ -77,12 +118,12 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(widget.property.images[0]),
+            Image.network(widget.room.images[0]),
             const SizedBox(height: 16),
-            Text(widget.property.title, style: const TextStyle(fontSize: 18, 
+            Text(widget.room.title, style: const TextStyle(fontSize: 18,
               fontWeight: FontWeight.bold, )),
             Text(
-              '${formatCurrency(widget.property.price)} đ',
+              '${formatCurrency(widget.room.price)} đ',
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -121,7 +162,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                   height: 40,
                   child: TextButton(
                     onPressed: () {
-                      _showTermOfServiceModal(widget.property.termOfService);
+                      _showTermOfServiceModal(widget.room.termOfService);
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: const Color(0xFF1C3988),
@@ -146,20 +187,34 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
             // Text(widget.property.type),
             const SizedBox(height: 8),
             const Text("Địa chỉ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Text('${widget.property.address?.provinceName}, ${widget.property.address?.districtName}, ${widget.property.address?.wardName}, ${widget.property.address?.detail}'),
+            Text('${widget.room.address?.provinceName}, ${widget.room.address?.districtName}, ${widget.room.address?.wardName}, ${widget.room.address?.detail}'),
             const SizedBox(height: 8),
             const Text("Mô tả" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Text(widget.property.description),
+            Text(widget.room.description),
             const SizedBox(height: 8),
-            Text('Kích thước phòng: ${widget.property.acreage} m²'),
-            Text('Giới tính: ${getGender(widget.property.gender)}'),
+            Text('Kích thước phòng: ${widget.room.acreage} m²'),
+            Text('Giới tính: ${getGender(widget.room.gender)}'),
             Text(
-              'Tiện ích: ${widget.property.services!.map((u) => u.name).join(', ')}',
+              'Tiện ích: ${widget.room.services!.map((u) => u.name).join(', ')}',
             ),
             const SizedBox(height: 8),
             const Text("Phí dịch vụ" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Text(widget.property.getChargeableServiceString()),
+            Text(widget.room.getChargeableServiceString()),
             const SizedBox(height: 16),
+            const Text("Vật dụng đi kèm" , style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+
+            ListView.builder(
+              shrinkWrap: true, // Điều chỉnh chiều cao theo nội dung
+              physics: NeverScrollableScrollPhysics(), // Ngăn ListView cuộn nếu đã có cuộn cha
+              itemCount: widget.room.borrowItems!.length,
+              itemBuilder: (context, index) {
+                final item = widget.room.borrowItems![index];
+                return ListTile(
+                  title: Text(item.name),
+                  subtitle: Text('${formatCurrency(item.price)} đ'),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -263,19 +318,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    if (_startDate != null && _rentalDuration != null) {
-                      BookingRequest bookingRequest = BookingRequest(
-                        id: 1,
-                        renterId: 2,
-                        landlordId: widget.property.ownerId,
-                        room: widget.property,
-                        requestDate: DateTime.now(),
-                        messageFromRenter: _messageFromRenter ?? '',
-                        startDate: _startDate!,
-                        rentalDuration: _rentalDuration!,
-                      );
-                      print('Booking request đã được tạo: ${bookingRequest.toString()}');
-                      Navigator.pop(context);
+                    if (_startDate != null && _rentalDuration != null && _messageFromRenter != null) {
+                      sendBookingRequest(_startDate!, _rentalDuration!, _messageFromRenter!);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Vui lòng nhập đầy đủ thông tin')),
