@@ -61,6 +61,10 @@ class ApiService {
     return await post("contracts/booking", body);
   }
 
+  Future<dynamic> updateContract(dynamic body, int id) async {
+    return await put("contracts/$id", body);
+  }
+
   Future<dynamic> get(String url, {bool auth = true, String cache = 'default'}) async {
     final response = await http.get(
       Uri.parse('$_baseUrl/$url'),

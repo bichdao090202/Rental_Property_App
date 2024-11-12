@@ -46,19 +46,6 @@ class Contract {
     this.damagedItems,
   });
 
-  // void completeContract(BookingRequest bookingRequest) {
-  //   renter = bookingRequest.renterId;
-  //   room = bookingRequest.room;
-  //   startDate = bookingRequest.startDate;
-  //   rentalDuration = bookingRequest.rentalDuration;
-  //   monthlyPrice = bookingRequest.room.price;
-  //   deposit = bookingRequest.room.deposit;
-  //   services = bookingRequest.room.services;
-  //   status = "Active";
-  //   dateComplete = DateTime.now();
-  //   datePay = DateTime.now();
-  // }
-
   String getContractTitle() {
     if (room?.address != null && rentalDuration != null) {
       return '${room!.address?.getShortAddress()}';
@@ -78,7 +65,7 @@ class Contract {
       content: json['content'] ?? '',
       datePay: json['date_pay'] != null ? DateTime.parse(json['date_pay']) : null,
       startDate: json['start_date'] != null ? DateTime.parse(json['start_date']) : null,
-      rentalDuration: json['status'] ?? 0,
+      rentalDuration: json['rental_duration'] ?? 0,
       status: json['status'] ?? 0,
       monthlyPrice: json['monthly_price']?.toDouble() ?? 0.0,
       deposit: json['deposit']?.toDouble() ?? 0.0,
@@ -91,5 +78,21 @@ class Contract {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'content': content,
+      'datePay': datePay?.toIso8601String(),
+      'startDate': startDate?.toIso8601String(),
+      'rentalDuration': rentalDuration,
+      'status': status,
+      'monthlyPrice': monthlyPrice,
+      'deposit': deposit,
+      'pdfPath': pdfPath,
+      'cancelStatus': cancelStatus,
+      'payMode': payMode,
+    };
+  }
 
 }

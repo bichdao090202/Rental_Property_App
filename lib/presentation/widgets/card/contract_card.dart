@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:rental_property_app/common/format-data.dart';
+import 'package:rental_property_app/common/get-status.dart';
 import 'package:rental_property_app/data/models/contract.dart';
 import 'package:rental_property_app/presentation/widgets/custom/action_button.dart';
 import 'package:rental_property_app/presentation/widgets/custom/contract_dialog.dart';
+import 'package:rental_property_app/presentation/widgets/modal/cancel_contract_modal.dart';
 
 class ContractCard extends StatefulWidget {
   final Contract contract;
   final String type;
   final int userId;
+
 
   ContractCard({required this.contract, required this.type, required this.userId});
 
@@ -20,6 +23,16 @@ class _ContractCardState extends State<ContractCard> {
   @override
   void initState() {
     super.initState();
+  }
+
+  bool isLastMonth(DateTime? startDate, int? duration) {
+    if (startDate == null || duration == null) return false;
+
+    final now = DateTime.now();
+    final endDate = startDate.add(Duration(days: duration * 30));
+    final difference = endDate.difference(now).inDays;
+
+    return difference <= 30 && difference >= 0;
   }
 
 
@@ -57,7 +70,7 @@ class _ContractCardState extends State<ContractCard> {
                       ),
                     ),
                     Text(
-                      'Trạng thái: ${getStatusText(widget.contract.status)} ',
+                      'Trạng thái: ${getContractStatus(widget.contract.status)} ',
                       style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 3),
@@ -85,32 +98,122 @@ class _ContractCardState extends State<ContractCard> {
                     ),
                     const SizedBox(height: 3),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      alignment: WrapAlignment.spaceAround,
                       children: [
                         ActionButton(
-                          width: MediaQuery.of(context).size.width * 0.24,
+                          width: MediaQuery.of(context).size.width * 0.35,
                           backgroundColor: Colors.blue,
-                          text: 'Thông tin',
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => ContractDialog(contract: widget.contract),
-                            );
+                          text: 'Xem PDF',
+                          onPressed: () async {
+                            // if (await canLaunch(contract.pdfPath)) {
+                            //   await launch(contract.pdfPath);
+                            // }
                           },
                         ),
+
                         ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.22,
-                            backgroundColor: Colors.green,
-                            text: 'Hóa đơn',
-                            onPressed: () => print('t'),
-                          ),
-                        if (widget.contract.status == "Active")
-                        ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.17,
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          backgroundColor: Colors.blue[300]!,
+                          text: 'Xem hóa đơn',
+                          onPressed: () async {
+                          },
+                        ),
+
+                        if (!isLastMonth(widget.contract.startDate, widget.contract.rentalDuration) &&
+                            widget.contract.canceledBy == null &&
+                            widget.contract.status == 2)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
                             backgroundColor: Colors.red,
-                            text: 'Hủy',
-                            onPressed: () => print('t'),
+                            text: 'Hủy hợp đồng',
+                            onPressed: () async {
+                              _showCancelContractModal("cancel");
+                            },
+                          ),
+
+                        if (isLastMonth(widget.contract.startDate, widget.contract.rentalDuration) &&
+                            widget.contract.status == 1 &&
+                            widget.type == 'renter' &&
+                            widget.contract.status != 2 &&
+                            widget.contract.status != 3)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.orange,
+                            text: 'Thanh lý',
+                            onPressed: () async {
+                            },
+                          ),
+
+                        if (widget.type == 'renter' && widget.contract.status == 2)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.orange,
+                            text: 'Chờ thanh lý',
+                            onPressed: () async {
+                            },
+                          ),
+
+                        if (widget.type == 'renter' && widget.contract.status == 4) // Assuming 4 is "Đã kết thúc"
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.orange,
+                            text: 'Đã thanh lý',
+                            onPressed: () async {
+                            },
+                          ),
+
+                        if (widget.type == 'lessor' && widget.contract.status == 2)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.orange,
+                            text: 'Chờ thanh lý',
+                            onPressed: () async {
+                            },
+                          ),
+
+                        if (widget.contract.canceledBy?.id == widget.userId && widget.contract.cancelStatus == 1)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.blue,
+                            text: 'Chờ phản hồi',
+                            onPressed: () async {
+                              _showCancelContractModal("cancel");
+                            },
+
+                          ),
+
+                        if (widget.contract.canceledBy?.id != widget.userId && widget.contract.cancelStatus == 1)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.blue,
+                            text: 'Yêu cầu hủy',
+                            onPressed: () async {
+                              _showCancelContractModal("handle");
+                            },
+                          ),
+
+                        if (widget.contract.canceledBy?.id == widget.userId &&
+                            widget.contract.canceledBy != null &&
+                            widget.contract.cancelStatus == 2)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.blue,
+                            text: 'Xem phản hồi',
+                            onPressed: () async {
+                              _showCancelContractModal("confirm");
+                            },
+                          ),
+
+                        if (widget.type == 'renter' && widget.contract.status == 1)
+                          ActionButton(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            backgroundColor: Colors.green,
+                            text: 'Gia hạn',
+                            onPressed: () async {
+                            },
                           ),
                       ],
                     )
@@ -124,42 +227,21 @@ class _ContractCardState extends State<ContractCard> {
     );
   }
 
-  String getStatusText(int status) {
-    switch (status) {
-    // case 1:
-    //   return 'Processing';
-    // case 2:
-    //   return 'Active';
-    // case 3:
-    //   return 'Finished';
-    // case 4:
-    //   return 'Failure';
-    // case 5:
-    //   return 'One-side cancel';
-    // case 6:
-    //   return 'Agreed cancel';
-    // case 7:
-    //   return 'Đang chờ thanh khoản';
-    // default:
-    //   return 'Unknown status';
-      case 1:
-        return 'Đang xử lý';
-      case 2:
-        return 'Đang có hiệu lực';
-      case 3:
-        return 'Đã kết thúc';
-      case 4:
-        return 'Thất bại';
-      case 5:
-        return 'Hủy một phía';
-      case 6:
-        return 'Hủy đồng thuận';
-      case 7:
-        return 'Đang chờ thanh khoản';
-      default:
-        return 'Trạng thái không xác định';
-    }
+  void _showCancelContractModal(String type) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CancelContractModal(
+          onClose: () => Navigator.of(context).pop(),
+          contract: widget.contract,
+          type: type,
+          userId: widget.userId,
+        );
+      },
+    );
   }
+
+
 
 
 
