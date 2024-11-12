@@ -78,7 +78,7 @@ class Contract {
       content: json['content'] ?? '',
       datePay: json['date_pay'] != null ? DateTime.parse(json['date_pay']) : null,
       startDate: json['start_date'] != null ? DateTime.parse(json['start_date']) : null,
-      rentalDuration: json['rental_duration'] ?? 0,
+      rentalDuration: json['status'] ?? 0,
       status: json['status'] ?? 0,
       monthlyPrice: json['monthly_price']?.toDouble() ?? 0.0,
       deposit: json['deposit']?.toDouble() ?? 0.0,

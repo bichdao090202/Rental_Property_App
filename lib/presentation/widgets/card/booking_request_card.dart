@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:rental_property_app/common/file-base64.dart';
 import 'package:rental_property_app/common/format-data.dart';
 import 'package:rental_property_app/data/data.dart';
 import 'package:rental_property_app/data/models/booking_request.dart';
 import 'package:rental_property_app/data/models/contract.dart';
+import 'package:rental_property_app/data/services/api_service.dart';
 import 'package:rental_property_app/presentation/widgets/custom/action_button.dart';
 
 class BookingRequestCard extends StatefulWidget {
@@ -127,7 +134,6 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                         style: const TextStyle(fontSize: 12)),
                     const SizedBox(height: 3),
 
-                    widget.type == "renter" ?
                     // Row(
                     //   mainAxisAlignment: _getMainAxisAlignment(widget.request),
                     Wrap(
@@ -140,87 +146,75 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                         if (widget.request.note == "Waiting for renter to sign and pay")
                           ActionButton(
                             width: MediaQuery.of(context).size.width * 0.35,
-                            backgroundColor: Colors.green,
-                            text: 'Thanh toán',
-                            // onPressed: _handleApproveViewContract,
-                            onPressed: () {
-                              print('Từ chối clicked');
-                            },
-                          ),
-                        if (widget.request.status != "Success")
-                          ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            backgroundColor: Color(0xFF607D8B),
-                            text: 'Hủy',
-                            // onPressed: _handleCancelFromRenter,
-                            onPressed: () {
-                              print('Từ chối clicked');
-                            },
-                          ),
-                        ActionButton(
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          text: 'Xem bài',
-                          onPressed: () {
-                            print('Xem bài clicked');
-                          },
-                        ),
-                        if (widget.request.note == "Waiting for renter to sign and pay")
-                          ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            backgroundColor: Color(0xFF008080) ,
-                            text: 'Xem File',
-                            onPressed: () {
-                              print('Xem bài clicked');
-                            },
-                          ),
-                      ],
-                    ):
-
-                    Wrap(
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      alignment: _getMainAxisAlignment(widget.request) == MainAxisAlignment.start
-                          ? WrapAlignment.start
-                          : WrapAlignment.spaceAround,
-                      // Row(
-                      //   mainAxisAlignment: _getMainAxisAlignment(widget.request),
-                      children: [if (widget.request.note == "Waiting for landlord approval")
-                        ActionButton(
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          backgroundColor: Colors.green,
-                          text: 'Đồng ý',
-                          onPressed: _handleApprove,
-                          // onPressed: () {
-                          //   print('Từ chối clicked');
-                          // },
-                        ),
-                        if (widget.request.status != "Success")
-                          ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            backgroundColor: Colors.red,
-                            text: 'Từ chối',
-                            // onPressed: _handleCancel,
-                            onPressed: () {
-                              print('Từ chối clicked');
-                            },
-                          ),
-                        if (widget.request.note == "Waiting for renter to sign and pay")
-                          ActionButton(
-                            width: MediaQuery.of(context).size.width * 0.35,
                             backgroundColor: Color(0xFF008080),
                             text: 'Xem File',
-                            onPressed: () {
-                              print('Xem bài clicked');
+                            onPressed: () async {
+                              try {
+                                final bytes = base64Decode(widget.request.messageFromLandlord!);
+                                final tempDir = await getTemporaryDirectory();
+
+                                // final filePath = '${tempDir.path}/file.pdf';
+
+                                final timestamp = DateTime.now().millisecondsSinceEpoch;
+                                final filePath = '${tempDir.path}/file_$timestamp.pdf';
+                                final file = File(filePath);
+                                await file.writeAsBytes(bytes);
+
+                                await OpenFilex.open(filePath);
+                              } catch (e) {
+                                print('Error opening file: $e');
+                              }
                             },
                           ),
+
                         ActionButton(
                           width: MediaQuery.of(context).size.width * 0.35,
                           // backgroundColor: Colors.blue,
-                          text: 'Xem bài',
+                          text: 'Xem phòng',
                           onPressed: () {
                             print('Xem bài clicked');
                           },
                         ),
+
+                        if (widget.type == "renter") ...[
+                          if (widget.request.note == "Waiting for renter to sign and pay")
+                            ActionButton(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              backgroundColor: Colors.green,
+                              text: 'Thanh toán',
+                              onPressed: () {
+                                _showPaymentDialog1();
+                                print('Thanh toán clicked');
+                              },
+                            ),
+                          if (widget.request.status != "Success")
+                            ActionButton(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              backgroundColor: Color(0xFF607D8B),
+                              text: 'Hủy',
+                              onPressed: () {
+                                print('Hủy clicked');
+                              },
+                            ),
+                        ] else ...[
+                          if (widget.request.note == "Waiting for landlord approval")
+                            ActionButton(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              backgroundColor: Colors.green,
+                              text: 'Đồng ý',
+                              onPressed: _handleApprove,
+                            ),
+                          if (widget.request.status != "Success")
+                            ActionButton(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              backgroundColor: Colors.red,
+                              text: 'Từ chối',
+                              // onPressed: _handleCancel,
+                              onPressed: () {
+                                print('Từ chối clicked');
+                              },
+                            ),
+                        ],
                       ],
                     ),
                   ],
@@ -233,239 +227,177 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
     );
   }
 
-  // void _handleApproveViewContract() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return StatefulBuilder(
-  //         builder: (context, setStateDialog) {
-  //           return AlertDialog(
-  //             title: const Text('Nội dung hợp đồng'),
-  //             content: SingleChildScrollView(
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   const SizedBox(height: 16.0),
-  //                   Text(_contract!.content),
-  //                   Row(
-  //                     children: [
-  //                       Checkbox(
-  //                         value: _agreeWithContract,
-  //                         onChanged: (bool? value) {
-  //                           setStateDialog(() {
-  //                             _agreeWithContract = value ?? false;
-  //                           });
-  //                         },
-  //                       ),
-  //                       const Flexible(child: Text('Tôi đồng ý chấp thuận với yêu cầu của hợp đồng'))
-  //                     ],
-  //                   ),
-  //                   Row(
-  //                     children: [
-  //                       Checkbox(
-  //                         value: _agreeWithPlatformRules,
-  //                         onChanged: (bool? value) {
-  //                           setStateDialog(() {
-  //                             _agreeWithPlatformRules = value ?? false;
-  //                           });
-  //                         },
-  //                       ),
-  //                       Flexible(
-  //                           child: InkWell(
-  //                             onTap: () {
-  //                               _togglePlatformRules();
-  //                             },
-  //                             child: const Text(
-  //                               'Tôi đồng ý tuân thủ các quy định của nền tảng',
-  //                               style: TextStyle(color: Colors.blueAccent),
-  //                             ),
-  //                           )
-  //                       )
-  //                     ],
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop();
-  //                 },
-  //                 child: const Text('Huỷ'),
-  //               ),
-  //               SizedBox(
-  //                 width: 200,
-  //                 height: 40,
-  //                 child: TextButton(
-  //                   onPressed: (_agreeWithContract && _agreeWithPlatformRules)
-  //                       ? () {
-  //                     setState(() {
-  //                       widget.request.approveByRenter();
-  //                     });
-  //                     // updateContractById(widget.request.contractId!, widget.request);
-  //                     Navigator.pop(context);
-  //                   }
-  //                       : null,
-  //                   style: TextButton.styleFrom(
-  //                     backgroundColor: (_agreeWithContract && _agreeWithPlatformRules)
-  //                         ? Colors.green
-  //                         : Colors.grey[400],
-  //                     shape: RoundedRectangleBorder(
-  //                       borderRadius: BorderRadius.circular(8),
-  //                     ),
-  //                     maximumSize: const Size(200, 40),
-  //                   ),
-  //                   child: const Text(
-  //                     'Đồng ý và thanh toán',
-  //                     style: TextStyle(
-  //                       color: Colors.white,
-  //                       fontWeight: FontWeight.normal,
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 
-  // void _togglePlatformRules() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Quy định nền tảng'),
-  //         content: const SingleChildScrollView(
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(platformRules),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Đóng'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void _showPaymentDialog1() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Thông tin thanh toán',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Card(
+                        elevation: 2,
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Chọn nhà cung cấp chữ ký số',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownButton<String>(
+                                      value: 'Viettel',
+                                      items: ['Viettel'].map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      onChanged: (_) {},
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Card(
+                        elevation: 2,
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Chi tiết thanh toán',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 12),
+                              _buildPaymentRow('Tiền cọc:', '${formatCurrency(widget.request.room.deposit)} VNĐ'),
+                              _buildPaymentRow('Tiền thuê tháng 1:', '${formatCurrency(widget.request.room.price)} VNĐ'),
+                              Divider(),
+                              _buildPaymentRow(
+                                'Tổng cộng:',
+                                '${widget.request.room.deposit + widget.request.room.price} VNĐ',
+                                isBold: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Đóng'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
 
-  // void _handleCancelFromRenter() {
-  //   setState(() {
-  //     widget.request.cancelByRenter();
-  //   });
-  // }
+                              // final signedData = await ApiService().postSign('sign/sign_document', widget.request.messageFromLandlord!);
+                              // if (signedData!=null) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(content: Text('Chữ ký hợp lệ, chờ cập nhật')),
+                              //   );
+                              // } else {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(content: Text('Ký thất bại, thử lại sau')),
+                              //   );
+                              //   Navigator.of(context).pop();
+                              //   return;
+                              // }
 
-  // void _handleCancel() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       String rejectionReason = '';
-  //       return AlertDialog(
-  //         title: const Text('Nhập lý do từ chối'),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             TextField(
-  //               onChanged: (value) {
-  //                 rejectionReason = value;
-  //               },
-  //               decoration: const InputDecoration(
-  //                 hintText: 'Nhập lý do từ chối ở đây...',
-  //               ),
-  //               maxLines: 3,
-  //             ),
-  //           ],
-  //         ),
-  //         actions: [
-  //           ActionButton(
-  //             width: MediaQuery.of(context).size.width * 0.26,
-  //             backgroundColor: Colors.green,
-  //             text: 'Gửi',
-  //             onPressed: (){
-  //               setState(() {
-  //                 widget.request.rejectByLandlord(rejectionReason);
-  //               });
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //
-  //           if (widget.request.status == "Processing")
-  //             ActionButton(
-  //               width: MediaQuery.of(context).size.width * 0.2,
-  //               backgroundColor: Colors.red,
-  //               text: 'Đóng',
-  //               onPressed: () {
-  //                 Navigator.of(context).pop(); // Đóng hộp thoại
-  //               },
-  //             ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+                              final timestamp = DateTime.now().millisecondsSinceEpoch;
 
-  // void _handleApprove() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return StatefulBuilder(
-  //         builder: (context, setStateDialog) {
-  //           return AlertDialog(
-  //             title: const Text('Chọn hợp đồng'),
-  //             content: Container(
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   Text('Ngày bắt đầu: ${widget.request.getStartDate()}'),
-  //
-  //                 ],
-  //               ),
-  //             ),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop();
-  //                 },
-  //                 child: const Text('Đóng'),
-  //               ),
-  //               ElevatedButton(
-  //                 onPressed: () {
-  //                   if (_selectedContractId != null) {
-  //                     setState(() {
-  //                       widget.request.approveByLandlord(_selectedContractId!);
-  //                     });
-  //                     Navigator.of(context).pop();
-  //                   } else {
-  //                     ScaffoldMessenger.of(context).showSnackBar(
-  //                       const SnackBar(content: Text('Vui lòng chọn hợp đồng.')),
-  //                     );
-  //                   }
-  //                 },
-  //                 child: const Text('Đồng ý'),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+                              Map<String, dynamic> bookingData = {
+                                'booking_request_id': widget.request.id,
+                                'pay_for': 2,
+                                'file_base64': widget.request.messageFromLandlord,
+                                "file_name": "$timestamp.pdf",
+                              };
+
+                              final bookingResponse = await ApiService().createContract(bookingData);
+                              print(bookingResponse);
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Thao tác thành công')),
+                              );
+                              Navigator.of(context).pop();
+
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                            ),
+                            child: Text('Xác nhận'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildPaymentRow(String label, String value, {bool isBold = false}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   void _handleApprove() {
     String? _selectedPaymentMethod;
     String? _selectedSignProvider;
     String? _selectedFileName;
     PlatformFile? _selectedFile;
+
+    bool isLoading = false;
 
     showDialog(
       context: context,
@@ -478,7 +410,8 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                 constraints: BoxConstraints(
                   maxHeight: MediaQuery.of(context).size.height * 0.8,
                 ),
-                child: Column(
+                child:
+                Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Header
@@ -544,60 +477,60 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                             SizedBox(height: 24),
 
                             // Payment Method Selection
-                            Text(
-                              'Phương thức thanh toán',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[300]!),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: _selectedPaymentMethod,
-                                  isExpanded: true,
-                                  hint: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 12),
-                                    child: Text('Chọn phương thức thanh toán'),
-                                  ),
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  items: [
-                                    DropdownMenuItem(
-                                      value: 'wallet',
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.account_balance_wallet,
-                                              color: Theme.of(context).primaryColor),
-                                          SizedBox(width: 8),
-                                          Text('Ví hệ thống'),
-                                        ],
-                                      ),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'bank',
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.account_balance,
-                                              color: Theme.of(context).primaryColor),
-                                          SizedBox(width: 8),
-                                          Text('Ngân hàng'),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    setStateDialog(() {
-                                      _selectedPaymentMethod = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
+                            // Text(
+                            //   'Phương thức thanh toán',
+                            //   style: TextStyle(
+                            //     fontSize: 16,
+                            //     fontWeight: FontWeight.w500,
+                            //   ),
+                            // ),
+                            // SizedBox(height: 8),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     border: Border.all(color: Colors.grey[300]!),
+                            //     borderRadius: BorderRadius.circular(8),
+                            //   ),
+                            //   child: DropdownButtonHideUnderline(
+                            //     child: DropdownButton<String>(
+                            //       value: _selectedPaymentMethod,
+                            //       isExpanded: true,
+                            //       hint: Padding(
+                            //         padding: EdgeInsets.symmetric(horizontal: 12),
+                            //         child: Text('Chọn phương thức thanh toán'),
+                            //       ),
+                            //       padding: EdgeInsets.symmetric(horizontal: 12),
+                            //       items: [
+                            //         DropdownMenuItem(
+                            //           value: 'wallet',
+                            //           child: Row(
+                            //             children: [
+                            //               Icon(Icons.account_balance_wallet,
+                            //                   color: Theme.of(context).primaryColor),
+                            //               SizedBox(width: 8),
+                            //               Text('Ví hệ thống'),
+                            //             ],
+                            //           ),
+                            //         ),
+                            //         DropdownMenuItem(
+                            //           value: 'bank',
+                            //           child: Row(
+                            //             children: [
+                            //               Icon(Icons.account_balance,
+                            //                   color: Theme.of(context).primaryColor),
+                            //               SizedBox(width: 8),
+                            //               Text('Ngân hàng'),
+                            //             ],
+                            //           ),
+                            //         ),
+                            //       ],
+                            //       onChanged: (value) {
+                            //         setStateDialog(() {
+                            //           _selectedPaymentMethod = value;
+                            //         });
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(height: 24),
 
                             // Digital Signature Provider
@@ -723,12 +656,13 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                           ),
                           SizedBox(width: 8),
                           ElevatedButton(
-                            onPressed: () {
-                              if (_selectedPaymentMethod == null ||
+                            onPressed:  () async {
+                              if (
+                              // _selectedPaymentMethod == null ||
                                   _selectedSignProvider == null ||
                                   _selectedFile == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text(
                                       'Vui lòng điền đầy đủ thông tin',
                                     ),
@@ -737,8 +671,50 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                                 );
                                 return;
                               }
-                              // Handle submit
-                              widget.request.approveByLandlord(_selectedFile! as int);
+
+                              setStateDialog(() {
+                                isLoading = true;
+                              });
+
+
+                              String base64String = await encodeFileToBase64(null, _selectedFile);
+
+                              print('da gui');
+                              final signedData = await ApiService().postSign('sign/sign_document', base64String);
+                              print('signedData ${signedData}' );
+                              if (signedData!=null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Chữ ký hợp lệ, chờ cập nhật')),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Ký thất bại, thử lại sau')),
+                                );
+                                Navigator.of(context).pop();
+                                return;
+                              }
+
+                                Map<String, dynamic> bookingData = {
+                                  'id': widget.request.id,
+                                  'renter_id': widget.request.renterId,
+                                  'lessor_id': widget.request.landlordId,
+                                  'room_id': widget.request.room.id,
+                                  'status': "PROCESSING",
+                                  'note': "Waiting for renter to sign and pay",
+                                  'message_from_renter': widget.request.messageFromRenter,
+                                  'start_date': widget.request.startDate.toUtc().toIso8601String(),
+                                  'rental_duration': widget.request.rentalDuration,
+                                  "message_from_lessor": signedData,
+                                };
+
+                                final bookingResponse = await ApiService().updateBookingRequest(bookingData, widget.request.id);
+
+                              setStateDialog(() {
+                                isLoading = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Đã ký thành công')),
+                              );
                               Navigator.of(context).pop();
                             },
                             style: ElevatedButton.styleFrom(
@@ -755,6 +731,8 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                   ],
                 ),
               ),
+
+
             );
           },
         );

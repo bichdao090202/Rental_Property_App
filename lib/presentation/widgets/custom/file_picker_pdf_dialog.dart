@@ -109,7 +109,7 @@ class _FilePickerDialogState extends State<FilePickerDialog> {
 
   Future<void> _handleAddDigitalSignature() async {
     try {
-      String stringBase64 = await encodeFileToBase64(filePath!);
+      String stringBase64 = await encodeFileToBase64(filePath!,null);
       final response = await signPdfDocument(stringBase64);
       print('Response: ${response.signedFileBase64}');
       if (response.signedFileBase64.isEmpty) {

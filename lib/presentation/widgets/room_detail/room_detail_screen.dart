@@ -79,7 +79,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Đã gửi yêu cầu đặt phòng thành công')),
       );
-
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Thao tác thất bại, vui lòng thử lại')),

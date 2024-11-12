@@ -31,6 +31,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+//        all*.exclude group: 'com.crazecoder.openfile', module: 'open_file'
     }
 
     defaultConfig {
@@ -49,7 +50,11 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
+//            minifyEnabled false
         }
+//        debug {
+//            minifyEnabled false
+//        }
     }
 }
 
