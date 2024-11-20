@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rental_property_app/presentation/providers/auth_provider.dart';
 import 'package:rental_property_app/presentation/widgets/auth/login_screen.dart';
 import 'package:rental_property_app/presentation/widgets/user/user_account_screen.dart';
+import 'package:rental_property_app/presentation/widgets/user/user_digital_signature_screen.dart';
 import 'package:rental_property_app/presentation/widgets/user/user_info_screen.dart';
 import 'package:rental_property_app/presentation/widgets/user/user_transaction_screen.dart';
 
@@ -24,6 +25,11 @@ class ProfileTab extends StatelessWidget {
       'title': 'Giao dịch',
       'key': '/user/transaction',
       'icon': Icons.paid,
+    },
+    {
+      'title': 'Chữ ký số',
+      'key': '/user/digital-signature',
+      'icon': Icons.draw,
     },
     {
       'title': 'Đăng xuất',
@@ -128,6 +134,10 @@ class ProfileTab extends StatelessWidget {
                               case '/user/transaction':
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (_) => UserTransactionScreen()));
+                                break;
+                              case '/user/digital-signature':
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (_) => DigitalSignatureScreen()));
                                 break;
                               case '/log-out':
                                 final authProvider = Provider.of<AuthProvider>(

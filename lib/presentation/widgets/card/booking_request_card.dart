@@ -346,7 +346,7 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                               };
 
                               final bookingResponse = await ApiService().createContract(bookingData);
-                              print(bookingResponse);
+                              // print(bookingResponse);
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Thao tác thành công')),
@@ -658,7 +658,6 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                           ElevatedButton(
                             onPressed:  () async {
                               if (
-                              // _selectedPaymentMethod == null ||
                                   _selectedSignProvider == null ||
                                   _selectedFile == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -731,8 +730,6 @@ class _BookingRequestCardState extends State<BookingRequestCard>  {
                   ],
                 ),
               ),
-
-
             );
           },
         );

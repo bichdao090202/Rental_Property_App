@@ -25,7 +25,6 @@ class ApiService {
   }
 
   Future<dynamic> getBookingRequestByRenterId(int id) async {
-    print(id);
     return await get("booking-requests?renter_id=$id");
   }
 
@@ -63,6 +62,14 @@ class ApiService {
 
   Future<dynamic> updateContract(dynamic body, int id) async {
     return await put("contracts/$id", body);
+  }
+
+  Future<dynamic> getListSignaturesByUserId(int id) async {
+    return await get("signatures?user_id=$id");
+  }
+
+  Future<dynamic> signPost(String path, dynamic body ) async {
+    return await get("signatures?user_id=");
   }
 
   Future<dynamic> get(String url, {bool auth = true, String cache = 'default'}) async {

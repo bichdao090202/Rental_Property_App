@@ -69,7 +69,7 @@ class Contract {
       status: json['status'] ?? 0,
       monthlyPrice: json['monthly_price']?.toDouble() ?? 0.0,
       deposit: json['deposit']?.toDouble() ?? 0.0,
-      services: (json['services'] as List?)?.map((item) => Service.fromJson(item)).toList() ?? [],
+      services: (json['services_history'] as List?)?.map((item) => Service.fromJson(item)).toList() ?? [],
       pdfPath: json['file_path'] ?? '',
       cancelStatus: json['cancel_status'] ?? 0,
       payMode: json['pay_mode'] ?? 0,

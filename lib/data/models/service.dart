@@ -13,7 +13,6 @@ class Service {
     required this.description,
   });
 
-
   String getService() {
     return '$name (${formatCurrency(price)}đ/$description)';
   }
@@ -37,7 +36,7 @@ class Service {
         idValue = json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0;
       }
 
-      String nameValue = json['name']?.toString() ?? 'Unknown Service';
+      String nameValue = json['name']?.toString() ?? json['service_name']?.toString() ?? 'Unknown Service';
 
       double priceValue = 0.0;
       if (json['price'] != null) {
@@ -64,5 +63,10 @@ class Service {
         description: 'Default description',
       );
     }
+  }
+
+  @override
+  String toString() {
+    return 'Service{id: $id, name: $name, price: $price, description: $description}';
   }
 }

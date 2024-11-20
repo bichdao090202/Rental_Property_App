@@ -22,7 +22,16 @@ class RoomCard extends StatelessWidget {
             children: [
               Container(
                 width: 70,
-                child: Image.network(property.images[0], height: 70, width: double.infinity, fit: BoxFit.cover),
+                child: Image.network(property.images[0], height: 70, width: double.infinity, fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/logo.png',
+                      height: 70,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(

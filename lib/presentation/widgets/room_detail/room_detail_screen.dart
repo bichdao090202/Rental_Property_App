@@ -46,7 +46,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final userId = authProvider.userInfo?.id;
     final room = widget.room;
-    print(userId);
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
