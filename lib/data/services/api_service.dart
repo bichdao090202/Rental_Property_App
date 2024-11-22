@@ -72,6 +72,10 @@ class ApiService {
     return await get("signatures?user_id=");
   }
 
+  Future<dynamic> registerUser(dynamic body ) async {
+    return await post("auth/register",body);
+  }
+
   Future<dynamic> get(String url, {bool auth = true, String cache = 'default'}) async {
     final response = await http.get(
       Uri.parse('$_baseUrl/$url'),
